@@ -4,7 +4,7 @@ import firebase from "../firebase"
 
 class RPS extends Component {
     state = {
-        username: "Guest",
+        username: "",
         currentPlayers: null,
         currentTurn: null,
         playerNum: false,
@@ -19,21 +19,38 @@ class RPS extends Component {
 
         const chatData = database.ref("/chat");
 
-         const playersRef = database.ref("players");
-          
+        const playersRef = database.ref("players");
+
         const currentTurnRef = database.ref("turn");
+
+        playersRef.on("value", function(snapshot) {
+        console.log(snapshot.child("1").val());
+        })
     }
 
     handleInputChange = event => {
         // Getting the value and name of the input which triggered the change
         const { name, value } = event.target;
-    
+
         // Updating the input's state
         this.setState({
-          [name]: value
+            [name]: value
         });
-      };
-      
+    };
+
+    handleFormSubmit = event => {
+        // Preventing the default behavior of the form submit (which is to refresh the page)
+        event.preventDefault();
+
+        if (this.state.username !== "") {
+            alert(`Hello ${this.state.username}`);
+            this.setState({
+                username: ""
+            });
+        }
+
+    };
+
     render() {
         return (
 
@@ -41,11 +58,23 @@ class RPS extends Component {
                 <header>
                     <h1>Rock Paper Scissors</h1>
                 </header>
+                Hello {this.state.username}
 
                 <div id="sizer">
 
-                    <div id="swap-zone"><input id="username" placeholder="Name" />
-                        <button id="start">Start</button>
+                    <div id="swap-zone">
+                        <form onSubmit={this.handleFormSubmit}>
+
+                            <input
+                                id="username"
+                                name="username"
+                                value={this.state.username}
+                                onChange={this.handleInputChange}
+                                placeholder="Name"
+                            />
+
+                            <button id="start" type="submit">Start</button>
+                        </form>
                     </div>
 
                     <div id="current-turn"></div>
@@ -57,9 +86,9 @@ class RPS extends Component {
                             <ul>
                             </ul>
                             <div id="player1-chosen"></div>
-                            <div class="outcomes">
-                                <div class="outcome-trackers" id="player1-wins"></div>
-                                <div class="outcome-trackers" id="player1-losses"></div>
+                            <div className="outcomes">
+                                <div className="outcome-trackers" id="player1-wins"></div>
+                                <div className="outcome-trackers" id="player1-losses"></div>
                             </div>
                         </div>
 
@@ -70,9 +99,9 @@ class RPS extends Component {
                             <ul>
                             </ul>
                             <div id="player2-chosen"></div>
-                            <div class="outcomes">
-                                <div class="outcome-trackers" id="player2-wins"></div>
-                                <div class="outcome-trackers" id="player2-losses"></div>
+                            <div className="outcomes">
+                                <div className="outcome-trackers" id="player2-wins"></div>
+                                <div className="outcome-trackers" id="player2-losses"></div>
                             </div>
                         </div>
 
