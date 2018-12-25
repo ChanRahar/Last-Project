@@ -2,16 +2,24 @@ import React, { Component } from "react";
 import "./style.css";
 import firebase from "../firebase"
 
+const database = firebase.database();
+const chatData = database.ref("/chat");
+
 class RPS extends Component {
     state = {
-        username: "",
+        username: "Guest",
+        message: "",
         currentPlayers: null,
         currentTurn: null,
         playerNum: false,
         playerOneExists: false,
         playerTwoExists: false,
         playerOneData: null,
-        playerTwoData: null
+        playerTwoData: null,
+        chat: {
+            name:"",
+            message:""
+        }
     }
 
     componentDidMount() {
@@ -23,9 +31,10 @@ class RPS extends Component {
 
         const currentTurnRef = database.ref("turn");
 
-        playersRef.on("value", function(snapshot) {
-        console.log(snapshot.child("1").val());
+        playersRef.on("value", function (snapshot) {
+            console.log(snapshot.child("1").val());
         })
+
     }
 
     handleInputChange = event => {
@@ -38,22 +47,34 @@ class RPS extends Component {
         });
     };
 
-    handleFormSubmit = event => {
+    nameSubmit = event => {
         // Preventing the default behavior of the form submit (which is to refresh the page)
         event.preventDefault();
 
         if (this.state.username !== "") {
             alert(`Hello ${this.state.username}`);
-            this.setState({
-                username: ""
-            });
         }
 
     };
 
+
+
+    chatSubmit = event => {
+        event.preventDefault();
+
+        if (this.state.message !== "") {
+            chatData.push({
+                name: this.state.username,
+                message: this.state.message,
+                time: firebase.database.ServerValue.TIMESTAMP,
+            });
+        }
+        this.setState({ message: "" })
+        
+    }
+
     render() {
         return (
-
             <div>
                 <header>
                     <h1>Rock Paper Scissors</h1>
@@ -63,7 +84,7 @@ class RPS extends Component {
                 <div id="sizer">
 
                     <div id="swap-zone">
-                        <form onSubmit={this.handleFormSubmit}>
+                        <form onSubmit={this.nameSubmit}>
 
                             <input
                                 id="username"
@@ -110,8 +131,14 @@ class RPS extends Component {
                     <div id="chat">
                         <div id="chat-messages"></div>
                         <div id="chat-bar">
-                            <input id="chat-input" />
-                            <button id="chat-send">Send</button>
+                            <form onSubmit={this.chatSubmit}>
+                                <input id="chat-input"
+                                    name="message"
+                                    value={this.state.message}
+                                    onChange={this.handleInputChange}
+                                    placeholder="Name" />
+                                <button id="chat-send" type="submit">Send</button>
+                            </form >
                         </div>
                     </div>
 
