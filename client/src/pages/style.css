@@ -233,4 +233,9 @@ body {
     /* Visual */
     background-color: #d3d3d3;
   }
+
+  .something {
+    margin-top:0;
+    margin-bottom:0;
+  }
   

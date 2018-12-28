@@ -4,36 +4,49 @@ import firebase from "../firebase"
 
 const database = firebase.database();
 const chatData = database.ref("/chat");
+const playersRef = database.ref("players");
+const currentTurnRef = database.ref("turn");
+let currentPlayers = null;
+let currentTurn = null;
+let playerNum = false;
+let playerOneExists = false;
+let playerTwoExists = false;
+let playerOneData = null;
+let playerTwoData = null;
 
 class RPS extends Component {
+
     state = {
         username: "Guest",
         message: "",
-        currentPlayers: null,
-        currentTurn: null,
-        playerNum: false,
-        playerOneExists: false,
-        playerTwoExists: false,
-        playerOneData: null,
-        playerTwoData: null,
-        chat: {
-            name:"",
-            message:""
-        }
+
+        chat: []
     }
 
     componentDidMount() {
-        let database = firebase.database();
+        chatData.orderByChild("time").on("child_added", (snapshot) => {
 
-        const chatData = database.ref("/chat");
+            // If idNum is 0, then its a disconnect message and displays accordingly
+            // If not - its a user chat message
+            // $("#chat-messages").append("<p class=player" + snapshot.val().idNum + "><span>"
+            // + snapshot.val().name + "</span>: " + snapshot.val().message + "</p>");
 
-        const playersRef = database.ref("players");
+            this.setState({ chat: [...this.state.chat, { name: snapshot.val().name, message: snapshot.val().message }] });
+            this.something.scrollTop = this.something.scrollHeight;
+        });
 
-        const currentTurnRef = database.ref("turn");
 
         playersRef.on("value", function (snapshot) {
             console.log(snapshot.child("1").val());
         })
+
+    }
+
+
+
+    componentDidUpdate() {
+
+        this.something.scrollTop = this.something.scrollHeight;
 
     }
 
@@ -70,11 +83,13 @@ class RPS extends Component {
             });
         }
         this.setState({ message: "" })
-        
+
     }
+
 
     render() {
         return (
+
             <div>
                 <header>
                     <h1>Rock Paper Scissors</h1>
@@ -128,8 +143,14 @@ class RPS extends Component {
 
                     </div>
 
+
                     <div id="chat">
-                        <div id="chat-messages"></div>
+
+                        <div id="chat-messages" ref={node => this.something = node}>
+                            {this.state.chat.map(line => (
+                                <p className="something"><span>{line.name}</span>: {line.message}</p>
+                            ))}
+                        </div>
                         <div id="chat-bar">
                             <form onSubmit={this.chatSubmit}>
                                 <input id="chat-input"
@@ -141,7 +162,6 @@ class RPS extends Component {
                             </form >
                         </div>
                     </div>
-
                 </div>
             </div>
         );
