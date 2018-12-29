@@ -15,6 +15,7 @@ let playerOneExists = false;
 let playerTwoExists = false;
 let playerOneData = null;
 let playerTwoData = null;
+let chatKey = 0
 
 const capitalize = (name) => {
     return name.charAt(0).toUpperCase() + name.slice(1);
@@ -38,22 +39,29 @@ class RPS extends Component {
     }
 
     componentDidMount() {
+       
         chatData.orderByChild("time").on("child_added", (snapshot) => {
 
             // If idNum is 0, then its a disconnect message and displays accordingly
             // If not - its a user chat message
-            // $("#chat-messages").append("<p class=player" + snapshot.val().idNum + "><span>"
-            // + snapshot.val().name + "</span>: " + snapshot.val().message + "</p>");
 
-            this.setState({ chat: [...this.state.chat, { name: snapshot.val().name, message: snapshot.val().message }] });
-            this.something.scrollTop = this.something.scrollHeight;
+            this.setState({
+                chat: [...this.state.chat, {
+                    name: snapshot.val().name,
+                    message: snapshot.val().message,
+                    idNum: snapshot.val().idNum,
+                    keyId:this.state.chat.length
+                }]
+            });
+            this.chat.scrollTop = this.chat.scrollHeight;
         });
-
 
         playersRef.on("value", (snapshot) => {
 
             // length of the 'players' array
             currentPlayers = snapshot.numChildren();
+
+            console.log(currentPlayers)
 
             // Check to see if players exist
             playerOneExists = snapshot.child("1").exists();
@@ -109,10 +117,105 @@ class RPS extends Component {
             }
         });
 
+
+        playersRef.on("child_added", function (snapshot) {
+
+            if (currentPlayers === 1) {
+
+                // set turn to 1, which starts the game
+                currentTurnRef.set(1);
+            }
+        });
+
+        // currentTurnRef.on("value", function (snapshot) {
+
+        //     // Gets current turn from snapshot
+        //     currentTurn = snapshot.val();
+
+        //     // Don't do the following unless you're logged in
+        //     if (playerNum) {
+
+        //       // For turn 1
+        //       if (currentTurn === 1) {
+
+        //         // If its the current player's turn, tell them and show choices
+        //         if (currentTurn === playerNum) {
+        //           $("#current-turn").html("<h2>It's Your Turn!</h2>");
+        //           $("#player" + playerNum + " ul").append("<li>Rock</li><li>Paper</li><li>Scissors</li>");
+        //         }
+        //         else {
+
+        //           // If it isn't the current players turn, tells them they're waiting for player one
+        //           $("#current-turn").html("<h2>Waiting for " + playerOneData.name + " to choose.</h2>");
+        //         }
+
+        //         // Shows yellow border around active player
+        //         $("#player1").css("border", "2px solid yellow");
+        //         $("#player2").css("border", "1px solid black");
+        //       }
+
+        //       else if (currentTurn === 2) {
+
+        //         // If its the current player's turn, tell them and show choices
+        //         if (currentTurn === playerNum) {
+        //           $("#current-turn").html("<h2>It's Your Turn!</h2>");
+        //           $("#player" + playerNum + " ul").append("<li>Rock</li><li>Paper</li><li>Scissors</li>");
+        //         }
+        //         else {
+
+        //           // If it isn't the current players turn, tells them they're waiting for player two
+        //           $("#current-turn").html("<h2>Waiting for " + playerTwoData.name + " to choose.</h2>");
+
+        //         }
+
+        //         // Shows yellow border around active player
+        //         $("#player2").css("border", "2px solid yellow");
+        //         $("#player1").css("border", "1px solid black");
+        //       }
+
+        //       else if (currentTurn === 3) {
+
+        //         // Where the game win logic takes place then resets to turn 1
+        //         gameLogic(playerOneData.choice, playerTwoData.choice);
+
+        //         // reveal both player choices
+        //         $("#player1-chosen").text(playerOneData.choice);
+        //         $("#player2-chosen").text(playerTwoData.choice);
+
+        //         //  reset after timeout
+        //         var moveOn = function () {
+
+        //           $("#player1-chosen").empty();
+        //           $("#player2-chosen").empty();
+        //           $("#result").empty();
+
+        //           // check to make sure players didn't leave before timeout
+        //           if (playerOneExists && playerTwoExists) {
+        //             currentTurnRef.set(1);
+        //           }
+        //         };
+
+        //         //  show results for 2 seconds, then resets
+        //         setTimeout(moveOn, 2000);
+        //       }
+
+        //       else {
+
+        //         //  if (playerNum) {
+        //         //    $("#player" + playerNum + " ul").empty();
+        //         //  }
+        //         $("#player1 ul").empty();
+        //         $("#player2 ul").empty();
+        //         $("#current-turn").html("<h2>Waiting for another player to join.</h2>");
+        //         $("#player2").css("border", "1px solid black");
+        //         $("#player1").css("border", "1px solid black");
+        //       }
+        //     }
+        //   });
     }
 
     componentDidUpdate() {
-        this.something.scrollTop = this.something.scrollHeight;
+        this.chat.scrollTop = this.chat.scrollHeight;
 
     }
 
@@ -203,19 +306,20 @@ class RPS extends Component {
         if (this.message.value !== "") {
             let message = this.message.value
 
+
             if (this.state.username === "") {
                 chatData.push({
                     name: "Guest",
                     message: message,
                     time: firebase.database.ServerValue.TIMESTAMP,
-                    idNum: playerNum
+                    idNum: playerNum,
                 });
             } else {
                 chatData.push({
                     name: this.state.username,
                     message: message,
                     time: firebase.database.ServerValue.TIMESTAMP,
-                    idNum: playerNum
+                    idNum: playerNum,
                 });
             }
         }
@@ -284,9 +388,9 @@ class RPS extends Component {
 
                     <div id="chat">
 
-                        <div id="chat-messages" ref={node => this.something = node}>
+                        <div id="chat-messages" ref={chat => this.chat = chat}>
                             {this.state.chat.map(line => (
-                                <p className="line-chat"><span>{line.name}</span>: {line.message}</p>
+                                <p className={'line-chat player' + line.idNum} key={line.keyId}><span>{line.name}</span>: {line.message}</p>
                             ))}
                         </div>
                         <div id="chat-bar">
