@@ -9,16 +9,26 @@ const currentTurnRef = database.ref("turn");
 let playerRef = "";
 let currentPlayers = null;
 let username = ""
-let currentTurn = null;
+// let currentTurn = null;
 let playerNum = null;
 let playerOneExists = false;
 let playerTwoExists = false;
 let playerOneData = null;
 let playerTwoData = null;
-let chatKey = 0
+let playerOneActive = false;
+let playerTwoActive = false
 
 const capitalize = (name) => {
     return name.charAt(0).toUpperCase() + name.slice(1);
+}
+
+const styles = {
+    currentPlayer: {
+        border: "2px solid yellow"
+    },
+    waitingPlayer: {
+        border: "1px solid black"
+    }
 }
 
 class RPS extends Component {
@@ -26,20 +36,25 @@ class RPS extends Component {
     state = {
         username: "",
         chat: [],
+        currentTurn: null,
+
         playerOne: {
             name: "Waiting for Player 1",
             wins: 0,
-            losses: 0
+            losses: 0,
+            active: false
         },
+
         playerTwo: {
             name: "Waiting for Player 2",
             wins: 0,
-            losses: 0
+            losses: 0,
+            active: false
         }
     }
 
     componentDidMount() {
-       
+
         chatData.orderByChild("time").on("child_added", (snapshot) => {
 
             // If idNum is 0, then its a disconnect message and displays accordingly
@@ -50,7 +65,7 @@ class RPS extends Component {
                     name: snapshot.val().name,
                     message: snapshot.val().message,
                     idNum: snapshot.val().idNum,
-                    keyId:this.state.chat.length
+                    keyId: this.state.chat.length
                 }]
             });
             this.chat.scrollTop = this.chat.scrollHeight;
@@ -60,8 +75,6 @@ class RPS extends Component {
 
             // length of the 'players' array
             currentPlayers = snapshot.numChildren();
-
-            console.log(currentPlayers)
 
             // Check to see if players exist
             playerOneExists = snapshot.child("1").exists();
@@ -127,96 +140,80 @@ class RPS extends Component {
             }
         });
 
-        // currentTurnRef.on("value", function (snapshot) {
+        currentTurnRef.on("value", (snapshot) => {
 
-        //     // Gets current turn from snapshot
-        //     currentTurn = snapshot.val();
+            // Gets current turn from snapshot
+            this.setState({currentTurn : snapshot.val()});
 
-        //     // Don't do the following unless you're logged in
-        //     if (playerNum) {
+            console.log(this.state.currentTurn)
 
-        //       // For turn 1
-        //       if (currentTurn === 1) {
+            // Don't do the following unless you're logged in
+            if (playerNum) {
 
-        //         // If its the current player's turn, tell them and show choices
-        //         if (currentTurn === playerNum) {
-        //           $("#current-turn").html("<h2>It's Your Turn!</h2>");
-        //           $("#player" + playerNum + " ul").append("<li>Rock</li><li>Paper</li><li>Scissors</li>");
-        //         }
-        //         else {
+                console.log(playerNum)
 
-        //           // If it isn't the current players turn, tells them they're waiting for player one
-        //           $("#current-turn").html("<h2>Waiting for " + playerOneData.name + " to choose.</h2>");
-        //         }
+                // For turn 1
+                if (this.state.currentTurn === 1) {
 
-        //         // Shows yellow border around active player
-        //         $("#player1").css("border", "2px solid yellow");
-        //         $("#player2").css("border", "1px solid black");
-        //       }
+                    playerOneActive = true
 
-        //       else if (currentTurn === 2) {
+                    console.log(this.state.playerOne.active)
 
-        //         // If its the current player's turn, tell them and show choices
-        //         if (currentTurn === playerNum) {
-        //           $("#current-turn").html("<h2>It's Your Turn!</h2>");
-        //           $("#player" + playerNum + " ul").append("<li>Rock</li><li>Paper</li><li>Scissors</li>");
-        //         }
-        //         else {
+                    // $("#player" + playerNum + " ul").append("<li>Rock</li><li>Paper</li><li>Scissors</li>");
+                }
 
-        //           // If it isn't the current players turn, tells them they're waiting for player two
-        //           $("#current-turn").html("<h2>Waiting for " + playerTwoData.name + " to choose.</h2>");
+                else if (this.state.currentTurn === 2) {
 
-        //         }
+                    playerOneActive = false;
+                    playerTwoActive = true
 
-        //         // Shows yellow border around active player
-        //         $("#player2").css("border", "2px solid yellow");
-        //         $("#player1").css("border", "1px solid black");
-        //       }
+                    // $("#player" + playerNum + " ul").append("<li>Rock</li><li>Paper</li><li>Scissors</li>");
+                } 
 
-        //       else if (currentTurn === 3) {
+                // else if (this.state.currentTurn === 3) {
 
-        //         // Where the game win logic takes place then resets to turn 1
-        //         gameLogic(playerOneData.choice, playerTwoData.choice);
+                //     // Where the game win logic takes place then resets to turn 1
+                //     gameLogic(playerOneData.choice, playerTwoData.choice);
 
-        //         // reveal both player choices
-        //         $("#player1-chosen").text(playerOneData.choice);
-        //         $("#player2-chosen").text(playerTwoData.choice);
+                //     // reveal both player choices
+                //     $("#player1-chosen").text(playerOneData.choice);
+                //     $("#player2-chosen").text(playerTwoData.choice);
 
-        //         //  reset after timeout
-        //         var moveOn = function () {
+                //     //  reset after timeout
+                //     var moveOn = function () {
 
-        //           $("#player1-chosen").empty();
-        //           $("#player2-chosen").empty();
-        //           $("#result").empty();
+                //         $("#player1-chosen").empty();
+                //         $("#player2-chosen").empty();
+                //         $("#result").empty();
 
-        //           // check to make sure players didn't leave before timeout
-        //           if (playerOneExists && playerTwoExists) {
-        //             currentTurnRef.set(1);
-        //           }
-        //         };
+                //         // check to make sure players didn't leave before timeout
+                //         if (playerOneExists && playerTwoExists) {
+                //             currentTurnRef.set(1);
+                //         }
+                //     };
 
-        //         //  show results for 2 seconds, then resets
-        //         setTimeout(moveOn, 2000);
-        //       }
+                //     //  show results for 2 seconds, then resets
+                //     setTimeout(moveOn, 2000);
+                // }
 
-        //       else {
+                // else {
 
-        //         //  if (playerNum) {
-        //         //    $("#player" + playerNum + " ul").empty();
-        //         //  }
-        //         $("#player1 ul").empty();
-        //         $("#player2 ul").empty();
-        //         $("#current-turn").html("<h2>Waiting for another player to join.</h2>");
-        //         $("#player2").css("border", "1px solid black");
-        //         $("#player1").css("border", "1px solid black");
-        //       }
-        //     }
-        //   });
+                //     //  if (playerNum) {
+                //     //    $("#player" + playerNum + " ul").empty();
+                //     //  }
+                //     $("#player1 ul").empty();
+                //     $("#player2 ul").empty();
+                //     $("#current-turn").html("<h2>Waiting for another player to join.</h2>");
+                //     $("#player2").css("border", "1px solid black");
+                //     $("#player1").css("border", "1px solid black");
+                // }
+            }
+        });
+
     }
 
     componentDidUpdate() {
         this.chat.scrollTop = this.chat.scrollHeight;
-
     }
 
     getInGame = () => {
@@ -326,10 +323,21 @@ class RPS extends Component {
         this.message.value = ""
     }
 
+    changeDimension(e) {
+
+        let clickChoice = e.currentTarget.innerHTML;
+
+        playerRef.child("choice").set(clickChoice);
+
+        currentTurnRef.transaction((turn) => {
+            return turn + 1;
+
+        });
+    }
+
 
     render() {
         return (
-
             <div>
                 <header>
                     <h1>Rock Paper Scissors</h1>
@@ -353,32 +361,45 @@ class RPS extends Component {
                         ) : (<h2>Hi {this.state.username}! You are Player {playerNum}</h2>)}
                     </div>
 
-                    <div id="current-turn"></div>
+                    <div id="current-turn">
+
+                    </div>
+
 
                     <div id="game-div">
 
-                        <div id="player1">
+                        <div id="player1" style={this.state.currentTurn === 1 ? styles.currentPlayer : styles.waitingPlayer}>
                             <h3 id="player1-name">{this.state.playerOne.name}</h3>
-                            <ul>
-                            </ul>
-                            <div id="player1-chosen"></div>
+                            {this.state.currentTurn === 1 && playerNum === 1 ?
+                                (<ul>
+                                    <li onClick={this.changeDimension}>Rock</li>
+                                    <li onClick={this.changeDimension}>Paper</li>
+                                    <li onClick={this.changeDimension}>Scissors</li>
+                                </ul>) : ""}
+
+                            <div id="player1-chosen">
+
+                            </div>
+
                             <div className="outcomes">
-                                <div className="outcome-trackers" id="player1-wins">Wins: {this.state.playerOne.wins}</div>
-                                <br></br>
-                                <div className="outcome-trackers" id="player1-losses">Losses: {this.state.playerOne.losses}</div>
+                                <div className="outcome-trackers" id="player1-wins">Wins: {this.state.playerOne.wins} </div>
+                                <div className="outcome-trackers" id="player1-losses"> Losses: {this.state.playerOne.losses}</div>
                             </div>
                         </div>
 
                         <div id="result"></div>
 
-                        <div id="player2">
+                        <div id="player2" style={this.state.currentTurn === 2 ? styles.currentPlayer : styles.waitingPlayer}>
                             <h3 id="player2-name">{this.state.playerTwo.name}</h3>
-                            <ul>
-                            </ul>
+                            {this.state.currentTurn === 2 && playerNum === 2 ?
+                                (<ul>
+                                    <li onClick={this.changeDimension}>Rock</li>
+                                    <li onClick={this.changeDimension}>Paper</li>
+                                    <li onClick={this.changeDimension}>Scissors</li>
+                                </ul>) : null}
                             <div id="player2-chosen"></div>
                             <div className="outcomes">
                                 <div className="outcome-trackers" id="player2-wins">Wins: {this.state.playerTwo.wins}</div>
-                                <br></br>
                                 <div className="outcome-trackers" id="player2-losses">Losses: {this.state.playerTwo.losses}</div>
                             </div>
                         </div>
