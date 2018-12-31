@@ -6,17 +6,15 @@ const database = firebase.database();
 const chatData = database.ref("/chat");
 const playersRef = database.ref("players");
 const currentTurnRef = database.ref("turn");
+const win = database.ref("win");
 let playerRef = "";
 let currentPlayers = null;
-let username = ""
-// let currentTurn = null;
+let username = "";
 let playerNum = null;
 let playerOneExists = false;
 let playerTwoExists = false;
 let playerOneData = null;
 let playerTwoData = null;
-let playerOneActive = false;
-let playerTwoActive = false
 
 const capitalize = (name) => {
     return name.charAt(0).toUpperCase() + name.slice(1);
@@ -37,6 +35,7 @@ class RPS extends Component {
         username: "",
         chat: [],
         currentTurn: null,
+        winner: "",
 
         playerOne: {
             name: "Waiting for Player 1",
@@ -51,9 +50,18 @@ class RPS extends Component {
             losses: 0,
             active: false
         }
+
+
     }
 
     componentDidMount() {
+
+        win.set(null)
+
+        win.on("value", snapshot => {
+
+            this.setState({ winner: snapshot.val() });
+        });
 
         chatData.orderByChild("time").on("child_added", (snapshot) => {
 
@@ -143,7 +151,7 @@ class RPS extends Component {
         currentTurnRef.on("value", (snapshot) => {
 
             // Gets current turn from snapshot
-            this.setState({currentTurn : snapshot.val()});
+            this.setState({ currentTurn: snapshot.val() });
 
             console.log(this.state.currentTurn)
 
@@ -152,62 +160,42 @@ class RPS extends Component {
 
                 console.log(playerNum)
 
-                // For turn 1
-                if (this.state.currentTurn === 1) {
+                if (this.state.currentTurn === 3) {
 
-                    playerOneActive = true
+                    // Where the game win logic takes place then resets to turn 1
+                    this.gameLogic(playerOneData.choice, playerTwoData.choice);
 
-                    console.log(this.state.playerOne.active)
 
-                    // $("#player" + playerNum + " ul").append("<li>Rock</li><li>Paper</li><li>Scissors</li>");
+
+                    //  reset after timeout
+                    const moveOn = () => {
+
+                        win.set(null)
+
+                        win.on("value", snapshot => {
+
+                            this.setState({ winner: snapshot.val() });
+                        });
+                        // check to make sure players didn't leave before timeout
+                        if (playerOneExists && playerTwoExists) {
+                            currentTurnRef.set(1);
+                        }
+                    };
+
+                    //  show results for 2 seconds, then resets
+                    setTimeout(moveOn, 2000);
                 }
 
-                else if (this.state.currentTurn === 2) {
-
-                    playerOneActive = false;
-                    playerTwoActive = true
-
-                    // $("#player" + playerNum + " ul").append("<li>Rock</li><li>Paper</li><li>Scissors</li>");
-                } 
-
-                // else if (this.state.currentTurn === 3) {
-
-                //     // Where the game win logic takes place then resets to turn 1
-                //     gameLogic(playerOneData.choice, playerTwoData.choice);
-
-                //     // reveal both player choices
-                //     $("#player1-chosen").text(playerOneData.choice);
-                //     $("#player2-chosen").text(playerTwoData.choice);
-
-                //     //  reset after timeout
-                //     var moveOn = function () {
-
-                //         $("#player1-chosen").empty();
-                //         $("#player2-chosen").empty();
-                //         $("#result").empty();
-
-                //         // check to make sure players didn't leave before timeout
-                //         if (playerOneExists && playerTwoExists) {
-                //             currentTurnRef.set(1);
-                //         }
-                //     };
-
-                //     //  show results for 2 seconds, then resets
-                //     setTimeout(moveOn, 2000);
-                // }
-
-                // else {
-
-                //     //  if (playerNum) {
-                //     //    $("#player" + playerNum + " ul").empty();
-                //     //  }
-                //     $("#player1 ul").empty();
-                //     $("#player2 ul").empty();
-                //     $("#current-turn").html("<h2>Waiting for another player to join.</h2>");
-                //     $("#player2").css("border", "1px solid black");
-                //     $("#player1").css("border", "1px solid black");
-                // }
             }
+        });
+        this.winner();
+    }
+
+    winner = () => {
+        win.on("value", snapshot => {
+
+            this.setState({ winner: snapshot.val() });
+            console.log(this.state.winner);
         });
 
     }
@@ -266,6 +254,60 @@ class RPS extends Component {
             // If current players is "2", will not allow the player to join
             alert("Sorry, Game Full! Try Again Later!");
         }
+    }
+
+    playerOneWon = () => {
+
+        win.set(playerOneData.name)
+
+        playersRef.child("1").child("wins").set(playerOneData.wins + 1);
+        playersRef.child("2").child("losses").set(playerTwoData.losses + 1);
+
+    };
+
+    playerTwoWon = () => {
+
+        win.set(playerTwoData.name)
+
+        playersRef.child("2").child("wins").set(playerTwoData.wins + 1);
+        playersRef.child("1").child("losses").set(playerOneData.losses + 1);
+
+    };
+
+    tie = () => {
+        win.set("Tie")
+    };
+
+    gameLogic = (player1choice, player2choice) => {
+
+        if (player1choice === "Rock" && player2choice === "Rock") {
+            this.tie();
+        }
+        else if (player1choice === "Paper" && player2choice === "Paper") {
+            this.tie();
+        }
+        else if (player1choice === "Scissors" && player2choice === "Scissors") {
+            this.tie();
+        }
+        else if (player1choice === "Rock" && player2choice === "Paper") {
+            this.playerTwoWon();
+        }
+        else if (player1choice === "Rock" && player2choice === "Scissors") {
+            this.playerOneWon();
+        }
+        else if (player1choice === "Paper" && player2choice === "Rock") {
+            this.playerOneWon();
+        }
+        else if (player1choice === "Paper" && player2choice === "Scissors") {
+            this.playerTwoWon();
+        }
+        else if (player1choice === "Scissors" && player2choice === "Rock") {
+            this.playerTwoWon();
+        }
+        else if (player1choice === "Scissors" && player2choice === "Paper") {
+            this.playerOneWon();
+        }
+
     }
 
 
@@ -335,8 +377,17 @@ class RPS extends Component {
         });
     }
 
-
     render() {
+        const whoWon = (winner) => {
+            if (winner === "Tie") {
+                return <h1>{winner} Game!!!</h1>;
+            } else if (winner !== null) {
+                return <h1>{winner} Win!!!</h1>;
+            } else {
+                return null
+            }
+        }
+
         return (
             <div>
                 <header>
@@ -378,7 +429,7 @@ class RPS extends Component {
                                 </ul>) : ""}
 
                             <div id="player1-chosen">
-
+                                {this.state.currentTurn === 3 ? playerOneData.choice : null}
                             </div>
 
                             <div className="outcomes">
@@ -387,7 +438,9 @@ class RPS extends Component {
                             </div>
                         </div>
 
-                        <div id="result"></div>
+                        <div id="result">
+                            {whoWon(this.state.winner)}
+                        </div>
 
                         <div id="player2" style={this.state.currentTurn === 2 ? styles.currentPlayer : styles.waitingPlayer}>
                             <h3 id="player2-name">{this.state.playerTwo.name}</h3>
@@ -397,7 +450,9 @@ class RPS extends Component {
                                     <li onClick={this.changeDimension}>Paper</li>
                                     <li onClick={this.changeDimension}>Scissors</li>
                                 </ul>) : null}
-                            <div id="player2-chosen"></div>
+                            <div id="player2-chosen">
+                                {this.state.currentTurn === 3 ? playerTwoData.choice : null}
+                            </div>
                             <div className="outcomes">
                                 <div className="outcome-trackers" id="player2-wins">Wins: {this.state.playerTwo.wins}</div>
                                 <div className="outcome-trackers" id="player2-losses">Losses: {this.state.playerTwo.losses}</div>
