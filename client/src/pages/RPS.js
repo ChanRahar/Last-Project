@@ -469,6 +469,7 @@ class RPS extends Component {
                                 <p className={'line-chat player' + line.idNum} key={line.keyId}><span>{line.name}</span>: {line.message}</p>
                             ))}
                         </div>
+                       
                         <div id="chat-bar">
                             <form onSubmit={this.messageSubmit}>
                                 <input id="chat-input"
@@ -479,6 +480,7 @@ class RPS extends Component {
                             </form >
                         </div>
                     </div>
+                    
                 </div>
             </div>
         );
