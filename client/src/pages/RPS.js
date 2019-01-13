@@ -54,20 +54,11 @@ class RPS extends Component {
 
     }
 
-    componentDidMount() {
-
-        win.set(null)
-
-        win.on("value", snapshot => {
-
-            this.setState({ winner: snapshot.val() });
-        });
-
+    chatDisplay = () =>{
         chatData.orderByChild("time").on("child_added", (snapshot) => {
 
             // If idNum is 0, then its a disconnect message and displays accordingly
             // If not - its a user chat message
-
             this.setState({
                 chat: [...this.state.chat, {
                     name: snapshot.val().name,
@@ -77,6 +68,22 @@ class RPS extends Component {
                 }]
             });
             this.chat.scrollTop = this.chat.scrollHeight;
+        });
+
+    }
+
+
+    componentDidMount() {
+
+        this.chatDisplay();
+
+        console.log("Mounted")
+
+        win.set(null)
+
+        win.on("value", snapshot => {
+
+            this.setState({ winner: snapshot.val() });
         });
 
         playersRef.on("value", (snapshot) => {
@@ -365,9 +372,9 @@ class RPS extends Component {
         this.message.value = ""
     }
 
-    changeDimension(e) {
+    playerChoice(choice) {
 
-        let clickChoice = e.currentTarget.innerHTML;
+        let clickChoice = choice;
 
         playerRef.child("choice").set(clickChoice);
 
@@ -378,6 +385,7 @@ class RPS extends Component {
     }
 
     render() {
+
         const whoWon = (winner) => {
             if (winner === "Tie") {
                 return <h1>{winner} Game!!!</h1>;
@@ -423,9 +431,9 @@ class RPS extends Component {
                             <h3 id="player1-name">{this.state.playerOne.name}</h3>
                             {this.state.currentTurn === 1 && playerNum === 1 ?
                                 (<ul>
-                                    <li onClick={this.changeDimension}>Rock</li>
-                                    <li onClick={this.changeDimension}>Paper</li>
-                                    <li onClick={this.changeDimension}>Scissors</li>
+                                    <li onClick={() => this.playerChoice("Rock")}>Rock</li>
+                                    <li onClick={() => this.playerChoice("Paper")}>Paper</li>
+                                    <li onClick={() => this.playerChoice("Scissors")}>Scissors</li>
                                 </ul>) : ""}
 
                             <div id="player1-chosen">
@@ -446,9 +454,9 @@ class RPS extends Component {
                             <h3 id="player2-name">{this.state.playerTwo.name}</h3>
                             {this.state.currentTurn === 2 && playerNum === 2 ?
                                 (<ul>
-                                    <li onClick={this.changeDimension}>Rock</li>
-                                    <li onClick={this.changeDimension}>Paper</li>
-                                    <li onClick={this.changeDimension}>Scissors</li>
+                                    <li onClick={() => this.playerChoice("Rock")}>Rock</li>
+                                    <li onClick={() => this.playerChoice("Paper")}>Paper</li>
+                                    <li onClick={() => this.playerChoice("Scissors")}>Scissors</li>
                                 </ul>) : null}
                             <div id="player2-chosen">
                                 {this.state.currentTurn === 3 ? playerTwoData.choice : null}

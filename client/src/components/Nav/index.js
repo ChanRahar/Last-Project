@@ -26,8 +26,9 @@ function Nav() {
           </Link>
           </li>
           <li className="nav-item">
-            <Link
-              to="/RPS"
+          
+            <a
+              href="/RPS"
               className={
                 window.location.pathname === "/RPS"
                   ? "nav-link active"
@@ -35,7 +36,7 @@ function Nav() {
               }
             >
               RPS
-          </Link>
+          </a>
           </li>
         </ul>
       </div>
