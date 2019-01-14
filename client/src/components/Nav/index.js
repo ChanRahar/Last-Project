@@ -65,6 +65,19 @@ function Nav() {
             Sign Up
           </Link>
         </li>
+        <li className="nav-item">
+          
+          <a
+            href="/api/logout"
+            className={
+              window.location.pathname === "/RPS"
+                ? "nav-link active"
+                : "nav-link"
+            }
+          >
+            Logout
+        </a>
+        </li>
       </ul>
     </nav>
   );

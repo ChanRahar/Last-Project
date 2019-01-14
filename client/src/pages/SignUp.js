@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput, MDBIcon } from 'mdbreact';
+import API from "../utils/API"
 
 class Signup extends Component {
 
   state = {
     username: "",
     email: "",
-    password:"",
-
+    password: "",
   };
 
   handleInputChange = event => {
@@ -24,8 +24,17 @@ class Signup extends Component {
     // Preventing the default behavior of the form submit (which is to refresh the page)
     event.preventDefault();
 
+    API.signUp({
+      username: this.state.username,
+      email: this.state.email,
+      password: this.state.password
+    })
+      .then(alert("Register Complete"))
+      .catch(err => console.log(err));
+
+
     // Alert the user their first and last name, clear `this.state.firstName` and `this.state.lastName`, clearing the inputs
-    alert(`Hello ${this.state.username} ${this.state.email} ${this.state.password}`);
+    // alert(`Hello ${this.state.username} ${this.state.email} ${this.state.password}`);
     this.setState({
       username: "",
       email: "",
@@ -42,46 +51,47 @@ class Signup extends Component {
         <MDBRow className="pt-3">
           <MDBCol className="d-flex justify-content-center">
             <MDBCard>
-              <MDBCardBody className="mx-4">
-                <div className="text-center">
-                  <h3 className="pink-text mb-5">
-                    <strong>Sign up</strong>
-                  </h3>
-                </div>
-                <MDBInput label="Your Username" group type="text" validate
-                  name="username"
-                  value={this.state.username}
-                  onChange={this.handleInputChange}
-                />
-                <MDBInput label="Your email" group type="email" validate
-                  name="email"
-                  value={this.state.email}
-                  onChange={this.handleInputChange} />
-                <MDBInput label="Your password" group type="password" validate
-                  name="password"
-                  value={this.state.password}
-                  onChange={this.handleInputChange} />
-                <MDBRow className="d-flex align-items-center mb-4">
-                  <MDBCol md="6" className="text-center">
-                    <button
-                      type="button"
-                      className="btn btn-pink btn-block btn-rounded z-depth-1"
-                      onClick={this.handleFormSubmit}
-                    >
-                      Sign up
+              <form onSubmit={this.handleFormSubmit}>
+                <MDBCardBody className="mx-4">
+                  <div className="text-center">
+                    <h3 className="pink-text mb-5">
+                      <strong>Sign up</strong>
+                    </h3>
+                  </div>
+                  <MDBInput label="Your Username" group type="text" validate
+                    name="username"
+                    value={this.state.username}
+                    onChange={this.handleInputChange}
+                  />
+                  <MDBInput label="Your email" group type="email" validate
+                    name="email"
+                    value={this.state.email}
+                    onChange={this.handleInputChange} />
+                  <MDBInput label="Your password" group type="password" validate
+                    name="password"
+                    value={this.state.password}
+                    onChange={this.handleInputChange} />
+                  <MDBRow className="d-flex align-items-center mb-4">
+                    <MDBCol md="6" className="text-center">
+                      <button
+                        type="submit"
+                        className="btn btn-pink btn-block btn-rounded z-depth-1"
+                      >
+                        Sign up
                     </button>
-                  </MDBCol>
-                  <MDBCol md="6">
-                    <p className="font-small grey-text d-flex justify-content-end">
-                      Have an account?
+                    </MDBCol>
+                    <MDBCol md="6">
+                      <p className="font-small grey-text d-flex justify-content-end">
+                        Have an account?
                       <a href="/Login" className="blue-text ml-1">
 
-                        Log in
+                          Log in
                       </a>
-                    </p>
-                  </MDBCol>
-                </MDBRow>
-              </MDBCardBody>
+                      </p>
+                    </MDBCol>
+                  </MDBRow>
+                </MDBCardBody>
+              </form>
               <div className="footer pt-3 mdb-color lighten-3">
                 <MDBRow className="d-flex justify-content-center">
                   <p className="font-small white-text mb-2 pt-3">

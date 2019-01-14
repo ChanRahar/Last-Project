@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./style.css";
 import firebase from "../firebase"
+import API from "../utils/API"
 
 const database = firebase.database();
 const chatData = database.ref("/chat");
@@ -36,6 +37,8 @@ class RPS extends Component {
         chat: [],
         currentTurn: null,
         winner: "",
+        loggedIn: false,
+
 
         playerOne: {
             name: "Waiting for Player 1",
@@ -54,7 +57,7 @@ class RPS extends Component {
 
     }
 
-    chatDisplay = () =>{
+    chatDisplay = () => {
         chatData.orderByChild("time").on("child_added", (snapshot) => {
 
             // If idNum is 0, then its a disconnect message and displays accordingly
@@ -74,6 +77,16 @@ class RPS extends Component {
 
 
     componentDidMount() {
+
+        API.signedIn()
+            .then(response => {
+                console.log(response);
+                if (response.data.loggedIn) {
+                    this.setState({ loggedIn: true, username: response.data.username });
+                } else {
+                    console.log("No logged in user stored in session");
+                }
+            });
 
         this.chatDisplay();
 
@@ -190,7 +203,7 @@ class RPS extends Component {
                     };
 
                     //  show results for 2 seconds, then resets
-                    setTimeout(moveOn, 1000 *3);
+                    setTimeout(moveOn, 1000 * 3);
                 }
 
             }
@@ -333,15 +346,24 @@ class RPS extends Component {
         // Preventing the default behavior of the form submit (which is to refresh the page)
         event.preventDefault();
 
-        if (this.username.value !== "") {
+        if (this.username.value === "" && this.state.username === "") {
+            alert("Please Enter Name");
+        }
+        else if (this.state.username !== "" && this.username.value === "") {
+            username = this.state.username
+
+            this.getInGame();
+        }
+        else if (this.username.value !== "") {
 
             let chosenName = capitalize(this.username.value)
 
             username = chosenName
 
-            this.setState({ username: chosenName })
+            this.setState({ username: chosenName });
+
+            this.getInGame();
         }
-        this.getInGame();
     };
 
 
@@ -396,6 +418,29 @@ class RPS extends Component {
             }
         }
 
+        // const startDisplay = () => {
+        //     if (this.state.loggedIn === true) {
+        //         return <form onSubmit={this.nameSubmit}>
+        //             <button id="start" type="submit">Start</button>
+        //         </form>;
+        //     } else if (playerNum === null) {
+        //         return <form onSubmit={this.nameSubmit}>
+
+        //         <input
+        //             id="username"
+        //             name="username"
+        //             ref={(input) => { this.username = input }}
+        //             type="input"
+        //             placeholder="Name"
+        //         />
+
+        //         <button id="start" type="submit">Start</button>
+        //     </form>;
+        //     } else {
+        //         return <h2>Hi {this.state.username}! You are Player {playerNum}</h2>
+        //     }
+        // }
+
         return (
             <div>
                 <header>
@@ -407,7 +452,7 @@ class RPS extends Component {
                         {playerNum === null ? (
                             <form onSubmit={this.nameSubmit}>
 
-                                <input
+                                <input className= {this.state.loggedIn === true? "invisible": "visible"}
                                     id="username"
                                     name="username"
                                     ref={(input) => { this.username = input }}
@@ -418,6 +463,7 @@ class RPS extends Component {
                                 <button id="start" type="submit">Start</button>
                             </form>
                         ) : (<h2>Hi {this.state.username}! You are Player {playerNum}</h2>)}
+                        {/* {startDisplay()} */}
                     </div>
 
                     <div id="current-turn">
@@ -477,7 +523,7 @@ class RPS extends Component {
                                 <p className={'line-chat player' + line.idNum} key={line.keyId}><span>{line.name}</span>: {line.message}</p>
                             ))}
                         </div>
-                       
+
                         <div id="chat-bar">
                             <form onSubmit={this.messageSubmit}>
                                 <input id="chat-input"
@@ -488,7 +534,7 @@ class RPS extends Component {
                             </form >
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
         );

@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput, MDBBtn, MDBIcon, MDBModalFooter } from 'mdbreact';
+import API from "../utils/API"
 
 class Login extends Component {
 
   state = {
     email: "",
     password:"",
-
+    loggedIn: false
   };
 
   handleInputChange = event => {
@@ -23,23 +24,50 @@ class Login extends Component {
     // Preventing the default behavior of the form submit (which is to refresh the page)
     event.preventDefault();
 
+    API.login({
+      email: this.state.email,
+      password: this.state.password
+    })
+      .then((response) => {
+        console.log(response);
+        this.setState({loggedIn: true, username: response.data.username });
+      });
+
     // Alert the user their first and last name, clear `this.state.firstName` and `this.state.lastName`, clearing the inputs
-    alert(`Hello ${this.state.email} ${this.state.password}`);
+    // alert(`Hello ${this.state.email} ${this.state.password}`);
     this.setState({
       email: "",
       password: ""
     });
   };
 
+  componentDidMount() {
+    console.log("componentDidMount lifecycle method ran!");
+    
+    // Check session data to see if user should be logged in
+    API.signedIn()
+    .then(response => {
+      console.log(response);
+      if (response.data.loggedIn) {
+        this.setState({loggedIn: true, username: response.data.username });
+      } else {
+        console.log("No logged in user stored in session");
+      }
+    });
+  }
+
   render() {
+    let banner = this.state.loggedIn ? `Woah! ${this.state.username} logged in!` : "UNAUTHORIZED USER";
     return (
       <MDBContainer>
+        <h1>{banner}</h1>
         <p>
           Hello {this.state.email} {this.state.password}
         </p>
         <MDBRow className="pt-3">
           <MDBCol className="d-flex justify-content-center">
             <MDBCard>
+            <form onSubmit={this.handleFormSubmit}>
               <MDBCardBody className="mx-4">
                 <div className="text-center">
                   <h3 className="dark-grey-text mb-5">
@@ -76,11 +104,10 @@ class Login extends Component {
                 </p>
                 <div className="text-center mb-3">
                   <MDBBtn
-                    type="button"
+                    type="submit"
                     gradient="blue"
                     rounded
                     className="btn-block z-depth-1a"
-                    onClick={this.handleFormSubmit}
                   >
                     Sign in
                   </MDBBtn>
@@ -116,6 +143,7 @@ class Login extends Component {
                   </MDBBtn>
                 </div>
               </MDBCardBody>
+              </form>
               <MDBModalFooter className="mx-5 pt-3 mb-1">
                 <p className="font-small grey-text d-flex justify-content-end">
                   Not a member?
