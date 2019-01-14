@@ -190,7 +190,7 @@ class RPS extends Component {
                     };
 
                     //  show results for 2 seconds, then resets
-                    setTimeout(moveOn, 2000);
+                    setTimeout(moveOn, 1000 *3);
                 }
 
             }
