@@ -2,12 +2,15 @@ const router = require("express").Router();
 // Requiring our models and passport as we've configured it
 var db = require("../models");
 var passport = require("../config/passport");
+var bcrypt = require("bcrypt-nodejs");
 
 
 router.route("/signup")
   .post(function (req, res) {
+    newUser = req.body
+    newUser.password = bcrypt.hashSync(newUser.password, bcrypt.genSaltSync(10), null);
     db.User
-      .create(req.body)
+      .create(newUser)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   });

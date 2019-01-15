@@ -4,3 +4,7 @@ nav.navbar {
   z-index:100;
 }
 
+#logout {
+  cursor: pointer;
+}
+

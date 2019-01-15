@@ -6,12 +6,21 @@ import Main from "./pages/Main"
 import Nav from "./components/Nav";
 import Login from "./pages/Login"
 import SignUp from "./pages/SignUp"
+import API from "./utils/API"
 
 function App() {
+   function logout()  {
+     console.log("clicked")
+    API.logout()
+    .then(window.location.href = "/")
+    .catch(err => console.log(err));
+  }
+
   return (
     <Router>
       <div>
-        <Nav />
+        <Nav
+        onClick = {logout} />
         <Switch>
           <Route exact path="/" component={Main} />
           <Route exact path="/SignUp" component={SignUp} />

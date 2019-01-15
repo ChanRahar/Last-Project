@@ -14,6 +14,10 @@ export default {
 
   signedIn: () => {
     return axios.get("/api/user_data")
+  },
+
+  logout: () => {
+    return axios.get("/api/logout")
   }
   // // Gets all books
   // getSavedBooks: () => {
