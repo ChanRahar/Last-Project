@@ -5,7 +5,8 @@ var passport = require("../config/passport");
 var bcrypt = require("bcrypt-nodejs");
 
 
-router.route("/signup")
+router
+  .route("/signup")
   .post(function (req, res) {
     newUser = req.body
     newUser.password = bcrypt.hashSync(newUser.password, bcrypt.genSaltSync(10), null);
@@ -15,7 +16,8 @@ router.route("/signup")
       .catch(err => res.status(422).json(err));
   });
 
-router.route("/login")
+router
+  .route("/login")
   .post(passport.authenticate("local"), function (req, res) {
     // Since we're doing a POST with javascript, we can't actually redirect that post into a GET request
     // So we're sending the user back the route to the members page because the redirect will happen on the front end
@@ -23,20 +25,21 @@ router.route("/login")
     // res.json("/members");
     res.json({
       loggedIn: true,
-      message: "WOOOO IT WORKED",
       username: req.user.username
     });
   });
 
 // Route for logging user out
-router.route("/logout")
+router
+  .route("/logout")
   .get(function (req, res) {
     req.logout();
     res.redirect("/");
   });
 
 // Route for getting some data about our user to be used client side
-router.route("/user_data")
+router
+  .route("/user_data")
   .get(function (req, res) {
     if (!req.user) {
       // The user is not logged in, send back an empty object
@@ -50,6 +53,32 @@ router.route("/user_data")
         loggedIn: true
       });
     }
+  });
+
+// All users test route
+router
+  .route("/allUsers")
+  .get(function (req, res) {
+    db.User
+      .find(req.query)
+      .sort({ net: -1 })
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  })
+
+router
+  .route("allUsers/:username")
+  .get(function (req, res) {
+    db.User
+      .findOne({ "username": req.params.username })
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  })
+  .put(function (req, res) {
+    db.User
+      .findOneAndUpdate({ "username": req.params.username }, req.body)
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
   });
 
 module.exports = router;

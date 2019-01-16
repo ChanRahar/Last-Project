@@ -40,7 +40,20 @@ function Nav(props) {
           </li>
         </ul>
       </div>
+
       <ul className="navbar-nav nav justify-content-end" >
+      <li className="nav-item nav-left">
+          <Link
+            to="/Leader_Board"
+            className={
+              window.location.pathname === "/Leader_Board"
+                ? "nav-link active"
+                : "nav-link"
+            }
+          >
+            Leader Board
+          </Link>
+        </li>
         <li className="nav-item nav-left">
           <Link
             to="/Login"

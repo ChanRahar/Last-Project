@@ -6,6 +6,7 @@ import Main from "./pages/Main"
 import Nav from "./components/Nav";
 import Login from "./pages/Login"
 import SignUp from "./pages/SignUp"
+import LeaderBoard from "./pages/LeaderBoard"
 import API from "./utils/API"
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
           <Route exact path="/SignUp" component={SignUp} />
           <Route exact path="/Login" component={Login} />
           <Route exact path="/RPS" component={RPS} />
+          <Route exact path="/Leader_Board" component={LeaderBoard} />
           <Route component={"nothing"} />
         </Switch>
       </div>
