@@ -67,7 +67,7 @@ router
   })
 
 router
-  .route("allUsers/:username")
+  .route("/allUsers/:username")
   .get(function (req, res) {
     db.User
       .findOne({ "username": req.params.username })
@@ -75,10 +75,19 @@ router
       .catch(err => res.status(422).json(err));
   })
   .put(function (req, res) {
+    console.log(req.body)
     db.User
-      .findOneAndUpdate({ "username": req.params.username }, req.body)
+      .findOneAndUpdate(
+        { 
+          "username": req.params.username
+        }, 
+        {
+          $set: req.body
+        }
+        )
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   });
 
+  
 module.exports = router;

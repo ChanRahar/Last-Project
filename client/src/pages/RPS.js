@@ -44,14 +44,12 @@ class RPS extends Component {
             name: "Waiting for Player 1",
             wins: 0,
             losses: 0,
-            active: false
         },
 
         playerTwo: {
             name: "Waiting for Player 2",
             wins: 0,
             losses: 0,
-            active: false
         }
 
 
@@ -202,7 +200,7 @@ class RPS extends Component {
                         }
                     };
 
-                    //  show results for 2 seconds, then resets
+                    //  show results for 3 seconds, then resets
                     setTimeout(moveOn, 1000 * 3);
                 }
 
@@ -246,12 +244,25 @@ class RPS extends Component {
             playerRef = database.ref("/players/" + playerNum);
 
             // Creates player object. 'choice' is unnecessary here, but I left it in to be as complete as possible
-            playerRef.set({
-                name: username,
-                wins: 0,
-                losses: 0,
-                choice: null
-            });
+
+            if (this.state.loggedIn === true) {
+                API.getUser(username)
+                    .then(res => {
+                        playerRef.set({
+                            name: username,
+                            wins: res.data.wins,
+                            losses: res.data.losses,
+                            choice: null
+                        });
+                    })
+            } else {
+                playerRef.set({
+                    name: username,
+                    wins: 0,
+                    losses: 0,
+                    choice: null
+                });
+            }
 
             // On disconnect remove this user's player object
             playerRef.onDisconnect().remove();
@@ -283,6 +294,19 @@ class RPS extends Component {
         playersRef.child("1").child("wins").set(playerOneData.wins + 1);
         playersRef.child("2").child("losses").set(playerTwoData.losses + 1);
 
+        if (this.state.loggedIn === true && playerOneData.name === username) {
+
+            console.log("something")
+            API.updateUser(
+                username,
+                {
+                    net: 1,
+                    wins: 2,
+                    losses: 1
+                })
+                .then(res => console.log(res))
+        }
+
     };
 
     playerTwoWon = () => {
@@ -291,6 +315,7 @@ class RPS extends Component {
 
         playersRef.child("2").child("wins").set(playerTwoData.wins + 1);
         playersRef.child("1").child("losses").set(playerOneData.losses + 1);
+
 
     };
 
@@ -452,7 +477,7 @@ class RPS extends Component {
                         {playerNum === null ? (
                             <form onSubmit={this.nameSubmit}>
 
-                                <input className= {this.state.loggedIn === true? "invisible": "visible"}
+                                <input className={this.state.loggedIn === true ? "invisible" : "visible"}
                                     id="username"
                                     name="username"
                                     ref={(input) => { this.username = input }}

@@ -25,10 +25,10 @@ export default {
     return axios.get("/api/allUsers");
   },
   // Gets the users with the given username
-  getAuser: function (username) {
+  getUser: function (username) {
     return axios.get("/api/allUsers/" + username);
   },
-  // deleteBook: (id) => {
-  //   return axios.delete("/api/books/" + id);
-  // }  
+  updateUser: function (username) {
+    return axios.put("/api/allUsers/" + username);
+  },
 };
