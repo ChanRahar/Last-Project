@@ -17,16 +17,24 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    win: {
+    wins: {
         type: Number,
         default: 0
     },
-    lost: {
+    losses: {
         type: Number,
         default: 0
     },
+    net: {
+        type: Number,
+        default: 0
+    }
 });
 
 const User = mongoose.model("User", userSchema);
+
+User.prototype.validPassword = function (password) {
+    return bcrypt.compareSync(password, this.password);
+};
 
 module.exports = User;

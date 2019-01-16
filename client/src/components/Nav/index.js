@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./style.css";
 
-function Nav() {
+function Nav(props) {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <Link className="navbar-brand" to="/">
@@ -40,7 +40,20 @@ function Nav() {
           </li>
         </ul>
       </div>
+
       <ul className="navbar-nav nav justify-content-end" >
+      <li className="nav-item nav-left">
+          <Link
+            to="/Leader_Board"
+            className={
+              window.location.pathname === "/Leader_Board"
+                ? "nav-link active"
+                : "nav-link"
+            }
+          >
+            Leader Board
+          </Link>
+        </li>
         <li className="nav-item nav-left">
           <Link
             to="/Login"
@@ -67,16 +80,17 @@ function Nav() {
         </li>
         <li className="nav-item">
           
-          <a
-            href="/api/logout"
-            className={
-              window.location.pathname === "/RPS"
-                ? "nav-link active"
-                : "nav-link"
-            }
+          <div id = "logout"
+          className={
+            window.location.pathname === "/SignUp"
+              ? "nav-link active"
+              : "nav-link"
+          }
+           onClick = {props.onClick}
+           
           >
             Logout
-        </a>
+        </div>
         </li>
       </ul>
     </nav>
