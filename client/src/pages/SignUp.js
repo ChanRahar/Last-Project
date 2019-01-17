@@ -29,8 +29,8 @@ class Signup extends Component {
       email: this.state.email,
       password: this.state.password
     })
-      .then(alert("Register Complete"))
-      .catch(err => console.log(err));
+      .then(() => alert("Register Complete"))
+      .catch(() => alert("Try another Username or Email Already Used"));
 
 
     // Alert the user their first and last name, clear `this.state.firstName` and `this.state.lastName`, clearing the inputs

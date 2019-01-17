@@ -28,7 +28,7 @@ export default {
   getUser: function (username) {
     return axios.get("/api/allUsers/" + username);
   },
-  updateUser: function (username) {
-    return axios.put("/api/allUsers/" + username);
+  updateUser: function (username, userData) {
+    return axios.put("/api/allUsers/" + username, userData);
   },
 };
