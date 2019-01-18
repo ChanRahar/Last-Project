@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { MDBDataTable, MDBContainer } from 'mdbreact';
+import { MDBContainer } from 'mdbreact';
+import Header from "../components/Header";
+import Table from "../components/Table";
 import API from "../utils/API"
 
-class DatatablePage extends Component {
+class LeaderBoard extends Component {
 
     state = {
         data: {
@@ -64,12 +66,10 @@ class DatatablePage extends Component {
     render() {
         return (
             <MDBContainer>
-                <br />
-                <h2 className="text-center">Leader Board</h2>
-                <MDBDataTable className="text-center"
-                    striped
-                    bordered
-                    hover
+                <Header>
+                    Leader Board
+              </Header>
+                <Table
                     data={this.state.data}
                 />
             </MDBContainer>
@@ -77,4 +77,4 @@ class DatatablePage extends Component {
     }
 }
 
-export default DatatablePage;
+export default LeaderBoard;

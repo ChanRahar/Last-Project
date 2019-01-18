@@ -26,7 +26,7 @@ function Nav(props) {
           </Link>
           </li>
           <li className="nav-item">
-          
+
             <a
               href="/RPS"
               className={
@@ -42,7 +42,7 @@ function Nav(props) {
       </div>
 
       <ul className="navbar-nav nav justify-content-end" >
-      <li className="nav-item nav-left">
+        <li className="nav-item nav-left">
           <Link
             to="/Leader_Board"
             className={
@@ -79,18 +79,21 @@ function Nav(props) {
           </Link>
         </li>
         <li className="nav-item">
-          
-          <div id = "logout"
-          className={
-            window.location.pathname === "/SignUp"
-              ? "nav-link active"
-              : "nav-link"
-          }
-           onClick = {props.onClick}
-           
+
+          <div id="logout"
+            className={
+              window.location.pathname === "/SignUp"
+                ? "nav-link active"
+                : "nav-link"
+            }
+            onClick={props.onClick}
+
           >
             Logout
         </div>
+        </li>
+        <li className="nav-item">
+          {props.children}
         </li>
       </ul>
     </nav>

@@ -7,9 +7,11 @@ import Nav from "./components/Nav";
 import Login from "./pages/Login"
 import SignUp from "./pages/SignUp"
 import LeaderBoard from "./pages/LeaderBoard"
+import trial from "./pages/trial"
 import API from "./utils/API"
 
 function App() {
+  
    function logout()  {
      console.log("clicked")
     API.logout()
@@ -28,7 +30,7 @@ function App() {
           <Route exact path="/Login" component={Login} />
           <Route exact path="/RPS" component={RPS} />
           <Route exact path="/Leader_Board" component={LeaderBoard} />
-          <Route component={"nothing"} />
+          <Route component={trial} />
         </Switch>
       </div>
     </Router>

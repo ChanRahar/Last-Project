@@ -5,6 +5,7 @@ import API from "../utils/API"
 class Login extends Component {
 
   state = {
+    username: "",
     email: "",
     password:"",
     loggedIn: false
@@ -31,6 +32,8 @@ class Login extends Component {
       .then((response) => {
         console.log(response);
         this.setState({loggedIn: true, username: response.data.username });
+        alert(`Welcome ${this.state.username}`)
+        window.location.href = "/"
       });
 
     // Alert the user their first and last name, clear `this.state.firstName` and `this.state.lastName`, clearing the inputs
@@ -42,7 +45,6 @@ class Login extends Component {
   };
 
   componentDidMount() {
-    console.log("componentDidMount lifecycle method ran!");
     
     // Check session data to see if user should be logged in
     API.signedIn()
@@ -61,9 +63,6 @@ class Login extends Component {
     return (
       <MDBContainer>
         <h1>{banner}</h1>
-        <p>
-          Hello {this.state.email} {this.state.password}
-        </p>
         <MDBRow className="pt-3">
           <MDBCol className="d-flex justify-content-center">
             <MDBCard>
