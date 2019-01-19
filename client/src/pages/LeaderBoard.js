@@ -4,6 +4,15 @@ import Header from "../components/Header";
 import Table from "../components/Table";
 import API from "../utils/API"
 
+const styles = {
+    currentPlayer: {
+        background: "#e4f0d0"
+    },
+    waitingPlayer: {
+        border: "1px solid black"
+    }
+}
+
 class LeaderBoard extends Component {
 
     state = {

@@ -30,9 +30,6 @@ class NavbarPage extends React.Component {
               <NavItem>
                 <NavLink to="/">Home</NavLink>
               </NavItem>
-              <NavItem>
-                <NavLink to="/RPS">RPS</NavLink>
-              </NavItem>
             </NavbarNav>
             <NavbarNav right>
               <NavItem>

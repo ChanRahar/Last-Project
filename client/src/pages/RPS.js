@@ -1,13 +1,20 @@
 import React, { Component } from "react";
-// import "./style.css";
+import "./style.css";
+import { MDBContainer, MDBRow, MDBCol, Animation, MDBBtn, Card, CardBody, CardTitle } from 'mdbreact';
 import firebase from "../firebase"
 import API from "../utils/API"
+import Header from "../components/Header";
+import Img from "../components/Img";
+
 
 const database = firebase.database();
 const chatData = database.ref("/chat");
 const playersRef = database.ref("players");
 const currentTurnRef = database.ref("turn");
 const win = database.ref("win");
+const rock = "./images/rock.jpg"
+const paper = "./images/paper.jpg"
+const scissors = "./images/scissors.jpg"
 let playerRef = "";
 let currentPlayers = null;
 let username = "";
@@ -23,7 +30,7 @@ const capitalize = (name) => {
 
 const styles = {
     currentPlayer: {
-        border: "2px solid yellow"
+        background: "#e4f0d0"
     },
     waitingPlayer: {
         border: "1px solid black"
@@ -76,6 +83,7 @@ class RPS extends Component {
 
     componentDidMount() {
 
+
         API.signedIn()
             .then(response => {
                 console.log(response);
@@ -87,8 +95,6 @@ class RPS extends Component {
             });
 
         this.chatDisplay();
-
-        console.log("Mounted")
 
         win.set(null)
 
@@ -183,8 +189,6 @@ class RPS extends Component {
                     // Where the game win logic takes place then resets to turn 1
                     this.gameLogic(playerOneData.choice, playerTwoData.choice);
 
-
-
                     //  reset after timeout
                     const moveOn = () => {
 
@@ -213,7 +217,6 @@ class RPS extends Component {
         win.on("value", snapshot => {
 
             this.setState({ winner: snapshot.val() });
-            console.log(this.state.winner);
         });
 
     }
@@ -289,9 +292,6 @@ class RPS extends Component {
 
     playerOneWon = () => {
 
-        console.log(playerOneData)
-
-        console.log(playerTwoData)
 
         win.set(playerOneData.name)
 
@@ -347,7 +347,7 @@ class RPS extends Component {
                 })
                 .then(res => console.log(res))
         }
-     
+
     };
 
     tie = () => {
@@ -466,120 +466,140 @@ class RPS extends Component {
 
         const whoWon = (winner) => {
             if (winner === "Tie") {
-                return <h1>{winner} Game!!!</h1>;
+                return (
+                    <Animation type="fadeIn">
+                    <Img
+                    width="17rem"
+                    height="17rem"
+                    src="http://www.vestaretailerawards.com/wp-content/uploads/2016/10/no-winner.jpg"
+                />
+                </Animation>
+                )
             } else if (winner !== null) {
-                return <h1>{winner} Win!!!</h1>;
+                return (
+                    <h1>
+                        <Img
+                            width="15rem"
+                            height="15rem"
+                            src="https://thumbs.gfycat.com/DescriptiveMassiveFugu-max-1mb.gif"
+                        />
+                        {winner}
+                    </h1>
+                )
             } else {
-                return null
+                return (
+                    <Img
+                        width="22rem"
+                        height="20rem"
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Rock-paper-scissors.svg/300px-Rock-paper-scissors.svg.png"
+                    />
+                )
             }
         }
 
-        // const startDisplay = () => {
-        //     if (this.state.loggedIn === true) {
-        //         return <form onSubmit={this.nameSubmit}>
-        //             <button id="start" type="submit">Start</button>
-        //         </form>;
-        //     } else if (playerNum === null) {
-        //         return <form onSubmit={this.nameSubmit}>
-
-        //         <input
-        //             id="username"
-        //             name="username"
-        //             ref={(input) => { this.username = input }}
-        //             type="input"
-        //             placeholder="Name"
-        //         />
-
-        //         <button id="start" type="submit">Start</button>
-        //     </form>;
-        //     } else {
-        //         return <h2>Hi {this.state.username}! You are Player {playerNum}</h2>
-        //     }
-        // }
+        const choiceImg = (choice) => {
+            if (choice === "Rock") {
+                return <Img width="10rem" height="10rem" src={rock} />
+            } else if (choice === "Paper") {
+                return <Img width="10rem" height="10rem" src={paper} />
+            } else if (choice === "Scissors") {
+                return <Img width="10rem" height="10rem" src={scissors} />
+            }
+        }
 
         return (
-            <div>
-                <header>
-                    <h1>Rock Paper Scissors</h1>
-                </header>
-                <div id="sizer">
-
-                    <div id="swap-zone">
+            <MDBContainer fluid style={styles.currentPlayer}>
+                <Header>
+                    RPS Online
+                </Header>
+                <MDBContainer>
+                <MDBRow>
+                    <MDBCol className="d-flex justify-content-center">
                         {playerNum === null ? (
                             <form onSubmit={this.nameSubmit}>
 
-                                <input className={this.state.loggedIn === true ? "invisible" : "visible"}
+                                <input className={this.state.loggedIn === true ? "invisible" : "visible text-center"}
                                     id="username"
                                     name="username"
                                     ref={(input) => { this.username = input }}
                                     type="input"
-                                    placeholder="Name"
+                                    placeholder="Enter Name"
                                 />
+                                <div className="text-center">
+                                    <MDBBtn color="unique" type="submit">Start</MDBBtn>
+                                </div>
 
-                                <button id="start" type="submit">Start</button>
                             </form>
-                        ) : (<h2>Hi {this.state.username}! You are Player {playerNum}</h2>)}
-                        {/* {startDisplay()} */}
-                    </div>
+                        ) : (<h2 className="text-center">Hi {this.state.username}! You are Player {playerNum}</h2>)
+                        }
+                    </MDBCol>
+                </MDBRow>
+                <br />
+                <MDBRow>
+                    <MDBCol lg="4" className="d-flex justify-content-center my-1" >
+                        <Card style={{ width: "22rem", height: "20rem" }} border={this.state.currentTurn === 1 ? "success" : null}>
+                            <CardBody>
+                                <CardTitle className="text-center mb-1">{this.state.playerOne.name}</CardTitle>
+                                <div className="text-center">
+                                    {this.state.currentTurn === 1 && playerNum === 1 ?
+                                        (<ul>
+                                            <li onClick={() => this.playerChoice("Rock")}><Img width="4rem" height="4rem" src={rock} /></li>
 
-                    <div id="current-turn">
+                                            <li className="py-3" onClick={() => this.playerChoice("Paper")}><Img width="4rem" height="4rem" src={paper} /></li>
 
-                    </div>
+                                            <li onClick={() => this.playerChoice("Scissors")}><Img width="4rem" height="4rem" src={scissors} /></li>
+                                        </ul>) : ""}
 
+                                    <div id="player1-chosen">
+                                        {this.state.currentTurn === 3 ? choiceImg(playerOneData.choice) : null}
+                                    </div>
 
-                    <div id="game-div">
-
-                        <div id="player1" style={this.state.currentTurn === 1 ? styles.currentPlayer : styles.waitingPlayer}>
-                            <h3 id="player1-name">{this.state.playerOne.name}</h3>
-                            {this.state.currentTurn === 1 && playerNum === 1 ?
-                                (<ul>
-                                    <li onClick={() => this.playerChoice("Rock")}>Rock</li>
-                                    <li onClick={() => this.playerChoice("Paper")}>Paper</li>
-                                    <li onClick={() => this.playerChoice("Scissors")}>Scissors</li>
-                                </ul>) : ""}
-
-                            <div id="player1-chosen">
-                                {this.state.currentTurn === 3 ? playerOneData.choice : null}
-                            </div>
-
-                            <div className="outcomes">
-                                <div className="outcome-trackers" id="player1-wins">Wins: {this.state.playerOne.wins} </div>
-                                <div className="outcome-trackers" id="player1-losses"> Losses: {this.state.playerOne.losses}</div>
-                            </div>
-                        </div>
-
-                        <div id="result">
+                                    <div className="outcomes">
+                                        <div className="outcome-trackers" id="player1-wins">Wins: {this.state.playerOne.wins} </div>
+                                        <div className="outcome-trackers" id="player1-losses"> Losses: {this.state.playerOne.losses}</div>
+                                    </div>
+                                </div>
+                            </CardBody>
+                        </Card>
+                    </MDBCol>
+                    <MDBCol lg="4" className="d-flex justify-content-center my-1">
+                        <Card className="text-center" style={{ width: "22rem", height: "20rem" }}>
                             {whoWon(this.state.winner)}
-                        </div>
+                        </Card>
+                    </MDBCol>
+                    <MDBCol lg="4" className="d-flex justify-content-center my-1" >
+                        <Card style={{ width: "22rem", height: "20rem" }} border={this.state.currentTurn === 2 ? "success" : null}>
+                            <CardBody>
+                                <CardTitle className="text-center mb-1">{this.state.playerTwo.name}</CardTitle>
+                                <div className="text-center">
+                                    {this.state.currentTurn === 2 && playerNum === 2 ?
+                                        (<ul>
+                                            <li onClick={() => this.playerChoice("Rock")}><Img width="4rem" height="4rem" src={rock} /></li>
 
-                        <div id="player2" style={this.state.currentTurn === 2 ? styles.currentPlayer : styles.waitingPlayer}>
-                            <h3 id="player2-name">{this.state.playerTwo.name}</h3>
-                            {this.state.currentTurn === 2 && playerNum === 2 ?
-                                (<ul>
-                                    <li onClick={() => this.playerChoice("Rock")}>Rock</li>
-                                    <li onClick={() => this.playerChoice("Paper")}>Paper</li>
-                                    <li onClick={() => this.playerChoice("Scissors")}>Scissors</li>
-                                </ul>) : null}
-                            <div id="player2-chosen">
-                                {this.state.currentTurn === 3 ? playerTwoData.choice : null}
-                            </div>
-                            <div className="outcomes">
-                                <div className="outcome-trackers" id="player2-wins">Wins: {this.state.playerTwo.wins}</div>
-                                <div className="outcome-trackers" id="player2-losses">Losses: {this.state.playerTwo.losses}</div>
-                            </div>
-                        </div>
+                                            <li className="py-3" onClick={() => this.playerChoice("Paper")}><Img width="4rem" height="4rem" src={paper} /></li>
 
-                    </div>
+                                            <li onClick={() => this.playerChoice("Scissors")}><Img width="4rem" height="4rem" src={scissors} /></li>
+                                        </ul>) : null}
+                                    <div id="player2-chosen">
+                                        {this.state.currentTurn === 3 ? choiceImg(playerTwoData.choice) : null}
+                                    </div>
+                                    <div className="outcomes">
+                                        <div className="outcome-trackers" id="player2-wins">Wins: {this.state.playerTwo.wins}</div>
+                                        <div className="outcome-trackers" id="player2-losses">Losses: {this.state.playerTwo.losses}</div>
+                                    </div>
+                                </div>
+                            </CardBody>
+                        </Card>
+                    </MDBCol>
+                </MDBRow>
 
-
-                    <div id="chat">
-
+                <div id="chat" className="d-flex justify-content-center my-1">
+                    <div>
                         <div id="chat-messages" ref={chat => this.chat = chat}>
                             {this.state.chat.map(line => (
                                 <p className={'line-chat player' + line.idNum} key={line.keyId}><span>{line.name}</span>: {line.message}</p>
                             ))}
                         </div>
-
                         <div id="chat-bar">
                             <form onSubmit={this.messageSubmit}>
                                 <input id="chat-input"
@@ -590,9 +610,9 @@ class RPS extends Component {
                             </form >
                         </div>
                     </div>
-
                 </div>
-            </div>
+                </MDBContainer>
+            </MDBContainer>
         );
     }
 

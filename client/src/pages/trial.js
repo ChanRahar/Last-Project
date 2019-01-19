@@ -4,6 +4,7 @@ import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput, MDBIcon, 
 import firebase from "../firebase"
 import API from "../utils/API"
 import Header from "../components/Header";
+import Img from "../components/Img";
 
 
 const database = firebase.database();
@@ -11,6 +12,9 @@ const chatData = database.ref("/chat");
 const playersRef = database.ref("players");
 const currentTurnRef = database.ref("turn");
 const win = database.ref("win");
+const rock = "./images/rock.jpg"
+const paper = "./images/paper.jpg"
+const scissors = "./images/scissors.jpg"
 let playerRef = "";
 let currentPlayers = null;
 let username = "";
@@ -464,17 +468,35 @@ class RPS extends Component {
             if (winner === "Tie") {
                 return <h1>{winner} Game!!!</h1>;
             } else if (winner !== null) {
-                return <h1>{winner} Win!!!</h1>;
+                return <h1><Img
+                width="15rem"
+                height="15rem"
+                src="https://thumbs.gfycat.com/DescriptiveMassiveFugu-max-1mb.gif"
+            />{winner}</h1>;
             } else {
-                return <img style={{ width: "22rem", height: "20rem" }}
-                    className="img-fluid"
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Rock-paper-scissors.svg/300px-Rock-paper-scissors.svg.png"
-                />
+                return (
+                    <Img
+                        width="22rem"
+                        height="20rem"
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Rock-paper-scissors.svg/300px-Rock-paper-scissors.svg.png"
+                    />
+                )
+            }
+        }
+
+        const choiceImg = (choice) => {
+            if (choice === "Rock") {
+                return <Img width = "10rem" height = "10rem" src={rock} />
+            } else if (choice === "Paper") {
+                return <Img width = "10rem" height = "10rem" src={paper} />
+            } else if (choice === "Scissors") {
+                return <Img width = "10rem" height = "10rem" src={scissors} />
             }
         }
 
         return (
             <MDBContainer>
+                <br/>
                 <Header>
                     RPS Online
                 </Header>
@@ -504,58 +526,54 @@ class RPS extends Component {
                     <MDBCol lg="4" className="d-flex justify-content-center my-1" >
                         <Card style={{ width: "22rem", height: "20rem" }} border={this.state.currentTurn === 1 ? "success" : null}>
                             <CardBody>
-                                <CardTitle className="text-center">{this.state.playerOne.name}</CardTitle>
-                                <CardText className="text-center">
-                                    {this.state.currentTurn === 1 && playerNum === 1 ?
-                                        (<ul>
-                                            <li onClick={() => this.playerChoice("Rock")}><img style ={{ width: "4rem", height: "4rem" }} src="./images/rock.jpg"/></li>
-                                            <br />
-                                            <li onClick={() => this.playerChoice("Paper")}><img style ={{ width: "4rem", height: "4rem" }} src="./images/paper.jpg"/></li>
-                                            <br />
-                                            <li onClick={() => this.playerChoice("Scissors")}><img style ={{ width: "4rem", height: "4rem" }} src="./images/scissor.jpg"/></li>
-                                            <br />
-                                        </ul>) : ""}
+                                <CardTitle className="text-center mb-1">{this.state.playerOne.name}</CardTitle>
+                                <div className="text-center">
+                                    
+                                        <ul>
+                                            <li onClick={() => this.playerChoice("Rock")}><Img width="4rem" height="4rem" src={rock} /></li>
+
+                                            <li className="py-3" onClick={() => this.playerChoice("Paper")}><Img width="4rem" height="4rem" src={paper} /></li>
+
+                                            <li onClick={() => this.playerChoice("Scissors")}><Img width="4rem" height="4rem" src={scissors} /></li>
+                                        </ul>
 
                                     <div id="player1-chosen">
-                                        {this.state.currentTurn === 3 ? playerOneData.choice : null}
+                                        {this.state.currentTurn === 3 ? choiceImg(playerOneData.choice) : null}
                                     </div>
 
                                     <div className="outcomes">
                                         <div className="outcome-trackers" id="player1-wins">Wins: {this.state.playerOne.wins} </div>
                                         <div className="outcome-trackers" id="player1-losses"> Losses: {this.state.playerOne.losses}</div>
                                     </div>
-                                </CardText>
+                                </div>
                             </CardBody>
                         </Card>
                     </MDBCol>
                     <MDBCol lg="4" className="d-flex justify-content-center my-1">
                         <Card className="text-center" style={{ width: "22rem", height: "20rem" }}>
-                            <CardText>
                                 {whoWon(this.state.winner)}
-                            </CardText>
                         </Card>
                     </MDBCol>
                     <MDBCol lg="4" className="d-flex justify-content-center my-1" >
                         <Card style={{ width: "22rem", height: "20rem" }} border={this.state.currentTurn === 2 ? "success" : null}>
                             <CardBody>
-                                <CardTitle className="text-center">{this.state.playerTwo.name}</CardTitle>
-                                <CardText className="text-center">
-                                    {this.state.currentTurn === 2 && playerNum === 2 ?
-                                        (<ul>
-                                            <li onClick={() => this.playerChoice("Rock")}><img style ={{ width: "4rem", height: "4rem" }} src="./images/rock.jpg"/></li>
-                                            <br />
-                                            <li onClick={() => this.playerChoice("Paper")}><img style ={{ width: "4rem", height: "4rem" }} src="./images/paper.jpg"/></li>
-                                            <br />
-                                            <li onClick={() => this.playerChoice("Scissors")}><img style ={{ width: "4rem", height: "4rem" }} src="./images/scissor.jpg"/></li>
-                                        </ul>) : null}
+                                <CardTitle className="text-center mb-1">{this.state.playerTwo.name}</CardTitle>
+                                <div className="text-center">
+                                   <ul>
+                                            <li onClick={() => this.playerChoice("Rock")}><Img width="4rem" height="4rem" src={rock} /></li>
+
+                                            <li className="py-3" onClick={() => this.playerChoice("Paper")}><Img width="4rem" height="4rem" src={paper} /></li>
+
+                                            <li onClick={() => this.playerChoice("Scissors")}><Img width="4rem" height="4rem" src={scissors} /></li>
+                                        </ul>
                                     <div id="player2-chosen">
-                                        {this.state.currentTurn === 3 ? playerTwoData.choice : null}
+                                        {this.state.currentTurn === 3 ? choiceImg(playerTwoData.choice) : null}
                                     </div>
                                     <div className="outcomes">
                                         <div className="outcome-trackers" id="player2-wins">Wins: {this.state.playerTwo.wins}</div>
                                         <div className="outcome-trackers" id="player2-losses">Losses: {this.state.playerTwo.losses}</div>
                                     </div>
-                                </CardText>
+                                </div>
                             </CardBody>
                         </Card>
                     </MDBCol>
