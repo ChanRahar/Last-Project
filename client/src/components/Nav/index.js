@@ -1,103 +1,60 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import "./style.css";
+import { Navbar, NavbarBrand, NavbarNav, NavItem, NavLink, NavbarToggler, Collapse, Dropdown, DropdownToggle, DropdownMenu,  DropdownItem, Fa } from "mdbreact";
+import API from "../../utils/API"
 
-function Nav(props) {
-  return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-      <Link className="navbar-brand" to="/">
-        Online RPS
-    </Link>
-      <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span className="navbar-toggler-icon"></span>
-      </button>
-      <div className="collapse navbar-collapse" id="navbarNav">
-        <ul className="navbar-nav">
-          <li className="nav-item">
-            <Link
-              to="/"
-              className={
-                window.location.pathname === "/"
-                  ? "nav-link active"
-                  : "nav-link"
-              }
-            >
-              Main
-          </Link>
-          </li>
-          <li className="nav-item">
+class NavbarPage extends React.Component {
+  state = {
+    isOpen: false
+  };
 
-            <a
-              href="/RPS"
-              className={
-                window.location.pathname === "/RPS"
-                  ? "nav-link active"
-                  : "nav-link"
-              }
-            >
-              RPS
-          </a>
-          </li>
-        </ul>
-      </div>
+  toggleCollapse = () => this.setState({ isOpen: !this.state.isOpen });
 
-      <ul className="navbar-nav nav justify-content-end" >
-        <li className="nav-item nav-left">
-          <Link
-            to="/Leader_Board"
-            className={
-              window.location.pathname === "/Leader_Board"
-                ? "nav-link active"
-                : "nav-link"
-            }
-          >
-            Leader Board
-          </Link>
-        </li>
-        <li className="nav-item nav-left">
-          <Link
-            to="/Login"
-            className={
-              window.location.pathname === "/Login"
-                ? "nav-link active"
-                : "nav-link"
-            }
-          >
-            Login
-          </Link>
-        </li>
-        <li className="nav-item nav-left">
-          <Link
-            to="/SignUp"
-            className={
-              window.location.pathname === "/SignUp"
-                ? "nav-link active"
-                : "nav-link"
-            }
-          >
-            Sign Up
-          </Link>
-        </li>
-        <li className="nav-item">
+  logout = () =>  {
+    console.log("clicked")
+   API.logout()
+   .then(window.location.href = "/")
+   .catch(err => console.log(err));
+ }
 
-          <div id="logout"
-            className={
-              window.location.pathname === "/SignUp"
-                ? "nav-link active"
-                : "nav-link"
-            }
-            onClick={props.onClick}
-
-          >
-            Logout
-        </div>
-        </li>
-        <li className="nav-item">
-          {props.children}
-        </li>
-      </ul>
-    </nav>
-  );
+  render() {
+    return (
+      <Navbar color="default-color" dark expand="md" style={{marginTop: "20px"}}>
+          <NavbarBrand>
+            <strong className="white-text">Online RPS</strong>
+          </NavbarBrand>
+          <NavbarToggler
+            onClick={this.toggleCollapse}
+          />
+          <Collapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
+            <NavbarNav left>
+              <NavItem>
+                <NavLink to="/">Home</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink to="/RPS">RPS</NavLink>
+              </NavItem>
+            </NavbarNav>
+            <NavbarNav right>
+              <NavItem>
+                <NavLink className="waves-effect waves-light" to="/Leader_Board">Leader Board</NavLink>
+              </NavItem>
+              <NavItem>
+                <Dropdown>
+                  <DropdownToggle nav caret>
+                    <Fa icon="user" />
+                  </DropdownToggle>
+                  <DropdownMenu className="dropdown-default" right>
+                    <DropdownItem href="/Login">Login</DropdownItem>
+                    <DropdownItem href="/SignUp">Sign up</DropdownItem>
+                    <DropdownItem href="/Logout">Log Out</DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </NavItem>
+            </NavbarNav>
+          </Collapse>
+      </Navbar>
+    );
+  }
 }
 
-export default Nav;
+export default NavbarPage;
