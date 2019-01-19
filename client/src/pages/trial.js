@@ -466,7 +466,7 @@ class RPS extends Component {
             } else if (winner !== null) {
                 return <h1>{winner} Win!!!</h1>;
             } else {
-                return <CardImage style={{ width: "22rem", height: "20rem" }}
+                return <img style={{ width: "22rem", height: "20rem" }}
                     className="img-fluid"
                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Rock-paper-scissors.svg/300px-Rock-paper-scissors.svg.png"
                 />
@@ -476,19 +476,19 @@ class RPS extends Component {
         return (
             <MDBContainer>
                 <Header>
-                    Play RPS Online
-              </Header>
+                    RPS Online
+                </Header>
                 <MDBRow>
                     <MDBCol className="d-flex justify-content-center">
                         {playerNum === null ? (
                             <form onSubmit={this.nameSubmit}>
 
-                                <input className={this.state.loggedIn === true ? "invisible form-control" : "visible form-control"}
+                                <input className={this.state.loggedIn === true ? "invisible" : "visible text-center"}
                                     id="username"
                                     name="username"
                                     ref={(input) => { this.username = input }}
                                     type="input"
-                                    placeholder="Name"
+                                    placeholder="Enter Name"
                                 />
                                 <div className="text-center">
                                     <MDBBtn color="unique" type="submit">Start</MDBBtn>
@@ -508,9 +508,12 @@ class RPS extends Component {
                                 <CardText className="text-center">
                                     {this.state.currentTurn === 1 && playerNum === 1 ?
                                         (<ul>
-                                            <li onClick={() => this.playerChoice("Rock")}>Rock</li>
-                                            <li onClick={() => this.playerChoice("Paper")}>Paper</li>
-                                            <li onClick={() => this.playerChoice("Scissors")}>Scissors</li>
+                                            <li onClick={() => this.playerChoice("Rock")}><img style ={{ width: "4rem", height: "4rem" }} src="./images/rock.jpg"/></li>
+                                            <br />
+                                            <li onClick={() => this.playerChoice("Paper")}><img style ={{ width: "4rem", height: "4rem" }} src="./images/paper.jpg"/></li>
+                                            <br />
+                                            <li onClick={() => this.playerChoice("Scissors")}><img style ={{ width: "4rem", height: "4rem" }} src="./images/scissor.jpg"/></li>
+                                            <br />
                                         </ul>) : ""}
 
                                     <div id="player1-chosen">
@@ -539,9 +542,11 @@ class RPS extends Component {
                                 <CardText className="text-center">
                                     {this.state.currentTurn === 2 && playerNum === 2 ?
                                         (<ul>
-                                            <li onClick={() => this.playerChoice("Rock")}>Rock</li>
-                                            <li onClick={() => this.playerChoice("Paper")}>Paper</li>
-                                            <li onClick={() => this.playerChoice("Scissors")}>Scissors</li>
+                                            <li onClick={() => this.playerChoice("Rock")}><img style ={{ width: "4rem", height: "4rem" }} src="./images/rock.jpg"/></li>
+                                            <br />
+                                            <li onClick={() => this.playerChoice("Paper")}><img style ={{ width: "4rem", height: "4rem" }} src="./images/paper.jpg"/></li>
+                                            <br />
+                                            <li onClick={() => this.playerChoice("Scissors")}><img style ={{ width: "4rem", height: "4rem" }} src="./images/scissor.jpg"/></li>
                                         </ul>) : null}
                                     <div id="player2-chosen">
                                         {this.state.currentTurn === 3 ? playerTwoData.choice : null}
