@@ -467,7 +467,7 @@ class RPS extends Component {
                 return <h1>{winner} Win!!!</h1>;
             } else {
                 return <CardImage style={{ width: "22rem", height: "20rem" }}
-                    // className="img-fluid"
+                    className="img-fluid"
                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Rock-paper-scissors.svg/300px-Rock-paper-scissors.svg.png"
                 />
             }

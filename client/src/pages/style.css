@@ -184,7 +184,7 @@ body {
     /* position: relative; */
   
     /* Box-model */
-  
+    max-width:100%;
     height: 170px;
   
     /* Visual */
@@ -196,8 +196,8 @@ body {
     /* Box-model */
     height: 125px;
     overflow-y: scroll;
-   
-    max-width:500px;
+/*    
+    max-width:650px; */
   
     /* Visual */
     background-color: #fffcf7;
