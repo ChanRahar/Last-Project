@@ -466,7 +466,7 @@ class RPS extends Component {
             } else if (winner !== null) {
                 return <h1>{winner} Win!!!</h1>;
             } else {
-                return <CardImage style={{ width: "17rem", height: "15rem" }}
+                return <CardImage style={{ width: "22rem", height: "20rem" }}
                     // className="img-fluid"
                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Rock-paper-scissors.svg/300px-Rock-paper-scissors.svg.png"
                 />
@@ -502,7 +502,7 @@ class RPS extends Component {
                 <br />
                 <MDBRow>
                     <MDBCol lg="4" className="d-flex justify-content-center my-1" >
-                        <Card style={{ width: "17rem", height: "15rem" }} border={this.state.currentTurn === 1 ? "success" : null}>
+                        <Card style={{ width: "22rem", height: "20rem" }} border={this.state.currentTurn === 1 ? "success" : null}>
                             <CardBody>
                                 <CardTitle className="text-center">{this.state.playerOne.name}</CardTitle>
                                 <CardText className="text-center">
@@ -526,14 +526,14 @@ class RPS extends Component {
                         </Card>
                     </MDBCol>
                     <MDBCol lg="4" className="d-flex justify-content-center my-1">
-                        <Card className="text-center" style={{ width: "17rem", height: "15rem" }}>
+                        <Card className="text-center" style={{ width: "22rem", height: "20rem" }}>
                             <CardText>
                                 {whoWon(this.state.winner)}
                             </CardText>
                         </Card>
                     </MDBCol>
                     <MDBCol lg="4" className="d-flex justify-content-center my-1" >
-                        <Card style={{ width: "17rem", height: "15rem" }} border={this.state.currentTurn === 2 ? "success" : null}>
+                        <Card style={{ width: "22rem", height: "20rem" }} border={this.state.currentTurn === 2 ? "success" : null}>
                             <CardBody>
                                 <CardTitle className="text-center">{this.state.playerTwo.name}</CardTitle>
                                 <CardText className="text-center">

@@ -44,9 +44,9 @@ class NavbarPage extends React.Component {
                     <Fa icon="user" />
                   </DropdownToggle>
                   <DropdownMenu className="dropdown-default" right>
-                    <DropdownItem href="/Login">Login</DropdownItem>
-                    <DropdownItem href="/SignUp">Sign up</DropdownItem>
-                    <DropdownItem href="/Logout">Log Out</DropdownItem>
+                    <DropdownItem href="/Login">Sign In</DropdownItem>
+                    <DropdownItem href="/SignUp">Sign Up</DropdownItem>
+                    <DropdownItem href="/Signout">Sign Out</DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
               </NavItem>
