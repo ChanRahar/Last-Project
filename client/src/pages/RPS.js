@@ -536,7 +536,7 @@ class RPS extends Component {
                 </MDBRow>
                 <br />
                 <MDBRow>
-                    <MDBCol lg="4" className="d-flex justify-content-center my-1" >
+                    <MDBCol xl="4" className="d-flex justify-content-center my-1" >
                         <Card style={{ width: "22rem", height: "20rem" }} border={this.state.currentTurn === 1 ? "success" : null}>
                             <CardBody>
                                 <CardTitle className="text-center mb-1">{this.state.playerOne.name}</CardTitle>
@@ -562,12 +562,12 @@ class RPS extends Component {
                             </CardBody>
                         </Card>
                     </MDBCol>
-                    <MDBCol lg="4" className="d-flex justify-content-center my-1">
+                    <MDBCol xl="4" className="d-flex justify-content-center my-1">
                         <Card className="text-center" style={{ width: "22rem", height: "20rem" }}>
                             {whoWon(this.state.winner)}
                         </Card>
                     </MDBCol>
-                    <MDBCol lg="4" className="d-flex justify-content-center my-1" >
+                    <MDBCol xl="4" className="d-flex justify-content-center my-1" >
                         <Card style={{ width: "22rem", height: "20rem" }} border={this.state.currentTurn === 2 ? "success" : null}>
                             <CardBody>
                                 <CardTitle className="text-center mb-1">{this.state.playerTwo.name}</CardTitle>
