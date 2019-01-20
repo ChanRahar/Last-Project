@@ -5,11 +5,8 @@ import Img from "../components/Img";
 import "./style.css";
 
 const styles = {
-    currentPlayer: {
-        background: "#e4f0d0"
-    },
-    waitingPlayer: {
-        border: "1px solid black"
+    background: {
+        backgroundColor: "rgba(52, 52, 52, 0)"
     }
 }
 
@@ -18,14 +15,13 @@ class Main extends Component {
 
     render() {
         return (
-            <div style={styles.currentPlayer}>
+            <div style={styles.background}>
                 <Jumbotron />
                 <MDBContainer>
                     <MDBRow>
                         <MDBCol className="d-flex justify-content-center">
                             <Card style={{ width: "30rem" }}>
                                 <Img
-
                                     src="./images/RPS.PNG"
                                     waves
                                 />

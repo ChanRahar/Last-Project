@@ -19,17 +19,14 @@ class NavbarPage extends React.Component {
   render() {
     return (
       <Navbar color="default-color" dark expand="md" style={{marginTop: "20px"}}>
-          <NavbarBrand>
-            <strong className="white-text">Online RPS</strong>
+          <NavbarBrand href="/">
+            <strong className="white-text">RPS Game</strong>
           </NavbarBrand>
           <NavbarToggler
             onClick={this.toggleCollapse}
           />
           <Collapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
             <NavbarNav left>
-              <NavItem>
-                <NavLink to="/">Home</NavLink>
-              </NavItem>
             </NavbarNav>
             <NavbarNav right>
               <NavItem>
@@ -38,7 +35,7 @@ class NavbarPage extends React.Component {
               <NavItem>
                 <Dropdown>
                   <DropdownToggle nav caret>
-                    <Fa icon="user" />
+                  Account <Fa icon="user" />
                   </DropdownToggle>
                   <DropdownMenu className="dropdown-default" right>
                     <DropdownItem href="/Login">Sign In</DropdownItem>

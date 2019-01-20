@@ -5,12 +5,9 @@ import Table from "../components/Table";
 import API from "../utils/API"
 
 const styles = {
-    currentPlayer: {
-        background: "#e4f0d0"
+    background: {
+        background: "white"
     },
-    waitingPlayer: {
-        border: "1px solid black"
-    }
 }
 
 class LeaderBoard extends Component {
@@ -74,7 +71,7 @@ class LeaderBoard extends Component {
 
     render() {
         return (
-            <MDBContainer>
+            <MDBContainer style = {styles.background}>
                 <Header>
                     Leader Board
               </Header>
