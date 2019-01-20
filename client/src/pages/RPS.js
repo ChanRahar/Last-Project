@@ -468,12 +468,12 @@ class RPS extends Component {
             if (winner === "Tie") {
                 return (
                     <Animation type="fadeIn">
-                    <Img
-                    width="17rem"
-                    height="17rem"
-                    src="http://www.vestaretailerawards.com/wp-content/uploads/2016/10/no-winner.jpg"
-                />
-                </Animation>
+                        <Img
+                            width="17rem"
+                            height="17rem"
+                            src="http://www.vestaretailerawards.com/wp-content/uploads/2016/10/no-winner.jpg"
+                        />
+                    </Animation>
                 )
             } else if (winner !== null) {
                 return (
@@ -489,8 +489,8 @@ class RPS extends Component {
             } else {
                 return (
                     <Img
-                        width="22rem"
-                        height="20rem"
+                        width="21rem"
+                        height="19rem"
                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Rock-paper-scissors.svg/300px-Rock-paper-scissors.svg.png"
                     />
                 )
@@ -513,104 +513,104 @@ class RPS extends Component {
                     RPS Online
                 </Header>
                 <MDBContainer>
-                <MDBRow>
-                    <MDBCol className="d-flex justify-content-center">
-                        {playerNum === null ? (
-                            <form onSubmit={this.nameSubmit}>
+                    <MDBRow>
+                        <MDBCol className="d-flex justify-content-center">
+                            {playerNum === null ? (
+                                <form onSubmit={this.nameSubmit}>
 
-                                <input className={this.state.loggedIn === true ? "invisible" : "visible text-center"}
-                                    id="username"
-                                    name="username"
-                                    ref={(input) => { this.username = input }}
-                                    type="input"
-                                    placeholder="Enter Name"
-                                />
-                                <div className="text-center">
-                                    <MDBBtn color="unique" type="submit">Start</MDBBtn>
-                                </div>
-
-                            </form>
-                        ) : (<h2 className="text-center">Hi {this.state.username}! You are Player {playerNum}</h2>)
-                        }
-                    </MDBCol>
-                </MDBRow>
-                <br />
-                <MDBRow>
-                    <MDBCol xl="4" className="d-flex justify-content-center my-1" >
-                        <Card style={{ width: "22rem", height: "20rem" }} border={this.state.currentTurn === 1 ? "success" : null}>
-                            <CardBody>
-                                <CardTitle className="text-center mb-1">{this.state.playerOne.name}</CardTitle>
-                                <div className="text-center">
-                                    {this.state.currentTurn === 1 && playerNum === 1 ?
-                                        (<ul>
-                                            <li onClick={() => this.playerChoice("Rock")}><Img width="4rem" height="4rem" src={rock} /></li>
-
-                                            <li className="py-3" onClick={() => this.playerChoice("Paper")}><Img width="4rem" height="4rem" src={paper} /></li>
-
-                                            <li onClick={() => this.playerChoice("Scissors")}><Img width="4rem" height="4rem" src={scissors} /></li>
-                                        </ul>) : ""}
-
-                                    <div id="player1-chosen">
-                                        {this.state.currentTurn === 3 ? choiceImg(playerOneData.choice) : null}
+                                    <input className={this.state.loggedIn === true ? "invisible" : "visible text-center"}
+                                        id="username"
+                                        name="username"
+                                        ref={(input) => { this.username = input }}
+                                        type="input"
+                                        placeholder="Enter Name"
+                                    />
+                                    <div className="text-center">
+                                        <MDBBtn color="unique" type="submit">Start</MDBBtn>
                                     </div>
 
-                                    <div className="outcomes">
-                                        <div className="outcome-trackers" id="player1-wins">Wins: {this.state.playerOne.wins} </div>
-                                        <div className="outcome-trackers" id="player1-losses"> Losses: {this.state.playerOne.losses}</div>
-                                    </div>
-                                </div>
-                            </CardBody>
-                        </Card>
-                    </MDBCol>
-                    <MDBCol xl="4" className="d-flex justify-content-center my-1">
-                        <Card className="text-center" style={{ width: "22rem", height: "20rem" }}>
-                            {whoWon(this.state.winner)}
-                        </Card>
-                    </MDBCol>
-                    <MDBCol xl="4" className="d-flex justify-content-center my-1" >
-                        <Card style={{ width: "22rem", height: "20rem" }} border={this.state.currentTurn === 2 ? "success" : null}>
-                            <CardBody>
-                                <CardTitle className="text-center mb-1">{this.state.playerTwo.name}</CardTitle>
-                                <div className="text-center">
-                                    {this.state.currentTurn === 2 && playerNum === 2 ?
-                                        (<ul>
-                                            <li onClick={() => this.playerChoice("Rock")}><Img width="4rem" height="4rem" src={rock} /></li>
+                                </form>
+                            ) : (<h2 className="text-center">Hi {this.state.username}! You are Player {playerNum}</h2>)
+                            }
+                        </MDBCol>
+                    </MDBRow>
+                    <br />
+                    <MDBRow>
+                        <MDBCol xl="4" className="d-flex justify-content-center my-1" >
+                            <Card style={{ width:"21rem", height: "19rem" }} border={this.state.currentTurn === 1 ? "success" : null}>
+                                <CardBody>
+                                    <CardTitle className="text-center mb-1">{this.state.playerOne.name}</CardTitle>
+                                    <div className="text-center">
+                                        {this.state.currentTurn === 1 && playerNum === 1 ?
+                                            (<ul>
+                                                <li onClick={() => this.playerChoice("Rock")}><Img width="4rem" height="4rem" src={rock} /></li>
 
-                                            <li className="py-3" onClick={() => this.playerChoice("Paper")}><Img width="4rem" height="4rem" src={paper} /></li>
+                                                <li className="py-3" onClick={() => this.playerChoice("Paper")}><Img width="4rem" height="4rem" src={paper} /></li>
 
-                                            <li onClick={() => this.playerChoice("Scissors")}><Img width="4rem" height="4rem" src={scissors} /></li>
-                                        </ul>) : null}
-                                    <div id="player2-chosen">
-                                        {this.state.currentTurn === 3 ? choiceImg(playerTwoData.choice) : null}
-                                    </div>
-                                    <div className="outcomes">
-                                        <div className="outcome-trackers" id="player2-wins">Wins: {this.state.playerTwo.wins}</div>
-                                        <div className="outcome-trackers" id="player2-losses">Losses: {this.state.playerTwo.losses}</div>
-                                    </div>
-                                </div>
-                            </CardBody>
-                        </Card>
-                    </MDBCol>
-                </MDBRow>
+                                                <li onClick={() => this.playerChoice("Scissors")}><Img width="4rem" height="4rem" src={scissors} /></li>
+                                            </ul>) : ""}
 
-                <div id="chat" className="d-flex justify-content-center my-1">
-                    <div>
-                        <div id="chat-messages" ref={chat => this.chat = chat}>
-                            {this.state.chat.map(line => (
-                                <p className={'line-chat player' + line.idNum} key={line.keyId}><span>{line.name}</span>: {line.message}</p>
-                            ))}
-                        </div>
-                        <div id="chat-bar">
-                            <form onSubmit={this.messageSubmit}>
-                                <input id="chat-input"
-                                    name="message"
-                                    ref={(input) => { this.message = input }}
-                                    type="input" />
-                                <button id="chat-send" type="submit">Send</button>
-                            </form >
+                                        <div id="player1-chosen">
+                                            {this.state.currentTurn === 3 ? choiceImg(playerOneData.choice) : null}
+                                        </div>
+
+                                        <div className="outcomes">
+                                            <div className="outcome-trackers" id="player1-wins">Wins: {this.state.playerOne.wins} </div>
+                                            <div className="outcome-trackers" id="player1-losses"> Losses: {this.state.playerOne.losses}</div>
+                                        </div>
+                                    </div>
+                                </CardBody>
+                            </Card>
+                        </MDBCol>
+                        <MDBCol xl="4" className="d-flex justify-content-center my-1">
+                            <Card className="text-center" style={{ width:"21rem", height: "19rem" }}>
+                                {whoWon(this.state.winner)}
+                            </Card>
+                        </MDBCol>
+                        <MDBCol xl="4" className="d-flex justify-content-center my-1" >
+                            <Card style={{ width:"21rem", height: "19rem" }} border={this.state.currentTurn === 2 ? "success" : null}>
+                                <CardBody>
+                                    <CardTitle className="text-center mb-1">{this.state.playerTwo.name}</CardTitle>
+                                    <div className="text-center">
+                                        {this.state.currentTurn === 2 && playerNum === 2 ?
+                                            (<ul>
+                                                <li onClick={() => this.playerChoice("Rock")}><Img width="4rem" height="4rem" src={rock} /></li>
+
+                                                <li className="py-3" onClick={() => this.playerChoice("Paper")}><Img width="4rem" height="4rem" src={paper} /></li>
+
+                                                <li onClick={() => this.playerChoice("Scissors")}><Img width="4rem" height="4rem" src={scissors} /></li>
+                                            </ul>) : null}
+                                        <div id="player2-chosen">
+                                            {this.state.currentTurn === 3 ? choiceImg(playerTwoData.choice) : null}
+                                        </div>
+                                        <div className="outcomes">
+                                            <div className="outcome-trackers" id="player2-wins">Wins: {this.state.playerTwo.wins}</div>
+                                            <div className="outcome-trackers" id="player2-losses">Losses: {this.state.playerTwo.losses}</div>
+                                        </div>
+                                    </div>
+                                </CardBody>
+                            </Card>
+                        </MDBCol>
+                    </MDBRow>
+
+                    <div id="chat" className="d-flex justify-content-center my-1">
+                        <div>
+                            <div id="chat-messages" ref={chat => this.chat = chat}>
+                                {this.state.chat.map(line => (
+                                    <p className={'line-chat player' + line.idNum} key={line.keyId}><span>{line.name}</span>: {line.message}</p>
+                                ))}
+                            </div>
+                            <div id="chat-bar">
+                                <form onSubmit={this.messageSubmit}>
+                                    <input id="chat-input"
+                                        name="message"
+                                        ref={(input) => { this.message = input }}
+                                        type="input" />
+                                    <button id="chat-send" type="submit">Send</button>
+                                </form >
+                            </div>
                         </div>
                     </div>
-                </div>
                 </MDBContainer>
             </MDBContainer>
         );
