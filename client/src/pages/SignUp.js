@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput, MDBIcon } from 'mdbreact';
+import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput, MDBBtn, MDBIcon, MDBModalFooter} from 'mdbreact';
 import API from "../utils/API"
 
 class Signup extends Component {
@@ -20,7 +20,7 @@ class Signup extends Component {
     });
   };
 
-  handleFormSubmit = event => {
+  handleSignUp = event => {
     // Preventing the default behavior of the form submit (which is to refresh the page)
     event.preventDefault();
 
@@ -51,7 +51,7 @@ class Signup extends Component {
         <MDBRow className="pt-3">
           <MDBCol className="d-flex justify-content-center">
             <MDBCard>
-              <form onSubmit={this.handleFormSubmit}>
+              <form onSubmit={this.handleSignUp}>
                 <MDBCardBody className="mx-4">
                   <div className="text-center">
                     <h3 className="pink-text mb-5">

@@ -12,6 +12,7 @@ const styles = {
 
 class Main extends Component {
 
+    
 
     render() {
         return (
@@ -32,7 +33,7 @@ class Main extends Component {
                                             <Button href="/RPS">Single Player</Button>
                                         </MDBCol>
                                         <MDBCol className="d-flex justify-content-center">
-                                            <Button href="/RPS">Online 2 Players</Button>
+                                            <Button href="/RPS_Online">Online 2 Players</Button>
                                         </MDBCol>
                                     </MDBRow>
 

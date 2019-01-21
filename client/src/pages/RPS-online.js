@@ -32,9 +32,6 @@ const styles = {
     currentPlayer: {
         background: "#e4f0d0"
     },
-    waitingPlayer: {
-        border: "1px solid black"
-    }
 }
 
 class RPS extends Component {
@@ -545,7 +542,7 @@ class RPS extends Component {
                                             (<ul>
                                                 <li onClick={() => this.playerChoice("Rock")}><Img width="4rem" height="4rem" src={rock} /></li>
 
-                                                <li className="py-3" onClick={() => this.playerChoice("Paper")}><Img width="4rem" height="4rem" src={paper} /></li>
+                                                <li className="py-2" onClick={() => this.playerChoice("Paper")}><Img width="4rem" height="4rem" src={paper} /></li>
 
                                                 <li onClick={() => this.playerChoice("Scissors")}><Img width="4rem" height="4rem" src={scissors} /></li>
                                             </ul>) : ""}
@@ -576,7 +573,7 @@ class RPS extends Component {
                                             (<ul>
                                                 <li onClick={() => this.playerChoice("Rock")}><Img width="4rem" height="4rem" src={rock} /></li>
 
-                                                <li className="py-3" onClick={() => this.playerChoice("Paper")}><Img width="4rem" height="4rem" src={paper} /></li>
+                                                <li className="py-2" onClick={() => this.playerChoice("Paper")}><Img width="4rem" height="4rem" src={paper} /></li>
 
                                                 <li onClick={() => this.playerChoice("Scissors")}><Img width="4rem" height="4rem" src={scissors} /></li>
                                             </ul>) : null}

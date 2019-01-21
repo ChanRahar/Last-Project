@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import RPS from "./pages/RPS"
+import RPSonline from "./pages/RPS-online"
 import Main from "./pages/Main"
 import Nav from "./components/Nav";
 import Login from "./pages/Login"
@@ -22,7 +22,7 @@ function App() {
           <Route exact path="/" component={Main} />
           <Route exact path="/SignUp" component={SignUp} />
           <Route exact path="/Login" component={Login} />
-          <Route exact path="/RPS" component={RPS} />
+          <Route exact path="/RPS_Online" component={RPSonline} />
           <Route exact path="/Leader_Board" component={LeaderBoard} />
           <Route exact path="/Signout" component={Logout} />
           <Route component={trial} />

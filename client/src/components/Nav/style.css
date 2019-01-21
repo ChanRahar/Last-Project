@@ -1,10 +1,5 @@
-nav.navbar {
-  margin-bottom: 0;
-  width:100%;
-  z-index:100;
-}
 
-#logout {
+.pointer {
   cursor: pointer;
 }
 
