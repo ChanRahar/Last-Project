@@ -88,7 +88,7 @@ class RPS extends Component {
         return (
             <MDBContainer fluid>
                 <Header>
-                    RPS vs Computer {this.state.computerGuess}
+                    RPS vs Computer
                 </Header>
                 <MDBContainer>
                     <MDBRow>
@@ -99,14 +99,12 @@ class RPS extends Component {
                                     {this.state.winner === null ?
                                         <ul>
                                             <li onClick={() => this.gameLogic("Rock")}>
-                                                {/* <div>Computer:</div> */}
                                                 <Img width="6.5rem" height="6.5rem" src={rock} />
                                             </li>
 
                                             <li className="py-2" onClick={() => this.gameLogic("Paper")}><Img width="6.5rem" height="6.5rem" src={paper} /></li>
 
                                             <li onClick={() => this.gameLogic("Scissors")}>
-                                                {/* <div>Player:</div> */}
                                                 <Img width="6.5rem" height="6.5rem" src={scissors} />
                                             </li>
                                         </ul>
