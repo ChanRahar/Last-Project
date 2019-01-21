@@ -29,7 +29,7 @@ const capitalize = (name) => {
 }
 
 const styles = {
-    currentPlayer: {
+    border: {
         background: "#e4f0d0"
     },
 }
@@ -59,6 +59,10 @@ class RPS extends Component {
 
     }
 
+    playerRef = () => {
+        this.node.scrollIntoView();
+    }
+
     chatDisplay = () => {
         chatData.orderByChild("time").on("child_added", (snapshot) => {
 
@@ -79,7 +83,7 @@ class RPS extends Component {
 
 
     componentDidMount() {
-
+        this.playerRef();
 
         API.signedIn()
             .then(response => {
@@ -505,7 +509,7 @@ class RPS extends Component {
         }
 
         return (
-            <MDBContainer fluid style={styles.currentPlayer}>
+            <MDBContainer fluid style={styles.border}>
                 <Header>
                     RPS Online
                 </Header>
@@ -534,7 +538,7 @@ class RPS extends Component {
                     <br />
                     <MDBRow>
                         <MDBCol xl="4" className="d-flex justify-content-center my-1" >
-                            <Card style={{ width:"21rem", height: "19rem" }} border={this.state.currentTurn === 1 ? "success" : null}>
+                            <Card style={{ width: "21rem", height: "19rem" }} border={this.state.currentTurn === 1 ? "success" : null}>
                                 <CardBody>
                                     <CardTitle className="text-center mb-1">{this.state.playerOne.name}</CardTitle>
                                     <div className="text-center">
@@ -560,12 +564,12 @@ class RPS extends Component {
                             </Card>
                         </MDBCol>
                         <MDBCol xl="4" className="d-flex justify-content-center my-1">
-                            <Card className="text-center" style={{ width:"21rem", height: "19rem" }}>
+                            <Card className="text-center" style={{ width: "21rem", height: "19rem" }}>
                                 {whoWon(this.state.winner)}
                             </Card>
                         </MDBCol>
                         <MDBCol xl="4" className="d-flex justify-content-center my-1" >
-                            <Card style={{ width:"21rem", height: "19rem" }} border={this.state.currentTurn === 2 ? "success" : null}>
+                            <Card style={{ width: "21rem", height: "19rem" }} border={this.state.currentTurn === 2 ? "success" : null}>
                                 <CardBody>
                                     <CardTitle className="text-center mb-1">{this.state.playerTwo.name}</CardTitle>
                                     <div className="text-center">
@@ -608,6 +612,7 @@ class RPS extends Component {
                             </div>
                         </div>
                     </div>
+                    <div ref={node => this.node = node} />
                 </MDBContainer>
             </MDBContainer>
         );
