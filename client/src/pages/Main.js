@@ -12,12 +12,14 @@ const styles = {
 
 class Main extends Component {
 
-    
+
 
     render() {
         return (
             <div style={styles.background}>
-                <Jumbotron />
+                <Jumbotron>
+                    Play RPS against Computer or Online
+                    </Jumbotron>
                 <MDBContainer>
                     <MDBRow>
                         <MDBCol className="d-flex justify-content-center">

@@ -1,149 +1,139 @@
 import React, { Component } from "react";
-import "./style.css";
 import { MDBContainer, MDBRow, MDBCol, Animation, MDBBtn, Card, CardBody, CardTitle } from 'mdbreact';
-import firebase from "../firebase"
-import API from "../utils/API"
 import Header from "../components/Header";
 import Img from "../components/Img";
 
-
-const database = firebase.database();
-const chatData = database.ref("/chat");
-const playersRef = database.ref("players");
-const currentTurnRef = database.ref("turn");
-const win = database.ref("win");
 const rock = "./images/rock.jpg"
 const paper = "./images/paper.jpg"
 const scissors = "./images/scissors.jpg"
-let playerRef = "";
-let currentPlayers = null;
-let username = "";
-let playerNum = null;
-let playerOneExists = false;
-let playerTwoExists = false;
-let playerOneData = null;
-let playerTwoData = null;
-
-const capitalize = (name) => {
-    return name.charAt(0).toUpperCase() + name.slice(1);
-}
+const computerChoices = ["Rock", "Paper", "Scissors"];
 
 class RPS extends Component {
 
     state = {
-        username: "",
-        chat: [],
-        currentTurn: null,
+        playerChoice: null,
+        computerGuess:computerChoices[Math.floor(Math.random() * computerChoices.length)],
+
         winner: null,
-        loggedIn: false,
+        wins: 0,
+        losses: 0,
+    }
 
+    gameLogic = (playerChoice) => {
 
-        playerOne: {
-            name: "Waiting for Player 1",
-            wins: 0,
-            losses: 0,
-        },
+        this.setState({playerChoice: playerChoice});
 
-        playerTwo: {
-            name: "Waiting for Player 2",
-            wins: 0,
-            losses: 0,
+        if (playerChoice === "Rock" && this.state.computerGuess === "Rock") {
+            this.setState({ winner: "tie" });
+        }
+        else if (playerChoice === "Paper" && this.state.computerGuess === "Paper") {
+            this.setState({ winner: "tie" });
+        }
+        else if (playerChoice === "Scissors" && this.state.computerGuess === "Scissors") {
+            this.setState({ winner: "tie" });
+        }
+        else if (playerChoice === "Rock" && this.state.computerGuess === "Paper") {
+            this.setState({ winner: "lose", losses:this.state.losses + 1 });
+        }
+        else if (playerChoice === "Rock" && this.state.computerGuess === "Scissors") {
+            this.setState({ winner: "win", wins:this.state.wins + 1 });;
+        }
+        else if (playerChoice === "Paper" && this.state.computerGuess === "Rock") {
+            this.setState({ winner: "win", wins:this.state.wins + 1 });;
+        }
+        else if (playerChoice === "Paper" && this.state.computerGuess === "Scissors") {
+            this.setState({ winner: "lose", losses:this.state.losses + 1 });
+        }
+        else if (playerChoice === "Scissors" && this.state.computerGuess === "Rock") {
+            this.setState({ winner: "lose", losses:this.state.losses + 1 });
+        }
+        else if (playerChoice === "Scissors" && this.state.computerGuess === "Paper") {
+            this.setState({ winner: "win", wins:this.state.wins + 1 });;
         }
 
+        const reset = () => {
+            this.setState({winner: null, computerGuess:computerChoices[Math.floor(Math.random() * computerChoices.length)]});
+        }
 
+        setTimeout(reset, 1000 * 3);
     }
 
-    playerChoice(choice) {
+  
 
-        let clickChoice = choice;
-
-        playerRef.child("choice").set(clickChoice);
-
-        currentTurnRef.transaction((turn) => {
-            return turn + 1;
-
-        });
-    }
 
     render() {
 
-        const whoWon = (winner) => {
-            if (winner === "Tie") {
-                return (
-                    <Animation type="fadeIn">
-                        <Img
-                            width="17rem"
-                            height="17rem"
-                            src="http://www.vestaretailerawards.com/wp-content/uploads/2016/10/no-winner.jpg"
-                        />
-                    </Animation>
-                )
-            } else if (winner !== null) {
-                return (
-                    <div>
-                        <Img
-                            width="15rem"
-                            height="15rem"
-                            src="https://thumbs.gfycat.com/DescriptiveMassiveFugu-max-1mb.gif"
-                        />
-                        <h1>
-                            {winner}
-                        </h1>
-                    </div>
-                )
-            } else {
-                return (
-                    <Img
-                        width="29rem"
-                        height="27rem"
-                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Rock-paper-scissors.svg/300px-Rock-paper-scissors.svg.png"
-                    />
-                )
+        const choiceImg = (choice) => {
+            if (choice === "Rock") {
+                return <Img width="5.7rem" height="5.7rem" src={rock} />
+            } else if (choice === "Paper") {
+                return <Img width="5.7rem" height="5.7rem" src={paper} />
+            } else if (choice === "Scissors") {
+                return <Img width="5.7rem" height="5.7rem" src={scissors} />
             }
         }
 
-        const choiceImg = (choice) => {
-            if (choice === "Rock") {
-                return <Img width="10rem" height="10rem" src={rock} />
-            } else if (choice === "Paper") {
-                return <Img width="10rem" height="10rem" src={paper} />
-            } else if (choice === "Scissors") {
-                return <Img width="10rem" height="10rem" src={scissors} />
+        const didWin = () => {
+            if (this.state.winner === "tie") {
+                return <>No Winner <i className="em em-neutral_face"></i></>
+            } else if (this.state.winner === "win") {
+                return <>You Win! <i className="em em-smile"></i></>
+            } else if (this.state.winner === "lose") {
+                return <>You Lose! <i className="em em-cry"></i></>
+            } else {
+                return "Choose from Below:"
             }
         }
 
         return (
             <MDBContainer fluid>
                 <Header>
-                    RPS vs AI
+                    RPS vs Computer {this.state.computerGuess}
                 </Header>
                 <MDBContainer>
                     <MDBRow>
-                       
                         <MDBCol xl="12" className="d-flex justify-content-center my-1">
-                            <div ref={player2 => this.player2 = player2} />
                             <Card className="text-center" style={{ width: "29rem", height: "27rem" }}>
-                            <CardBody>
-                                    <CardTitle className="text-center mb-1">Choose from Below:</CardTitle>
-                                  
-                                            <ul className="pt-1">
-                                                <li onClick={() => this.playerChoice("Rock")}><Img width="6rem" height="6rem" src={rock} /></li>
+                                <CardBody>
+                                    <CardTitle className="text-center mb-1">{didWin()}</CardTitle>
+                                    {this.state.winner === null ?
+                                        <ul>
+                                            <li onClick={() => this.gameLogic("Rock")}>
+                                                {/* <div>Computer:</div> */}
+                                                <Img width="6.5rem" height="6.5rem" src={rock} />
+                                            </li>
 
-                                                <li className="py-3" onClick={() => this.playerChoice("Paper")}><Img width="6rem" height="6rem" src={paper} /></li>
+                                            <li className="py-2" onClick={() => this.gameLogic("Paper")}><Img width="6.5rem" height="6.5rem" src={paper} /></li>
 
-                                                <li onClick={() => this.playerChoice("Scissors")}><Img width="6rem" height="6rem" src={scissors} /></li>
-                                            </ul>
+                                            <li onClick={() => this.gameLogic("Scissors")}>
+                                                {/* <div>Player:</div> */}
+                                                <Img width="6.5rem" height="6.5rem" src={scissors} />
+                                            </li>
+                                        </ul>
+                                        :
+                                        <ul>
+                                            <li>
+                                                <div>Computer:</div>
+                                                {choiceImg(this.state.computerGuess)}
+                                            </li>
 
-                                        {this.state.currentTurn === 3 ? choiceImg(playerTwoData.choice) : null}
+                                            <li className="py-2"><Img width="5.7rem" height="5.7rem" src="https://vignette.wikia.nocookie.net/deathbattle/images/6/64/Vs.png/revision/latest?cb=20150618231458" /></li>
 
-                                        <div className="outcomes">
-                                            <div className="outcome-trackers" id="player1-wins">Wins: {this.state.playerOne.wins} </div>
-                                            <div className="outcome-trackers" id="player1-losses"> Losses: {this.state.playerOne.losses}</div>
-                                        </div>
+                                            <li>
+                                                <div>Player:</div>
+                                                {choiceImg(this.state.playerChoice)}
+                                            </li>
+                                        </ul>}
+
+
+                                    <div className="outcomes">
+                                        <div className="outcome-trackers" id="player1-wins">Wins: {this.state.wins} </div>
+                                        <div className="outcome-trackers" id="player1-losses"> Losses: {this.state.losses}</div>
+                                    </div>
                                 </CardBody>
                             </Card>
                         </MDBCol>
-                       
+
                     </MDBRow>
                 </MDBContainer>
             </MDBContainer>

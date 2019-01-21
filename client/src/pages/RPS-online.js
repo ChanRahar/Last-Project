@@ -88,8 +88,7 @@ class RPS extends Component {
 
 
     componentDidMount() {
-        // this.playersView();
-
+       
         API.signedIn()
             .then(response => {
                 console.log(response);
@@ -381,7 +380,6 @@ class RPS extends Component {
         else if (player1choice === "Scissors" && player2choice === "Paper") {
             this.playerOneWon();
         }
-
     }
 
 
@@ -548,7 +546,7 @@ class RPS extends Component {
                                                 <li className="py-2" onClick={() => this.playerChoice("Paper")}><Img width="4rem" height="4rem" src={paper} /></li>
 
                                                 <li onClick={() => this.playerChoice("Scissors")}><Img width="4rem" height="4rem" src={scissors} /></li>
-                                            </ul>) : ""}
+                                            </ul>) : null}
 
                                         {this.state.currentTurn === 3 ? choiceImg(playerOneData.choice) : null}
 
