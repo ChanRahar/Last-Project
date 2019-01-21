@@ -40,7 +40,7 @@ class RPS extends Component {
         username: "",
         chat: [],
         currentTurn: null,
-        winner: "",
+        winner: null,
         loggedIn: false,
 
 
@@ -103,11 +103,6 @@ class RPS extends Component {
         this.chatDisplay();
 
         win.set(null)
-
-        win.on("value", snapshot => {
-
-            this.setState({ winner: snapshot.val() });
-        });
 
         playersRef.on("value", (snapshot) => {
 
@@ -390,7 +385,6 @@ class RPS extends Component {
     }
 
 
-
     handleInputChange = event => {
         // Getting the value and name of the input which triggered the change
         const { name, value } = event.target;
@@ -426,8 +420,6 @@ class RPS extends Component {
 
         this.playersView();
     };
-
-
 
     messageSubmit = event => {
         event.preventDefault();
@@ -491,7 +483,6 @@ class RPS extends Component {
                         <h1>
                             {winner}
                         </h1>
-
                     </div>
                 )
             } else {
@@ -559,9 +550,7 @@ class RPS extends Component {
                                                 <li onClick={() => this.playerChoice("Scissors")}><Img width="4rem" height="4rem" src={scissors} /></li>
                                             </ul>) : ""}
 
-                                        <div id="player1-chosen">
-                                            {this.state.currentTurn === 3 ? choiceImg(playerOneData.choice) : null}
-                                        </div>
+                                        {this.state.currentTurn === 3 ? choiceImg(playerOneData.choice) : null}
 
                                         <div className="outcomes">
                                             <div className="outcome-trackers" id="player1-wins">Wins: {this.state.playerOne.wins} </div>
@@ -590,9 +579,9 @@ class RPS extends Component {
 
                                                 <li onClick={() => this.playerChoice("Scissors")}><Img width="4rem" height="4rem" src={scissors} /></li>
                                             </ul>) : null}
-                                        <div id="player2-chosen">
-                                            {this.state.currentTurn === 3 ? choiceImg(playerTwoData.choice) : null}
-                                        </div>
+
+                                        {this.state.currentTurn === 3 ? choiceImg(playerTwoData.choice) : null}
+
                                         <div className="outcomes">
                                             <div className="outcome-trackers" id="player2-wins">Wins: {this.state.playerTwo.wins}</div>
                                             <div className="outcome-trackers" id="player2-losses">Losses: {this.state.playerTwo.losses}</div>
