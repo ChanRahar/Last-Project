@@ -59,8 +59,13 @@ class RPS extends Component {
 
     }
 
-    playerRef = () => {
-        this.node.scrollIntoView();
+    playersView = () => {
+        if(playerNum=== 1){
+            this.player1.scrollIntoView();
+        } else {
+            this.player2.scrollIntoView();
+        }
+        
     }
 
     chatDisplay = () => {
@@ -83,7 +88,7 @@ class RPS extends Component {
 
 
     componentDidMount() {
-        this.playerRef();
+        // this.playersView();
 
         API.signedIn()
             .then(response => {
@@ -178,12 +183,9 @@ class RPS extends Component {
             // Gets current turn from snapshot
             this.setState({ currentTurn: snapshot.val() });
 
-            console.log(this.state.currentTurn)
 
             // Don't do the following unless you're logged in
             if (playerNum) {
-
-                console.log(playerNum)
 
                 if (this.state.currentTurn === 3) {
 
@@ -421,6 +423,8 @@ class RPS extends Component {
 
             this.getInGame();
         }
+
+        this.playersView();
     };
 
 
@@ -538,6 +542,7 @@ class RPS extends Component {
                     <br />
                     <MDBRow>
                         <MDBCol xl="4" className="d-flex justify-content-center my-1" >
+                        <div ref={player1 => this.player1 = player1} />
                             <Card style={{ width: "21rem", height: "19rem" }} border={this.state.currentTurn === 1 ? "success" : null}>
                                 <CardBody>
                                     <CardTitle className="text-center mb-1">{this.state.playerOne.name}</CardTitle>
@@ -564,6 +569,7 @@ class RPS extends Component {
                             </Card>
                         </MDBCol>
                         <MDBCol xl="4" className="d-flex justify-content-center my-1">
+                        <div ref={player2 => this.player2 = player2} />
                             <Card className="text-center" style={{ width: "21rem", height: "19rem" }}>
                                 {whoWon(this.state.winner)}
                             </Card>
@@ -612,7 +618,6 @@ class RPS extends Component {
                             </div>
                         </div>
                     </div>
-                    <div ref={node => this.node = node} />
                 </MDBContainer>
             </MDBContainer>
         );
