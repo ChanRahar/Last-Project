@@ -1,23 +1,20 @@
-import React, { Component } from 'react';
+import React from 'react';
 import API from "../utils/API"
 
 
-class Logout extends Component {
+function Logout() {
 
-  logout = () => {
+  const logout = () => {
     console.log("clicked")
     API.logout()
       .then(window.location.href = "/")
       .catch(err => console.log(err));
-  }
-
-  render() {
+  }  
     return (
       <>
-        {this.logout()}
+        {logout()}
       </>
     )
-  }
 }
 
 export default Logout;

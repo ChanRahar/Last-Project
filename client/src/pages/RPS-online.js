@@ -88,7 +88,7 @@ class RPS extends Component {
 
 
     componentDidMount() {
-       
+
         API.signedIn()
             .then(response => {
                 console.log(response);
@@ -464,6 +464,7 @@ class RPS extends Component {
                 return (
                     <Animation type="fadeIn">
                         <Img
+                            alt="No Winner"
                             width="17rem"
                             height="17rem"
                             src="http://www.vestaretailerawards.com/wp-content/uploads/2016/10/no-winner.jpg"
@@ -474,6 +475,7 @@ class RPS extends Component {
                 return (
                     <div>
                         <Img
+                            alt="You Won"
                             width="15rem"
                             height="15rem"
                             src="https://thumbs.gfycat.com/DescriptiveMassiveFugu-max-1mb.gif"
@@ -486,6 +488,7 @@ class RPS extends Component {
             } else {
                 return (
                     <Img
+                        alt="RPS Online"
                         width="21rem"
                         height="19rem"
                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Rock-paper-scissors.svg/300px-Rock-paper-scissors.svg.png"
@@ -496,11 +499,11 @@ class RPS extends Component {
 
         const choiceImg = (choice) => {
             if (choice === "Rock") {
-                return <Img width="10rem" height="10rem" src={rock} />
+                return <Img width="10rem" height="10rem" src={rock} alt="rock" />
             } else if (choice === "Paper") {
-                return <Img width="10rem" height="10rem" src={paper} />
+                return <Img width="10rem" height="10rem" src={paper} alt="paper" />
             } else if (choice === "Scissors") {
-                return <Img width="10rem" height="10rem" src={scissors} />
+                return <Img width="10rem" height="10rem" src={scissors} alt ="scissors" />
             }
         }
 
@@ -541,11 +544,11 @@ class RPS extends Component {
                                     <div className="text-center">
                                         {this.state.currentTurn === 1 && playerNum === 1 ?
                                             (<ul>
-                                                <li onClick={() => this.playerChoice("Rock")}><Img width="4rem" height="4rem" src={rock} /></li>
+                                                <li onClick={() => this.playerChoice("Rock")}><Img width="4rem" height="4rem" src={rock} alt="rock" /></li>
 
-                                                <li className="py-2" onClick={() => this.playerChoice("Paper")}><Img width="4rem" height="4rem" src={paper} /></li>
+                                                <li className="py-2" onClick={() => this.playerChoice("Paper")}><Img width="4rem" height="4rem" src={paper} alt="paper" /></li>
 
-                                                <li onClick={() => this.playerChoice("Scissors")}><Img width="4rem" height="4rem" src={scissors} /></li>
+                                                <li onClick={() => this.playerChoice("Scissors")}><Img width="4rem" height="4rem" src={scissors} alt ="scissors" /></li>
                                             </ul>) : null}
 
                                         {this.state.currentTurn === 3 ? choiceImg(playerOneData.choice) : null}
@@ -571,11 +574,11 @@ class RPS extends Component {
                                     <div className="text-center">
                                         {this.state.currentTurn === 2 && playerNum === 2 ?
                                             (<ul>
-                                                <li onClick={() => this.playerChoice("Rock")}><Img width="4rem" height="4rem" src={rock} /></li>
+                                                <li onClick={() => this.playerChoice("Rock")}><Img width="4rem" height="4rem" src={rock} alt="rock" /></li>
 
-                                                <li className="py-2" onClick={() => this.playerChoice("Paper")}><Img width="4rem" height="4rem" src={paper} /></li>
+                                                <li className="py-2" onClick={() => this.playerChoice("Paper")}><Img width="4rem" height="4rem" src={paper} alt="paper" /></li>
 
-                                                <li onClick={() => this.playerChoice("Scissors")}><Img width="4rem" height="4rem" src={scissors} /></li>
+                                                <li onClick={() => this.playerChoice("Scissors")}><Img width="4rem" height="4rem" src={scissors} alt ="scissors" /></li>
                                             </ul>) : null}
 
                                         {this.state.currentTurn === 3 ? choiceImg(playerTwoData.choice) : null}

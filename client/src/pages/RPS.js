@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { MDBContainer, MDBRow, MDBCol, Animation, MDBBtn, Card, CardBody, CardTitle } from 'mdbreact';
+import { MDBContainer, MDBRow, MDBCol, Card, CardBody, CardTitle } from 'mdbreact';
 import Header from "../components/Header";
 import Img from "../components/Img";
 
@@ -58,18 +58,15 @@ class RPS extends Component {
         setTimeout(reset, 1000 * 3);
     }
 
-  
-
-
     render() {
 
         const choiceImg = (choice) => {
             if (choice === "Rock") {
-                return <Img width="5.7rem" height="5.7rem" src={rock} />
+                return <Img width="5.7rem" height="5.7rem" src={rock} alt="rock" />
             } else if (choice === "Paper") {
-                return <Img width="5.7rem" height="5.7rem" src={paper} />
+                return <Img width="5.7rem" height="5.7rem" src={paper} alt="paper" />
             } else if (choice === "Scissors") {
-                return <Img width="5.7rem" height="5.7rem" src={scissors} />
+                return <Img width="5.7rem" height="5.7rem" src={scissors} alt="scissors" />
             }
         }
 
@@ -99,13 +96,13 @@ class RPS extends Component {
                                     {this.state.winner === null ?
                                         <ul>
                                             <li onClick={() => this.gameLogic("Rock")}>
-                                                <Img width="6.5rem" height="6.5rem" src={rock} />
+                                                <Img width="6.5rem" height="6.5rem" src={rock} alt="rock" />
                                             </li>
 
-                                            <li className="py-2" onClick={() => this.gameLogic("Paper")}><Img width="6.5rem" height="6.5rem" src={paper} /></li>
+                                            <li className="py-2" onClick={() => this.gameLogic("Paper")}><Img width="6.5rem" height="6.5rem" src={paper} alt="paper" /></li>
 
                                             <li onClick={() => this.gameLogic("Scissors")}>
-                                                <Img width="6.5rem" height="6.5rem" src={scissors} />
+                                                <Img width="6.5rem" height="6.5rem" src={scissors} alt="scissors" />
                                             </li>
                                         </ul>
                                         :
@@ -115,7 +112,7 @@ class RPS extends Component {
                                                 {choiceImg(this.state.computerGuess)}
                                             </li>
 
-                                            <li className="py-2"><Img width="5.7rem" height="5.7rem" src="https://vignette.wikia.nocookie.net/deathbattle/images/6/64/Vs.png/revision/latest?cb=20150618231458" /></li>
+                                            <li className="py-1"><Img width="5.7rem" height="5.7rem" src="https://vignette.wikia.nocookie.net/deathbattle/images/6/64/Vs.png/revision/latest?cb=20150618231458" alt="VS" /></li>
 
                                             <li>
                                                 <div>Player:</div>
