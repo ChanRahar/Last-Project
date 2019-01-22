@@ -503,7 +503,7 @@ class RPS extends Component {
             } else if (choice === "Paper") {
                 return <Img width="10rem" height="10rem" src={paper} alt="paper" />
             } else if (choice === "Scissors") {
-                return <Img width="10rem" height="10rem" src={scissors} alt ="scissors" />
+                return <Img width="10rem" height="10rem" src={scissors} alt="scissors" />
             }
         }
 
@@ -541,15 +541,21 @@ class RPS extends Component {
                             <Card style={{ width: "21rem", height: "19rem" }} border={this.state.currentTurn === 1 ? "success" : null}>
                                 <CardBody>
                                     <CardTitle className="text-center mb-1">{this.state.playerOne.name}</CardTitle>
-                                    <div className="text-center">
+                                    <div className="text-center d-flex justify-content-center">
                                         {this.state.currentTurn === 1 && playerNum === 1 ?
                                             (<ul>
                                                 <li onClick={() => this.playerChoice("Rock")}><Img width="4rem" height="4rem" src={rock} alt="rock" /></li>
 
                                                 <li className="py-2" onClick={() => this.playerChoice("Paper")}><Img width="4rem" height="4rem" src={paper} alt="paper" /></li>
 
-                                                <li onClick={() => this.playerChoice("Scissors")}><Img width="4rem" height="4rem" src={scissors} alt ="scissors" /></li>
+                                                <li onClick={() => this.playerChoice("Scissors")}><Img width="4rem" height="4rem" src={scissors} alt="scissors" /></li>
                                             </ul>) : null}
+
+                                        {this.state.currentTurn === 2 && playerNum === 1 ?
+                                            (<div>
+                                                <h2>Player 2 Turn</h2>
+                                                <Img width="10rem" height="10rem" src="https://i.redd.it/ounq1mw5kdxy.gif" alt="loading" />
+                                            </div>) : null}
 
                                         {this.state.currentTurn === 3 ? choiceImg(playerOneData.choice) : null}
 
@@ -572,13 +578,19 @@ class RPS extends Component {
                                 <CardBody>
                                     <CardTitle className="text-center mb-1">{this.state.playerTwo.name}</CardTitle>
                                     <div className="text-center">
+                                        {this.state.currentTurn === 1 && playerNum === 2 ?
+                                            (<div>
+                                                <h2>Player 1 Turn</h2>
+                                                <Img width="10rem" height="10rem" src="https://i.redd.it/ounq1mw5kdxy.gif" alt="loading" />
+                                            </div>) : null}
+
                                         {this.state.currentTurn === 2 && playerNum === 2 ?
                                             (<ul>
                                                 <li onClick={() => this.playerChoice("Rock")}><Img width="4rem" height="4rem" src={rock} alt="rock" /></li>
 
                                                 <li className="py-2" onClick={() => this.playerChoice("Paper")}><Img width="4rem" height="4rem" src={paper} alt="paper" /></li>
 
-                                                <li onClick={() => this.playerChoice("Scissors")}><Img width="4rem" height="4rem" src={scissors} alt ="scissors" /></li>
+                                                <li onClick={() => this.playerChoice("Scissors")}><Img width="4rem" height="4rem" src={scissors} alt="scissors" /></li>
                                             </ul>) : null}
 
                                         {this.state.currentTurn === 3 ? choiceImg(playerTwoData.choice) : null}

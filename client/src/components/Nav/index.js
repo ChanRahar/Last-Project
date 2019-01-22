@@ -53,7 +53,7 @@ class NavbarPage extends React.Component {
                       {this.state.username} <Fa icon="user" />
                     </DropdownToggle>
                     <DropdownMenu className="dropdown-default" right>
-                      <DropdownItem href="/Signout">Sign Out</DropdownItem>
+                      <DropdownItem href="/SignOut">Sign Out</DropdownItem>
                     </DropdownMenu>
                   </Dropdown>):
                   (<Dropdown>
