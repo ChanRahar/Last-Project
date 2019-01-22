@@ -48,12 +48,14 @@ class RPS extends Component {
             name: "Waiting for Player 1",
             wins: 0,
             losses: 0,
+            choice: ""
         },
 
         playerTwo: {
             name: "Waiting for Player 2",
             wins: 0,
             losses: 0,
+            choice: ""
         }
 
 
@@ -123,7 +125,8 @@ class RPS extends Component {
                     playerOne: {
                         name: playerOneData.name,
                         wins: playerOneData.wins,
-                        losses: playerOneData.losses
+                        losses: playerOneData.losses,
+                        choice: playerOneData.choice
                     }
                 });
             }
@@ -145,7 +148,8 @@ class RPS extends Component {
                     playerTwo: {
                         name: playerTwoData.name,
                         wins: playerTwoData.wins,
-                        losses: playerTwoData.losses
+                        losses: playerTwoData.losses,
+                        choice: playerTwoData.choice
                     }
                 });
             }
@@ -202,7 +206,9 @@ class RPS extends Component {
                     };
 
                     //  show results for 3 seconds, then resets
-                    setTimeout(moveOn, 1000 * 3);
+                    setTimeout(moveOn, 1000 * 2);
+                } else if (this.state.currentTurn === 2) {
+                    
                 }
 
             }
@@ -266,6 +272,7 @@ class RPS extends Component {
 
             // On disconnect remove this user's player object
             playerRef.onDisconnect().remove();
+            
 
             // If a user disconnects, set the current turn to 'null' so the game does not continue
             currentTurnRef.onDisconnect().remove();
@@ -447,9 +454,11 @@ class RPS extends Component {
 
     playerChoice(choice) {
 
-        let clickChoice = choice;
+        if(choice === null) {
+            window.location.reload();
+        }
 
-        playerRef.child("choice").set(clickChoice);
+        playerRef.child("choice").set(choice);
 
         currentTurnRef.transaction((turn) => {
             return turn + 1;
@@ -557,7 +566,7 @@ class RPS extends Component {
                                                 <Img width="10rem" height="10rem" src="https://i.redd.it/ounq1mw5kdxy.gif" alt="loading" />
                                             </div>) : null}
 
-                                        {this.state.currentTurn === 3 ? choiceImg(playerOneData.choice) : null}
+                                        {this.state.currentTurn === 3 ? choiceImg(this.state.playerOne.choice) : null}
 
                                         <div className="outcomes">
                                             <div className="outcome-trackers" id="player1-wins">Wins: {this.state.playerOne.wins} </div>
@@ -593,7 +602,7 @@ class RPS extends Component {
                                                 <li onClick={() => this.playerChoice("Scissors")}><Img width="4rem" height="4rem" src={scissors} alt="scissors" /></li>
                                             </ul>) : null}
 
-                                        {this.state.currentTurn === 3 ? choiceImg(playerTwoData.choice) : null}
+                                        {this.state.currentTurn === 3 ? choiceImg(this.state.playerTwo.choice) : null}
 
                                         <div className="outcomes">
                                             <div className="outcome-trackers" id="player2-wins">Wins: {this.state.playerTwo.wins}</div>

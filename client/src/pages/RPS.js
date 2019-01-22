@@ -55,7 +55,7 @@ class RPS extends Component {
             this.setState({winner: null, computerGuess:computerChoices[Math.floor(Math.random() * computerChoices.length)]});
         }
 
-        setTimeout(reset, 1000 * 3);
+        setTimeout(reset, 1000 * 2);
     }
 
     render() {
