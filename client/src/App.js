@@ -25,7 +25,7 @@ function App() {
           <Route exact path="/RPS" component={RPS} />
           <Route exact path="/RPS_Online" component={RPSonline} />
           <Route exact path="/Leader_Board" component={LeaderBoard} />
-          <Route exact path="/Signout" component={Logout} />
+          <Route exact path="/SignOut" component={Logout} />
           <Route component={trial} />
         </Switch>
       </div>
