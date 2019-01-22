@@ -29,7 +29,7 @@ const capitalize = (name) => {
 }
 
 const styles = {
-    border: {
+    background: {
         background: "#e4f0d0"
     },
 }
@@ -208,7 +208,7 @@ class RPS extends Component {
                     //  show results for 3 seconds, then resets
                     setTimeout(moveOn, 1000 * 2);
                 } else if (this.state.currentTurn === 2) {
-                    
+
                 }
 
             }
@@ -272,7 +272,7 @@ class RPS extends Component {
 
             // On disconnect remove this user's player object
             playerRef.onDisconnect().remove();
-            
+
 
             // If a user disconnects, set the current turn to 'null' so the game does not continue
             currentTurnRef.onDisconnect().remove();
@@ -454,7 +454,7 @@ class RPS extends Component {
 
     playerChoice(choice) {
 
-        if(choice === null) {
+        if (choice === null) {
             window.location.reload();
         }
 
@@ -517,7 +517,7 @@ class RPS extends Component {
         }
 
         return (
-            <MDBContainer fluid style={styles.border}>
+            <MDBContainer fluid style={styles.background}>
                 <Header>
                     RPS Online
                 </Header>
@@ -613,25 +613,24 @@ class RPS extends Component {
                             </Card>
                         </MDBCol>
                     </MDBRow>
-
-                    <div id="chat" className="d-flex justify-content-center my-1">
-                        <div>
-                            <div id="chat-messages" ref={chat => this.chat = chat}>
-                                {this.state.chat.map(line => (
-                                    <p className={'line-chat player' + line.idNum} key={line.keyId}><span>{line.name}</span>: {line.message}</p>
-                                ))}
-                            </div>
-                            <div id="chat-bar">
-                                <form onSubmit={this.messageSubmit}>
-                                    <input id="chat-input"
-                                        name="message"
-                                        ref={(input) => { this.message = input }}
-                                        type="input" />
-                                    <button id="chat-send" type="submit">Send</button>
-                                </form >
+                        <div id="chat" className="justify-content-center my-1">
+                            <div>
+                                <div id="chat-messages" ref={chat => this.chat = chat}>
+                                    {this.state.chat.map(line => (
+                                        <p className={'line-chat player' + line.idNum} key={line.keyId}><span>{line.name}</span>: {line.message}</p>
+                                    ))}
+                                </div>
+                                <div id="chat-bar">
+                                    <form onSubmit={this.messageSubmit}>
+                                        <input id="chat-input"
+                                            name="message"
+                                            ref={(input) => { this.message = input }}
+                                            type="input" />
+                                        <button id="chat-send" type="submit">Send</button>
+                                    </form >
+                                </div>
                             </div>
                         </div>
-                    </div>
                 </MDBContainer>
             </MDBContainer>
         );

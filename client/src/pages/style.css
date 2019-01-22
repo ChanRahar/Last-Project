@@ -10,8 +10,6 @@ html, body {
   background-size: cover;
 }
 
-
-
 /***********************************
   
                 SwapZone
@@ -35,37 +33,13 @@ html, body {
   font-size: 30px;
 }
 
-#swap-zone button {
-  /* Box-model */
-  width: 100px;
-  height: 36px;
-  /* Typography */
-  font-size: 22px;
-  /* Positioning */
-  vertical-align: top;
-}
 
-/***********************************
-  
-                Turn Indicator
-  
-  ***********************************/
-
-#current-turn {
-  /* Box-model */
-  width: 75%;
-  /* Positioning */
-  margin: 15px auto;
-  /* Typography */
-  text-align: center;
-}
 
 /***********************************
   
                 GameDiv
   
   ***********************************/
-
 
 .outcomes {
   /* Positioning */
@@ -83,7 +57,6 @@ html, body {
   font-size: 20px;
 }
 
-
 /***********************************
   
               Chatbox
@@ -92,7 +65,7 @@ html, body {
 
 #chat {
   /* Box-model */
-  max-width: 100%;
+  max-width: 650px;
   height: 170px;
   /* Visual */
   padding: 10px;
@@ -103,15 +76,11 @@ html, body {
   /* Box-model */
   height: 125px;
   overflow-y: scroll;
-  /*    
-    max-width:650px; */
   /* Visual */
   background-color: #fffcf7;
 }
 
 #chat-bar {
-  /* Positioning */
-  /* position: absolute; */
   bottom: 10px;
 }
 
