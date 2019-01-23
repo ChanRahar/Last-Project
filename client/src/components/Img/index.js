@@ -1,8 +1,8 @@
 import React from 'react'
 
-function Img({ width, height, src, alt }) {
+function Img({ width, height, src, alt, onClick }) {
     return (
-        <img className="img-fluid" style={{ width: width, height: height }} alt={alt} src= {src}  />
+        <img className="img-fluid" style={{ width: width, height: height }} onClick={onClick} alt={alt} src= {src}  />
     )
 }
 

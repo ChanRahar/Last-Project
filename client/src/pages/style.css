@@ -16,22 +16,7 @@ html, body {
   
   ***********************************/
 
-#swap-zone {
-  /* Box-model */
-  width: 75%;
-  /* Positioning */
-  margin: 25px auto;
-  /* Typography */
-  text-align: center;
-}
 
-#swap-zone input {
-  /* Box-model */
-  width: 200px;
-  height: 30px;
-  /* Typography */
-  font-size: 30px;
-}
 
 
 

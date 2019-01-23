@@ -17,36 +17,36 @@ class Main extends Component {
     render() {
         return (
             <div style={styles.background}>
-                <Jumbotron>
-                    Play Single or Online RPS Game
+                    <Jumbotron>
+                        Play against CPU or Online RPS Game
                     </Jumbotron>
-                <MDBContainer>
-                    <MDBRow>
-                        <MDBCol className="d-flex justify-content-center">
-                            <Card style={{ width: "30rem" }}>
-                                <Img
-                                    src="./images/RPS.PNG"
-                                    waves
-                                />
-                                <CardBody>
-                                    <CardTitle className="text-center">RPS Game</CardTitle>
-                                    <MDBRow>
-                                        <MDBCol className="d-flex justify-content-center">
-                                            <Button href="/RPS">Single Player</Button>
-                                        </MDBCol>
-                                        <MDBCol className="d-flex justify-content-center">
-                                            <Button href="/RPS_Online">Online 2 Players</Button>
-                                        </MDBCol>
-                                    </MDBRow>
+                    <MDBContainer>
+                        <MDBRow>
+                            <MDBCol className="d-flex justify-content-center">
+                                <Card style={{ width: "30rem" }}>
+                                    <Img
+                                        src="./images/RPS.PNG"
+                                        waves
+                                    />
+                                    <CardBody>
+                                        <CardTitle className="text-center">RPS Game</CardTitle>
+                                        <MDBRow>
+                                            <MDBCol className="d-flex justify-content-center">
+                                                <Button href="/RPS">Single Player</Button>
+                                            </MDBCol>
+                                            <MDBCol className="d-flex justify-content-center">
+                                                <Button href="/RPS_Online">Online 2 Players</Button>
+                                            </MDBCol>
+                                        </MDBRow>
 
-                                </CardBody>
-                            </Card>
-                        </MDBCol>
-                    </MDBRow>
-                </MDBContainer>
+                                    </CardBody>
+                                </Card>
+                            </MDBCol>
+                        </MDBRow>
+                    </MDBContainer>
             </div>
-        )
-    }
-}
-
+                )
+            }
+        }
+        
 export default Main;
