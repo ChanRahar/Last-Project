@@ -4,6 +4,12 @@ import Header from "../components/Header";
 import Table from "../components/Table";
 import API from "../utils/API"
 
+const styles = {
+    background: {
+        background: "white"
+    },
+}
+
 class LeaderBoard extends Component {
 
     state = {
@@ -65,7 +71,7 @@ class LeaderBoard extends Component {
 
     render() {
         return (
-            <MDBContainer>
+            <MDBContainer style = {styles.background}>
                 <Header>
                     Leader Board
               </Header>

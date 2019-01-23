@@ -1,4 +1,13 @@
 .jumbotron {
   min-height: 300px;
-  padding-top: 100px;
+  color:white;
+    /* Visual */
+  /* background-color: #e4f0d0; */
+  background-image: url("https://pre00.deviantart.net/479c/th/pre/i/2009/011/c/1/rock_paper_scissors_by_smashmethod.jpg");
+  /* Full height */
+  height: 100%;
+  /* Center and scale the image nicely */
+  background-position: 50% 47%;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
