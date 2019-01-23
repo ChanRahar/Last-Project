@@ -6,11 +6,10 @@ import API from "../utils/API"
 import Header from "../components/Header";
 import Img from "../components/Img";
 
-
 const database = firebase.database();
-const chatData = database.ref("/chat");
-const playersRef = database.ref("players");
-const currentTurnRef = database.ref("turn");
+const chatData = database.ref("/chatRPS");
+const playersRef = database.ref("playersRPS");
+const currentTurnRef = database.ref("turnRPS");
 const win = database.ref("win");
 const rock = "./images/rock.jpg"
 const paper = "./images/paper.jpg"
@@ -23,6 +22,7 @@ let playerOneExists = false;
 let playerTwoExists = false;
 let playerOneData = null;
 let playerTwoData = null;
+let timer
 
 const capitalize = (name) => {
     return name.charAt(0).toUpperCase() + name.slice(1);
@@ -42,7 +42,6 @@ class RPS extends Component {
         currentTurn: null,
         winner: null,
         loggedIn: false,
-
 
         playerOne: {
             name: "Waiting for Player 1",
@@ -64,11 +63,25 @@ class RPS extends Component {
     playersView = () => {
         if (playerNum === 1) {
             this.player1.scrollIntoView();
-        } else {
+        } else if (playerNum === 2) {
             this.player2.scrollIntoView();
         }
 
     }
+
+    playerTimer = () => {
+
+        console.log("run")
+        timer = setTimeout(() => {
+            window.location.reload()
+        }, 1000 * 3)
+    }
+
+    clearRefresh = () => {
+        console.log("clicked")
+        clearTimeout(timer);
+    }
+
 
     chatDisplay = () => {
         chatData.orderByChild("time").on("child_added", (snapshot) => {
@@ -233,7 +246,7 @@ class RPS extends Component {
         // For adding disconnects to the chat with a unique id (the date/time the user entered the game)
         // Needed because Firebase's '.push()' creates its unique keys client side,
         // so you can't ".push()" in a ".onDisconnect"
-        let chatDataDisc = database.ref("/chat/" + Date.now());
+        let chatDataDisc = database.ref("/chatRPS/" + Date.now());
 
         // Checks for current players, if theres a player one connected, then the user becomes player 2.
         // If there is no player one, then the user becomes player 1
@@ -247,7 +260,7 @@ class RPS extends Component {
             }
 
             // Creates key based on assigned player number
-            playerRef = database.ref("/players/" + playerNum);
+            playerRef = database.ref("/playersRPS/" + playerNum);
 
             // Creates player object. 'choice' is unnecessary here, but I left it in to be as complete as possible
 
@@ -359,6 +372,7 @@ class RPS extends Component {
     };
 
     gameLogic = (player1choice, player2choice) => {
+  
 
         if (player1choice === "Rock" && player2choice === "Rock") {
             this.tie();
@@ -454,16 +468,13 @@ class RPS extends Component {
 
     playerChoice(choice) {
 
-        if (choice === null) {
-            window.location.reload();
-        }
-
         playerRef.child("choice").set(choice);
 
         currentTurnRef.transaction((turn) => {
             return turn + 1;
 
         });
+    
     }
 
     render() {
@@ -517,7 +528,7 @@ class RPS extends Component {
         }
 
         return (
-            <MDBContainer fluid style={styles.background}>
+            <MDBContainer fluid style={styles.background} onClick={this.clearRefresh}>
                 <Header>
                     RPS Online
                 </Header>
@@ -613,24 +624,24 @@ class RPS extends Component {
                             </Card>
                         </MDBCol>
                     </MDBRow>
-                        <div id="chat" className="justify-content-center my-1">
-                            <div>
-                                <div id="chat-messages" ref={chat => this.chat = chat}>
-                                    {this.state.chat.map(line => (
-                                        <p className={'line-chat player' + line.idNum} key={line.keyId}><span>{line.name}</span>: {line.message}</p>
-                                    ))}
-                                </div>
-                                <div id="chat-bar">
-                                    <form onSubmit={this.messageSubmit}>
-                                        <input id="chat-input"
-                                            name="message"
-                                            ref={(input) => { this.message = input }}
-                                            type="input" />
-                                        <button id="chat-send" type="submit">Send</button>
-                                    </form >
-                                </div>
+                    <div id="chat" className="justify-content-center my-1">
+                        <div>
+                            <div id="chat-messages" ref={chat => this.chat = chat}>
+                                {this.state.chat.map(line => (
+                                    <p className={'line-chat player' + line.idNum} key={line.keyId}><span>{line.name}</span>: {line.message}</p>
+                                ))}
+                            </div>
+                            <div id="chat-bar">
+                                <form onSubmit={this.messageSubmit}>
+                                    <input id="chat-input"
+                                        name="message"
+                                        ref={(input) => { this.message = input }}
+                                        type="input" />
+                                    <button id="chat-send" type="submit">Send</button>
+                                </form >
                             </div>
                         </div>
+                    </div>
                 </MDBContainer>
             </MDBContainer>
         );
