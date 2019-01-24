@@ -1,5 +1,5 @@
 import React from 'react'
-import { MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput, MDBIcon } from 'mdbreact';
+import { MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput } from 'mdbreact';
 
 function SignUp({ onSubmit, onChange, username, email, password }) {
     return (

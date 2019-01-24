@@ -32,7 +32,7 @@ const capitalize = (name) => {
 
 const styles = {
     background: {
-        background: "#e4f0d0"
+        background: "#add8e6"
     },
 }
 
@@ -44,8 +44,6 @@ class RPSLSonline extends Component {
     }
 
     _onIdle(e) {
-        console.log('user is idle', e)
-        console.log('last active', this.idleTimer.getLastActiveTime())
         window.location.href = "/SignOut"
     }
 
@@ -102,6 +100,25 @@ class RPSLSonline extends Component {
         })
     }
 
+    gameCheck = () => {
+        let RPSLSname
+        let RPSLSname2
+
+        if (playerOneExists) {
+            playersRef.on("value", (snapshot) => {
+                RPSLSname = snapshot.child("1").child("name").val();
+                RPSLSname2 = snapshot.child("2").child("name").val();
+
+                if (RPSLSname === RPSLSname2) {
+
+                    alert("Cannot play against yourself")
+
+                    window.location.reload()
+                }
+            })
+        }
+    }
+
     chatDisplay = () => {
         chatData.orderByChild("time").on("child_added", (snapshot) => {
 
@@ -154,7 +171,6 @@ class RPSLSonline extends Component {
             playerOneData = snapshot.child("1").val();
             playerTwoData = snapshot.child("2").val();
 
-            console.log(playerOneData)
             // If theres a player 1, fill in name and win loss data
             if (playerOneExists) {
                 this.setState({
@@ -494,6 +510,8 @@ class RPSLSonline extends Component {
         else if (this.state.username !== "" && this.username.value === "") {
             username = this.state.username
 
+            this.gameCheck();
+
             this.getInGame();
         }
         else if (this.username.value !== "") {
@@ -564,11 +582,12 @@ class RPSLSonline extends Component {
             } else if (winner !== null) {
                 return (
                     <div>
-                        <Img
+                        <Img 
+                            pt = "pt-3"
                             alt="You Won"
-                            width="15rem"
+                            width="17rem"
                             height="15rem"
-                            src="https://thumbs.gfycat.com/DescriptiveMassiveFugu-max-1mb.gif"
+                            src="https://i.pinimg.com/originals/51/3b/e4/513be4dbaeb5472f367ab69f42be3460.gif"
                         />
                         <h1>
                             {winner}

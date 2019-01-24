@@ -59,7 +59,7 @@ class NavbarPage extends React.Component {
 
       
         <NavbarBrand className="pointer" href="/" onClick={this.refresh}>
-          <strong className="white-text">RPS Game</strong>
+          <strong className="white-text">Reactor RPS</strong>
         </NavbarBrand>
         <NavbarToggler
           onClick={this.toggleCollapse}

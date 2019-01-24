@@ -9,7 +9,6 @@ import Main from "./pages/Main"
 import Nav from "./components/Nav";
 import UserAuth from "./pages/UserAuth"
 import LeaderBoard from "./pages/LeaderBoard"
-import trial from "./pages/trial"
 import Logout from "./pages/Logout"
 
 function App() {

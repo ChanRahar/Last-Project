@@ -42,8 +42,6 @@ class RPSonline extends Component {
     }
 
     _onIdle(e) {
-        console.log('user is idle', e)
-        console.log('last active', this.idleTimer.getLastActiveTime())
         window.location.href = "/SignOut"
     }
 
@@ -110,9 +108,6 @@ class RPSonline extends Component {
             playersRef.on("value", (snapshot) => {
                 RPSname = snapshot.child("1").child("name").val();
                 RPSname2 = snapshot.child("2").child("name").val();
-
-                console.log(RPSname)
-                console.log(RPSname2)
 
                 if (RPSname === RPSname2) {
 
@@ -624,7 +619,7 @@ class RPSonline extends Component {
 
                                         {this.state.currentTurn === 2 && playerNum === 1 ?
                                             (<div>
-                                                <h2>Player 2 Turn</h2>
+                                                <h2>Opponent's Turn</h2>
                                                 <Img width="10rem" height="10rem" src="https://i.redd.it/ounq1mw5kdxy.gif" alt="loading" />
                                             </div>) : null}
 
@@ -651,7 +646,7 @@ class RPSonline extends Component {
                                     <div className="text-center">
                                         {this.state.currentTurn === 1 && playerNum === 2 ?
                                             (<div>
-                                                <h2>Player 1 Turn</h2>
+                                                <h2>Opponent's Turn</h2>
                                                 <Img width="10rem" height="10rem" src="https://i.redd.it/ounq1mw5kdxy.gif" alt="loading" />
                                             </div>) : null}
 
