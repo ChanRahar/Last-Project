@@ -46,8 +46,7 @@ router
       res.json({ loggedIn: false });
     }
     else {
-      // Otherwise send back the user's username and id
-      // Sending back a password, even a hashed password, isn't a good idea
+      // Otherwise send back the user's username
       res.json({
         username: req.user.username,
         loggedIn: true
@@ -78,16 +77,43 @@ router
     console.log(req.body)
     db.User
       .findOneAndUpdate(
-        { 
+        {
           "username": req.params.username
-        }, 
+        },
         {
           $set: req.body
         }
-        )
+      )
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   });
 
-  
+router
+  .route("/allUsers/:username/:email")
+  .get(function (req, res) {
+    db.User
+      .findOne({
+        "username": req.params.username,
+        "email": req.params.email
+      })
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  })
+  .put(function (req, res) {
+    newPass = req.body
+    newPass.password = bcrypt.hashSync(newPass.password, bcrypt.genSaltSync(10), null);
+    db.User
+      .findOneAndUpdate(
+        {
+          "username": req.params.username,
+          "email": req.params.email
+        },
+        {
+          $set: newPass
+        }
+      )
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  });
+
 module.exports = router;

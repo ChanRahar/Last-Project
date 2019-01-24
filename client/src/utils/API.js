@@ -31,4 +31,9 @@ export default {
   updateUser: function (username, userData) {
     return axios.put("/api/allUsers/" + username, userData);
   },
+
+  passReset: function (username, email, userData) {
+    return axios.put(`/api/allUsers/${username}/${email}`, userData);
+  },
+
 };

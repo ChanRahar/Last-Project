@@ -52,7 +52,6 @@ class LeaderBoard extends Component {
 
         API.getAllUsers()
             .then(res => {
-                console.log(res.data)
                 res.data.forEach(user => {
                     // console.log(data.volumeInfo.imageLinks.smallThumbnail);
                     userData.push({
