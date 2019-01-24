@@ -88,7 +88,6 @@ class UserAuth extends Component {
   }
 
   render() {
-    let banner = this.state.loggedIn ? `Woah! ${this.state.username} logged in!` : "UNAUTHORIZED USER";
     return (
       <MDBContainer>
         {

@@ -1,8 +1,9 @@
 import React, { Component } from "react";
+import IdleTimer from 'react-idle-timer';
 import "./style.css";
 import { MDBContainer, MDBRow, MDBCol, Animation, MDBBtn, Card, CardBody, CardTitle } from 'mdbreact';
-import firebase from "../firebase"
-import API from "../utils/API"
+import firebase from "../firebase";
+import API from "../utils/API";
 import Header from "../components/Header";
 import Img from "../components/Img";
 
@@ -23,8 +24,6 @@ let playerTwoExists = false;
 let playerOneData = null;
 let playerTwoData = null;
 
-
-
 const capitalize = (name) => {
     return name.charAt(0).toUpperCase() + name.slice(1);
 }
@@ -35,7 +34,18 @@ const styles = {
     },
 }
 
-class RPS extends Component {
+class RPSonline extends Component {
+    constructor(props) {
+        super(props)
+        this.idleTimer = null
+        this.onIdle = this._onIdle.bind(this)
+    }
+
+    _onIdle(e) {
+        console.log('user is idle', e)
+        console.log('last active', this.idleTimer.getLastActiveTime())
+        window.location.href = "/SignOut"
+    }
 
     state = {
         username: "",
@@ -564,8 +574,14 @@ class RPS extends Component {
 
         return (
             <MDBContainer fluid style={styles.background} onClick={this.clearRefresh}>
+                <IdleTimer
+                    ref={ref => { this.idleTimer = ref }}
+                    element={document}
+                    onIdle={this.onIdle}
+                    debounce={250}
+                    timeout={1000 * 60} />
                 <Header>
-                    RPS Online
+                    Rock Paper Scissors Online
                 </Header>
                 <MDBContainer>
                     <MDBRow>
@@ -684,4 +700,4 @@ class RPS extends Component {
 
 }
 
-export default RPS;
+export default RPSonline;

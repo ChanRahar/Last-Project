@@ -1,11 +1,17 @@
 import React from 'react'
-import { MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput, MDBBtn, MDBIcon, MDBModalFooter } from 'mdbreact';
+import { MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput, MDBBtn, MDBModalFooter } from 'mdbreact';
+
+const styles = {
+  size: {
+      width: "320px"
+  }
+}
 
 function SignIn({ onSubmit, onChange, email, password }) {
     return (
         <MDBRow className="pt-3">
               <MDBCol className="d-flex justify-content-center">
-                <MDBCard>
+                <MDBCard style={styles.size}> 
                   <form onSubmit={onSubmit}>
                     <MDBCardBody className="mx-4">
                       <div className="text-center">
@@ -34,13 +40,11 @@ function SignIn({ onSubmit, onChange, email, password }) {
                         value={password}
                         onChange={onChange}
                       />
-                      <p className="font-small blue-text d-flex justify-content-end pb-3">
-                        Forgot
+                      {/* <p className="font-small blue-text d-flex justify-content-end pb-3">
                         <a href="#!" className="blue-text ml-1">
-
-                          Password?
+                        Forgot Password?
                         </a>
-                      </p>
+                      </p> */}
                       <div className="text-center mb-3">
                         <MDBBtn
                           type="submit"
@@ -51,7 +55,7 @@ function SignIn({ onSubmit, onChange, email, password }) {
                           Sign in
                         </MDBBtn>
                       </div>
-                      <p className="font-small dark-grey-text text-right d-flex justify-content-center mb-3 pt-2">
+                      {/* <p className="font-small dark-grey-text text-right d-flex justify-content-center mb-3 pt-2">
 
                         or Sign in with:
                       </p>
@@ -80,7 +84,7 @@ function SignIn({ onSubmit, onChange, email, password }) {
                         >
                           <MDBIcon icon="google-plus" className="blue-text" />
                         </MDBBtn>
-                      </div>
+                      </div> */}
                     </MDBCardBody>
                   </form>
                   <MDBModalFooter className="mx-5 pt-3 mb-1">

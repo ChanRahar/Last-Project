@@ -47,7 +47,7 @@ function SignUp({ onSubmit, onChange, username, email, password }) {
                       </MDBRow>
                     </MDBCardBody>
                   </form>
-                  <div className="footer pt-3 mdb-color lighten-3">
+                  {/* <div className="footer pt-3 mdb-color lighten-3">
                     <MDBRow className="d-flex justify-content-center">
                       <p className="font-small white-text mb-2 pt-3">
                         or Sign up with:
@@ -64,7 +64,7 @@ function SignUp({ onSubmit, onChange, username, email, password }) {
                         <MDBIcon className="fa fa-google-plus white-text fa-lg"> </MDBIcon>
                       </a>
                     </MDBRow>
-                  </div>
+                  </div> */}
                 </MDBCard>
               </MDBCol>
             </MDBRow>

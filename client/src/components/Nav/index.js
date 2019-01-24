@@ -1,15 +1,12 @@
 import React from "react";
-import { Navbar, MDBIcon, NavbarBrand, NavbarNav, MDBDropdownItem, MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, NavItem, NavLink, NavbarToggler, Collapse, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Fa } from "mdbreact";
+import { Navbar, NavbarBrand, NavbarNav, MDBDropdownItem, MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, NavItem, NavLink, NavbarToggler, Collapse, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Fa } from "mdbreact";
 import "./style.css";
 import API from "../../utils/API"
 
 const styles = {
-  sideNav: {
+  dropdown: {
     color:"white"
   },
-  bar:{
-    size:"23px"
-  }
 }
 
 class NavbarPage extends React.Component {
@@ -49,13 +46,13 @@ class NavbarPage extends React.Component {
       <Navbar color="default-color" dark expand="md">
 
         <MDBDropdown size="lg">
-          <MDBDropdownToggle nav style={styles.sideNav}>
-            <span style={styles.bar}>&#9776;</span>
+          <MDBDropdownToggle nav style={styles.dropdown}>
+            <span>&#9776;</span>
           </MDBDropdownToggle>
           <MDBDropdownMenu basic>
             <MDBDropdownItem href="/RPS">RPS vs CPU</MDBDropdownItem>
             <MDBDropdownItem href="/RPS_Online">RPS Online</MDBDropdownItem>
-            <MDBDropdownItem href="/RPS">RPSLS vs CPU</MDBDropdownItem>
+            <MDBDropdownItem href="/RPSLS">RPSLS vs CPU</MDBDropdownItem>
             <MDBDropdownItem href="/RPSLS_Online">RPSLS Online</MDBDropdownItem>
           </MDBDropdownMenu>
         </MDBDropdown>

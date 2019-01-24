@@ -1,8 +1,9 @@
 import React, { Component } from "react";
+import IdleTimer from 'react-idle-timer';
 import "./style.css";
 import { MDBContainer, MDBRow, MDBCol, Animation, MDBBtn, Card, CardBody, CardTitle } from 'mdbreact';
-import firebase from "../firebase"
-import API from "../utils/API"
+import firebase from "../firebase";
+import API from "../utils/API";
 import Header from "../components/Header";
 import Img from "../components/Img";
 
@@ -24,7 +25,6 @@ let playerOneExists = false;
 let playerTwoExists = false;
 let playerOneData = null;
 let playerTwoData = null;
-let timer
 
 const capitalize = (name) => {
     return name.charAt(0).toUpperCase() + name.slice(1);
@@ -36,7 +36,18 @@ const styles = {
     },
 }
 
-class RPSLS extends Component {
+class RPSLSonline extends Component {
+    constructor(props) {
+        super(props)
+        this.idleTimer = null
+        this.onIdle = this._onIdle.bind(this)
+    }
+
+    _onIdle(e) {
+        console.log('user is idle', e)
+        console.log('last active', this.idleTimer.getLastActiveTime())
+        window.location.href = "/SignOut"
+    }
 
     state = {
         username: "",
@@ -112,7 +123,7 @@ class RPSLS extends Component {
 
     componentDidMount() {
 
-        if(this.state.loggedIn === true) {
+        if (this.state.loggedIn === true) {
             this.playerCheck()
         }
 
@@ -232,7 +243,7 @@ class RPSLS extends Component {
 
                     //  show results for 3 seconds, then resets
                     setTimeout(moveOn, 1000 * 3);
-                } 
+                }
 
             }
         });
@@ -448,7 +459,6 @@ class RPSLS extends Component {
         else if (player1choice === "Lizard" && player2choice === "Spock") {
             this.playerOneWon();
         }
-
         else if (player1choice === "Spock" && player2choice === "Rock") {
             this.playerOneWon();
         }
@@ -571,7 +581,7 @@ class RPSLS extends Component {
                         alt="RPSLS Online"
                         width="21rem"
                         height="19rem"
-                        src="./images/RPSLS.png"
+                        src="https://codecademy-discourse.s3.amazonaws.com/original/5X/1/e/9/a/1e9ae22826a47a2d2e9f0e8f0f0cdf21a8479715.jpg"
                     />
                 )
             }
@@ -594,8 +604,14 @@ class RPSLS extends Component {
 
         return (
             <MDBContainer fluid style={styles.background} onClick={this.clearRefresh}>
+                <IdleTimer
+                    ref={ref => { this.idleTimer = ref }}
+                    element={document}
+                    onIdle={this.onIdle}
+                    debounce={250}
+                    timeout={1000 * 60} />
                 <Header>
-                    RPSLS Online
+                    Rock Paper Scissors Lizard Spock Online
                 </Header>
                 <MDBContainer>
                     <MDBRow>
@@ -740,4 +756,4 @@ class RPSLS extends Component {
 
 }
 
-export default RPSLS;
+export default RPSLSonline;

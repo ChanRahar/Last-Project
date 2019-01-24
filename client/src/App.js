@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import RPS from "./pages/RPS"
+import RPSLS from "./pages/RPSLS"
 import RPSonline from "./pages/RPS-online"
 import RPSLSonline from "./pages/RPSLS-online"
 import Main from "./pages/Main"
@@ -23,6 +24,7 @@ function App() {
           <Route exact path="/Login" component={UserAuth} />
           <Route exact path="/RPS" component={RPS} />
           <Route exact path="/RPS_Online" component={RPSonline} />
+          <Route exact path="/RPSLS" component={RPSLS} />
           <Route exact path="/RPSLS_Online" component={RPSLSonline} />
           <Route exact path="/Leader_Board" component={LeaderBoard} />
           <Route exact path="/SignOut" component={Logout} />
