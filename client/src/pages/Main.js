@@ -18,7 +18,7 @@ class Main extends Component {
         return (
             <div style={styles.background}>
                     <Jumbotron>
-                        Play RPS Game against CPU or Online
+                        Play RPS against CPU or Online
                     </Jumbotron>
                     <MDBContainer>
                         <MDBRow>
