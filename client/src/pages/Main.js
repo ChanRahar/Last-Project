@@ -45,7 +45,7 @@ class Main extends Component {
                             <MDBCol className="d-flex justify-content-center">
                                 <Card style={{ width: "30rem" }} className="border-secondary">
                                     <Img
-                                        src="./images/RPSLS.PNG"
+                                        src="./images/RPSLS.jpg"
                                         waves
                                     />
                                     <CardBody>
