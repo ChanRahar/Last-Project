@@ -11,9 +11,9 @@ function Logout() {
       .catch(err => console.log(err));
   }  
     return (
-      <>
+      <div>
         {logout()}
-      </>
+      </div>
     )
 }
 

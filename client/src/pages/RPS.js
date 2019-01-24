@@ -85,7 +85,7 @@ class RPS extends Component {
         return (
             <MDBContainer fluid>
                 <Header>
-                    RPS vs Computer
+                    Rock Paper Scissors vs CPU
                 </Header>
                 <MDBContainer>
                     <MDBRow>

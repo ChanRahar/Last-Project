@@ -8,13 +8,15 @@ import Header from "../components/Header";
 import Img from "../components/Img";
 
 const database = firebase.database();
-const chatData = database.ref("/chatRPS");
-const playersRef = database.ref("playersRPS");
-const currentTurnRef = database.ref("turnRPS");
-const win = database.ref("winRPS");
-const rock = "./images/rock.jpg"
-const paper = "./images/paper.jpg"
-const scissors = "./images/scissors.jpg"
+const chatData = database.ref("/chatRPSLS");
+const playersRef = database.ref("playersRPSLS");
+const currentTurnRef = database.ref("turnRPSLS");
+const win = database.ref("winRPSLS");
+const rock = "./images/RPSLS-rock.png"
+const paper = "./images/RPSLS-paper.png"
+const scissors = "./images/RPSLS-scissors.png"
+const lizard = "./images/RPSLS-lizard.png"
+const spock = "./images/RPSLS-spock.png"
 let playerRef = "";
 let currentPlayers = null;
 let username = "";
@@ -34,7 +36,7 @@ const styles = {
     },
 }
 
-class RPSonline extends Component {
+class RPSLSonline extends Component {
     constructor(props) {
         super(props)
         this.idleTimer = null
@@ -77,51 +79,27 @@ class RPSonline extends Component {
         } else if (playerNum === 2) {
             this.player2.scrollIntoView();
         }
-
     }
 
     playerCheck = () => {
+        const playersRPSRef = database.ref("playersRPS");
 
-        const playersRPSLSRef = database.ref("playersRPSLS");
-
-        let RPSLSname
-        let RPSLSname2
-
-        playersRPSLSRef.on("value", (snapshot) => {
-            RPSLSname = snapshot.child("1").child("name").val();
-            RPSLSname2 = snapshot.child("2").child("name").val();
-            if (username === RPSLSname) {
-
-                window.location.reload()
-
-            } else if (username === RPSLSname2) {
-
-                window.location.reload()
-
-            }
-        })
-    }
-
-    gameCheck = () => {
         let RPSname
         let RPSname2
 
-        if (playerOneExists) {
-            playersRef.on("value", (snapshot) => {
-                RPSname = snapshot.child("1").child("name").val();
-                RPSname2 = snapshot.child("2").child("name").val();
+        playersRPSRef.on("value", (RPSsnapshot) => {
+            RPSname = RPSsnapshot.child("1").child("name").val();
+            RPSname2 = RPSsnapshot.child("2").child("name").val();
+            if (username === RPSname) {
 
-                console.log(RPSname)
-                console.log(RPSname2)
+                window.location.reload();
 
-                if (RPSname === RPSname2) {
+            } else if (username === RPSname2) {
 
-                    alert("Cannot play against yourself")
+                window.location.reload();
 
-                    window.location.reload()
-                }
-            })
-        }
+            }
+        })
     }
 
     chatDisplay = () => {
@@ -224,6 +202,7 @@ class RPSonline extends Component {
             }
         });
 
+
         playersRef.on("child_added", function (snapshot) {
 
             if (currentPlayers === 1) {
@@ -260,7 +239,6 @@ class RPSonline extends Component {
                         if (playerOneExists && playerTwoExists) {
                             currentTurnRef.set(1);
                         }
-
                     };
 
                     //  show results for 3 seconds, then resets
@@ -289,7 +267,7 @@ class RPSonline extends Component {
         // For adding disconnects to the chat with a unique id (the date/time the user entered the game)
         // Needed because Firebase's '.push()' creates its unique keys client side,
         // so you can't ".push()" in a ".onDisconnect"
-        let chatDataDisc = database.ref("/chatRPS/" + Date.now());
+        let chatDataDisc = database.ref("/chatRPSLS/" + Date.now());
 
         // Checks for current players, if theres a player one connected, then the user becomes player 2.
         // If there is no player one, then the user becomes player 1
@@ -303,7 +281,7 @@ class RPSonline extends Component {
             }
 
             // Creates key based on assigned player number
-            playerRef = database.ref("/playersRPS/" + playerNum);
+            playerRef = database.ref("/playersRPSLS/" + playerNum);
 
             // Creates player object. 'choice' is unnecessary here, but I left it in to be as complete as possible
 
@@ -426,11 +404,23 @@ class RPSonline extends Component {
         else if (player1choice === "Scissors" && player2choice === "Scissors") {
             this.tie();
         }
+        else if (player1choice === "Lizard" && player2choice === "Lizard") {
+            this.tie();
+        }
+        else if (player1choice === "Spock" && player2choice === "Spock") {
+            this.tie();
+        }
         else if (player1choice === "Rock" && player2choice === "Paper") {
             this.playerTwoWon();
         }
         else if (player1choice === "Rock" && player2choice === "Scissors") {
             this.playerOneWon();
+        }
+        else if (player1choice === "Rock" && player2choice === "Lizard") {
+            this.playerOneWon();
+        }
+        else if (player1choice === "Rock" && player2choice === "Spock") {
+            this.playerTwoWon();
         }
         else if (player1choice === "Paper" && player2choice === "Rock") {
             this.playerOneWon();
@@ -438,11 +428,48 @@ class RPSonline extends Component {
         else if (player1choice === "Paper" && player2choice === "Scissors") {
             this.playerTwoWon();
         }
+        else if (player1choice === "Paper" && player2choice === "Lizard") {
+            this.playerTwoWon();
+        }
+        else if (player1choice === "Paper" && player2choice === "Spock") {
+            this.playerOneWon();
+        }
         else if (player1choice === "Scissors" && player2choice === "Rock") {
             this.playerTwoWon();
         }
         else if (player1choice === "Scissors" && player2choice === "Paper") {
             this.playerOneWon();
+        }
+        else if (player1choice === "Scissors" && player2choice === "Lizard") {
+            this.playerOneWon();
+        }
+        else if (player1choice === "Scissors" && player2choice === "Spock") {
+            this.playerTwoWon();
+        }
+
+        else if (player1choice === "Lizard" && player2choice === "Rock") {
+            this.playerTwoWon();
+        }
+        else if (player1choice === "Lizard" && player2choice === "Paper") {
+            this.playerOneWon();
+        }
+        else if (player1choice === "Lizard" && player2choice === "Scissors") {
+            this.playerTwoWon();
+        }
+        else if (player1choice === "Lizard" && player2choice === "Spock") {
+            this.playerOneWon();
+        }
+        else if (player1choice === "Spock" && player2choice === "Rock") {
+            this.playerOneWon();
+        }
+        else if (player1choice === "Spock" && player2choice === "Paper") {
+            this.playerTwoWon();
+        }
+        else if (player1choice === "Spock" && player2choice === "Scissors") {
+            this.playerOneWon();
+        }
+        else if (player1choice === "Spock" && player2choice === "Lizard") {
+            this.playerTwoWon();
         }
     }
 
@@ -466,8 +493,6 @@ class RPSonline extends Component {
         }
         else if (this.state.username !== "" && this.username.value === "") {
             username = this.state.username
-
-            this.gameCheck()
 
             this.getInGame();
         }
@@ -553,10 +578,10 @@ class RPSonline extends Component {
             } else {
                 return (
                     <Img
-                        alt="RPS Online"
+                        alt="RPSLS Online"
                         width="21rem"
                         height="19rem"
-                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Rock-paper-scissors.svg/300px-Rock-paper-scissors.svg.png"
+                        src="https://codecademy-discourse.s3.amazonaws.com/original/5X/1/e/9/a/1e9ae22826a47a2d2e9f0e8f0f0cdf21a8479715.jpg"
                     />
                 )
             }
@@ -569,7 +594,12 @@ class RPSonline extends Component {
                 return <Img width="10rem" height="10rem" src={paper} alt="paper" />
             } else if (choice === "Scissors") {
                 return <Img width="10rem" height="10rem" src={scissors} alt="scissors" />
+            } else if (choice === "Lizard") {
+                return <Img width="10rem" height="10rem" src={lizard} alt="Lizard" />
+            } else if (choice === "Spock") {
+                return <Img width="10rem" height="10rem" src={spock} alt="Spock" />
             }
+
         }
 
         return (
@@ -581,7 +611,7 @@ class RPSonline extends Component {
                     debounce={250}
                     timeout={1000 * 60} />
                 <Header>
-                    Rock Paper Scissors Online
+                    Rock Paper Scissors Lizard Spock Online
                 </Header>
                 <MDBContainer>
                     <MDBRow>
@@ -614,17 +644,30 @@ class RPSonline extends Component {
                                     <CardTitle className="text-center mb-1">{this.state.playerOne.name}</CardTitle>
                                     <div className="text-center d-flex justify-content-center">
                                         {this.state.currentTurn === 1 && playerNum === 1 ?
-                                            (<ul>
-                                                <li onClick={() => this.playerChoice("Rock")}><Img width="4rem" height="4rem" src={rock} alt="rock" /></li>
-
-                                                <li className="py-2" onClick={() => this.playerChoice("Paper")}><Img width="4rem" height="4rem" src={paper} alt="paper" /></li>
-
-                                                <li onClick={() => this.playerChoice("Scissors")}><Img width="4rem" height="4rem" src={scissors} alt="scissors" /></li>
-                                            </ul>) : null}
+                                            (<div>
+                                                <MDBRow>
+                                                    <MDBCol>
+                                                        <Img onClick={() => this.playerChoice("Rock")} width="4rem" height="4rem" src={rock} alt="rock" />
+                                                    </MDBCol>
+                                                    <MDBCol>
+                                                        <Img onClick={() => this.playerChoice("Paper")} width="4rem" height="4rem" src={paper} alt="paper" />
+                                                    </MDBCol>
+                                                </MDBRow>
+                                                <MDBRow>
+                                                    <MDBCol>
+                                                        <Img onClick={() => this.playerChoice("Scissors")} width="4rem" height="4rem" src={scissors} alt="scissors" />
+                                                    </MDBCol>
+                                                    <MDBCol>
+                                                        <Img onClick={() => this.playerChoice("Lizard")} width="4rem" height="4rem" src={lizard} alt="lizard" />
+                                                    </MDBCol>
+                                                </MDBRow>
+                                                <Img onClick={() => this.playerChoice("Spock")} width="4rem" height="4rem" src={spock} alt="spock" />
+                                            </div>
+                                            ) : null}
 
                                         {this.state.currentTurn === 2 && playerNum === 1 ?
                                             (<div>
-                                                <h2>Player 2 Turn</h2>
+                                                <h2>Opponent's Turn</h2>
                                                 <Img width="10rem" height="10rem" src="https://i.redd.it/ounq1mw5kdxy.gif" alt="loading" />
                                             </div>) : null}
 
@@ -648,21 +691,34 @@ class RPSonline extends Component {
                             <Card style={{ width: "21rem", height: "19rem" }} border={this.state.currentTurn === 2 ? "success" : null}>
                                 <CardBody>
                                     <CardTitle className="text-center mb-1">{this.state.playerTwo.name}</CardTitle>
-                                    <div className="text-center">
+                                    <div className="text-center d-flex justify-content-center">
                                         {this.state.currentTurn === 1 && playerNum === 2 ?
                                             (<div>
-                                                <h2>Player 1 Turn</h2>
+                                                <h2>Opponent's Turn</h2>
                                                 <Img width="10rem" height="10rem" src="https://i.redd.it/ounq1mw5kdxy.gif" alt="loading" />
                                             </div>) : null}
 
                                         {this.state.currentTurn === 2 && playerNum === 2 ?
-                                            (<ul>
-                                                <li onClick={() => this.playerChoice("Rock")}><Img width="4rem" height="4rem" src={rock} alt="rock" /></li>
-
-                                                <li className="py-2" onClick={() => this.playerChoice("Paper")}><Img width="4rem" height="4rem" src={paper} alt="paper" /></li>
-
-                                                <li onClick={() => this.playerChoice("Scissors")}><Img width="4rem" height="4rem" src={scissors} alt="scissors" /></li>
-                                            </ul>) : null}
+                                            (<div>
+                                                <MDBRow>
+                                                    <MDBCol>
+                                                        <Img onClick={() => this.playerChoice("Rock")} width="4rem" height="4rem" src={rock} alt="rock" />
+                                                    </MDBCol>
+                                                    <MDBCol>
+                                                        <Img onClick={() => this.playerChoice("Paper")} width="4rem" height="4rem" src={paper} alt="paper" />
+                                                    </MDBCol>
+                                                </MDBRow>
+                                                <MDBRow>
+                                                    <MDBCol>
+                                                        <Img onClick={() => this.playerChoice("Scissors")} width="4rem" height="4rem" src={scissors} alt="scissors" />
+                                                    </MDBCol>
+                                                    <MDBCol>
+                                                        <Img onClick={() => this.playerChoice("Lizard")} width="4rem" height="4rem" src={lizard} alt="lizard" />
+                                                    </MDBCol>
+                                                </MDBRow>
+                                                <Img onClick={() => this.playerChoice("Spock")} width="4rem" height="4rem" src={spock} alt="spock" />
+                                            </div>
+                                            ) : null}
 
                                         {this.state.currentTurn === 3 ? choiceImg(this.state.playerTwo.choice) : null}
 
@@ -700,4 +756,4 @@ class RPSonline extends Component {
 
 }
 
-export default RPSonline;
+export default RPSLSonline;
