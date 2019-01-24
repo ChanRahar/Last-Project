@@ -28,7 +28,6 @@ function App() {
           <Route exact path="/RPSLS_Online" component={RPSLSonline} />
           <Route exact path="/Leader_Board" component={LeaderBoard} />
           <Route exact path="/SignOut" component={Logout} />
-          <Route component={trial} />
         </Switch>
       </div>
     </Router>
