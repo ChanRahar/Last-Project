@@ -30,6 +30,8 @@ After both installations complete, run the following command in your terminal:
 npm i
 ```
 
+This game uses firebase for the game database. You need to create an apiKey file in the src folder with your firebase API key to make the application functional locally.
+
 Your app should now be running on <http://localhost:8800>. The Express server should intercept any AJAX requests from the client.
 
 ## Deployment (Heroku)
