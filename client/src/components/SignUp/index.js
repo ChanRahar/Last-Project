@@ -2,6 +2,7 @@ import React from 'react'
 import { MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput } from 'mdbreact';
 
 function SignUp({ onSubmit, onChange, username, email, password }) {
+  
     return (
         <MDBRow className="pt-3">
               <MDBCol className="d-flex justify-content-center">

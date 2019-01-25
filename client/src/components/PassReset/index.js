@@ -3,12 +3,11 @@ import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBCard, MDBCardBody, MDBIcon } f
 
 const FormPage = ({ onSubmit, onChange, username, email, password }) => {
   const styles = {
-    width: "320px"
+    width: "330px"
   }
 
   return (
     <MDBContainer className="pt-3">
-      <h1>{username}{email}{password}</h1>
       <MDBRow >
         <MDBCol className="d-flex justify-content-center">
           <MDBCard style={styles}>
@@ -52,7 +51,7 @@ const FormPage = ({ onSubmit, onChange, username, email, password }) => {
                   New Password
                 </label>
                 <input
-                  type="text"
+                  type="password"
                   id="defaultFormCardEmailEx"
                   className="form-control"
                   name="password"

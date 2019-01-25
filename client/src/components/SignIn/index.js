@@ -3,7 +3,7 @@ import { MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput, MDBBtn, MDBModalFooter 
 
 const styles = {
   size: {
-      width: "320px"
+      width: "330px"
   }
 }
 
