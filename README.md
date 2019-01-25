@@ -1,4 +1,4 @@
-# Reactor RPS Game
+# Reactor RPS
 
 This web game is a take on the classic Rock Paper Scissors (RPS) game. If you have no one to play with, you can play single player against CPU. If you have a friend to play with, you can play online with your friend. The game equip with build in chat, so you can communicate with your opponent, or with anyone else on the page. 
 
