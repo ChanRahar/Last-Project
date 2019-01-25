@@ -42,7 +42,7 @@ class RPSonline extends Component {
     }
 
     _onIdle(e) {
-        window.location.href = "/SignOut"
+        window.location.href = "/"
     }
 
     state = {
@@ -353,7 +353,6 @@ class RPSonline extends Component {
         playersRef.child("1").child("wins").set(playerOneData.wins + 1);
         playersRef.child("2").child("losses").set(playerTwoData.losses + 1);
 
-        if (this.state.loggedIn === true) {
 
             API.updateUser(
                 playerOneData.name,
@@ -372,7 +371,7 @@ class RPSonline extends Component {
                     losses: this.state.playerTwo.losses
                 })
                 .then(res => console.log(res))
-        }
+        
     };
 
     playerTwoWon = () => {
@@ -382,10 +381,10 @@ class RPSonline extends Component {
         playersRef.child("2").child("wins").set(playerTwoData.wins + 1);
         playersRef.child("1").child("losses").set(playerOneData.losses + 1);
 
-        if (this.state.loggedIn === true) {
+       
 
             API.updateUser(
-                playerOneData.name,
+                this.state.playerOne.name,
                 {
                     net: this.state.playerOne.wins - this.state.playerOne.losses,
                     wins: this.state.playerOne.wins,
@@ -394,14 +393,14 @@ class RPSonline extends Component {
                 .then(res => console.log(res))
 
             API.updateUser(
-                playerTwoData.name,
+                this.state.playerTwo.name,
                 {
                     net: this.state.playerTwo.wins - this.state.playerTwo.losses,
                     wins: this.state.playerTwo.wins,
                     losses: this.state.playerTwo.losses
                 })
                 .then(res => console.log(res))
-        }
+        
 
     };
 

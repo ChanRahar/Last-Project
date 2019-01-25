@@ -59,7 +59,7 @@ router
   .route("/allUsers")
   .get(function (req, res) {
     db.User
-      .find(req.query)
+      .find(req.query, {username: 1, wins: 1, losses: 1, _id: 0})
       .sort({ net: -1 })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
@@ -74,7 +74,6 @@ router
       .catch(err => res.status(422).json(err));
   })
   .put(function (req, res) {
-    console.log(req.body)
     db.User
       .findOneAndUpdate(
         {

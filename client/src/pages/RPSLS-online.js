@@ -44,7 +44,7 @@ class RPSLSonline extends Component {
     }
 
     _onIdle(e) {
-        window.location.href = "/SignOut"
+        window.location.href = "/"
     }
 
     state = {
@@ -352,26 +352,24 @@ class RPSLSonline extends Component {
         playersRef.child("1").child("wins").set(playerOneData.wins + 1);
         playersRef.child("2").child("losses").set(playerTwoData.losses + 1);
 
-        if (this.state.loggedIn === true) {
+        API.updateUser(
+            playerOneData.name,
+            {
+                net: this.state.playerOne.wins - this.state.playerOne.losses,
+                wins: this.state.playerOne.wins,
+                losses: this.state.playerOne.losses
+            })
+            .then(res => console.log(res))
 
-            API.updateUser(
-                playerOneData.name,
-                {
-                    net: this.state.playerOne.wins - this.state.playerOne.losses,
-                    wins: this.state.playerOne.wins,
-                    losses: this.state.playerOne.losses
-                })
-                .then(res => console.log(res))
+        API.updateUser(
+            playerTwoData.name,
+            {
+                net: this.state.playerTwo.wins - this.state.playerTwo.losses,
+                wins: this.state.playerTwo.wins,
+                losses: this.state.playerTwo.losses
+            })
+            .then(res => console.log(res))
 
-            API.updateUser(
-                playerTwoData.name,
-                {
-                    net: this.state.playerTwo.wins - this.state.playerTwo.losses,
-                    wins: this.state.playerTwo.wins,
-                    losses: this.state.playerTwo.losses
-                })
-                .then(res => console.log(res))
-        }
     };
 
     playerTwoWon = () => {
@@ -381,26 +379,25 @@ class RPSLSonline extends Component {
         playersRef.child("2").child("wins").set(playerTwoData.wins + 1);
         playersRef.child("1").child("losses").set(playerOneData.losses + 1);
 
-        if (this.state.loggedIn === true) {
 
-            API.updateUser(
-                playerOneData.name,
-                {
-                    net: this.state.playerOne.wins - this.state.playerOne.losses,
-                    wins: this.state.playerOne.wins,
-                    losses: this.state.playerOne.losses
-                })
-                .then(res => console.log(res))
+        API.updateUser(
+            playerOneData.name,
+            {
+                net: this.state.playerOne.wins - this.state.playerOne.losses,
+                wins: this.state.playerOne.wins,
+                losses: this.state.playerOne.losses
+            })
+            .then(res => console.log(res))
 
-            API.updateUser(
-                playerTwoData.name,
-                {
-                    net: this.state.playerTwo.wins - this.state.playerTwo.losses,
-                    wins: this.state.playerTwo.wins,
-                    losses: this.state.playerTwo.losses
-                })
-                .then(res => console.log(res))
-        }
+        API.updateUser(
+            playerTwoData.name,
+            {
+                net: this.state.playerTwo.wins - this.state.playerTwo.losses,
+                wins: this.state.playerTwo.wins,
+                losses: this.state.playerTwo.losses
+            })
+            .then(res => console.log(res))
+
 
     };
 
@@ -582,8 +579,8 @@ class RPSLSonline extends Component {
             } else if (winner !== null) {
                 return (
                     <div>
-                        <Img 
-                            pt = "pt-3"
+                        <Img
+                            pt="pt-3"
                             alt="You Won"
                             width="17rem"
                             height="15rem"
