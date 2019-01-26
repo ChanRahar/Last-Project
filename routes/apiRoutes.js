@@ -12,7 +12,7 @@ router
     newUser.password = bcrypt.hashSync(newUser.password, bcrypt.genSaltSync(10), null);
     db.User
       .create(newUser)
-      .then(dbModel => res.json(dbModel))
+      .then(dbModel => res.json(dbModel.username))
       .catch(err => res.status(422).json(err));
   });
 
@@ -22,7 +22,6 @@ router
     // Since we're doing a POST with javascript, we can't actually redirect that post into a GET request
     // So we're sending the user back the route to the members page because the redirect will happen on the front end
     // They won't get this or even be able to access this page if they aren't authed
-    // res.json("/members");
     res.json({
       loggedIn: true,
       username: req.user.username
@@ -59,7 +58,7 @@ router
   .route("/allUsers")
   .get(function (req, res) {
     db.User
-      .find(req.query, {username: 1, wins: 1, losses: 1, _id: 0})
+      .find(req.query, { username: 1, wins: 1, losses: 1, _id: 0 })
       .sort({ net: -1 })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
@@ -69,22 +68,36 @@ router
   .route("/allUsers/:username")
   .get(function (req, res) {
     db.User
-      .findOne({ "username": req.params.username })
+      .findOne({ "username": req.params.username }, { username: 1, wins: 1, losses: 1, _id: 0 })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   })
   .put(function (req, res) {
-    db.User
-      .findOneAndUpdate(
-        {
-          "username": req.params.username
-        },
-        {
-          $set: req.body
-        }
-      )
-      .then(dbModel => res.json(dbModel))
-      .catch(err => res.status(422).json(err));
+    if (req.body.win === "win") {
+      db.User
+        .findOneAndUpdate(
+          {
+            "username": req.params.username
+          },
+          {
+            $inc: {wins:1, net:1}
+          }
+        )
+        .then(dbModel => res.json(dbModel.username))
+        .catch(err => res.status(422).json(err));
+    } else if (req.body.win === "lose") {
+      db.User
+        .findOneAndUpdate(
+          {
+            "username": req.params.username
+          },
+          {
+            $inc: {losses: 1, net:-1}
+          }
+        )
+        .then(dbModel => res.json(dbModel.username))
+        .catch(err => res.status(422).json(err));
+    }
   });
 
 router
@@ -94,7 +107,8 @@ router
       .findOne({
         "username": req.params.username,
         "email": req.params.email
-      })
+      },
+        { username: 1, wins: 1, losses: 1, _id: 0 })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   })
@@ -111,7 +125,7 @@ router
           $set: newPass
         }
       )
-      .then(dbModel => res.json(dbModel))
+      .then(dbModel => res.json(dbModel.username))
       .catch(err => res.status(422).json(err));
   });
 

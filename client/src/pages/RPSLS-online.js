@@ -355,20 +355,16 @@ class RPSLSonline extends Component {
         API.updateUser(
             playerOneData.name,
             {
-                net: this.state.playerOne.wins - this.state.playerOne.losses,
-                wins: this.state.playerOne.wins,
-                losses: this.state.playerOne.losses
+                win:"win"
             })
-            .then(res => console.log(res))
+            .then(console.log("success"))
 
         API.updateUser(
             playerTwoData.name,
             {
-                net: this.state.playerTwo.wins - this.state.playerTwo.losses,
-                wins: this.state.playerTwo.wins,
-                losses: this.state.playerTwo.losses
+                win:"lose"
             })
-            .then(res => console.log(res))
+            .then(console.log("success"))
 
     };
 
@@ -383,20 +379,16 @@ class RPSLSonline extends Component {
         API.updateUser(
             playerOneData.name,
             {
-                net: this.state.playerOne.wins - this.state.playerOne.losses,
-                wins: this.state.playerOne.wins,
-                losses: this.state.playerOne.losses
+                win:"lose"
             })
-            .then(res => console.log(res))
+            .then(console.log("success"))
 
         API.updateUser(
             playerTwoData.name,
             {
-                net: this.state.playerTwo.wins - this.state.playerTwo.losses,
-                wins: this.state.playerTwo.wins,
-                losses: this.state.playerTwo.losses
+                win:"win"
             })
-            .then(res => console.log(res))
+            .then(console.log("success"))
 
 
     };

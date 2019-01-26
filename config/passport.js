@@ -24,7 +24,7 @@ passport.use(new LocalStrategy(
         });
       }
       // If there is a user with the given username, but the password the user gives us is incorrect
-      else if (!dbUser.validPassword(password)) { // TODO REMOVE BAD SECURITY AND PLAINTEXT PASSWORDS
+      else if (!dbUser.validPassword(password)) { 
         return done(null, false, {
           message: "Incorrect password."
         });
