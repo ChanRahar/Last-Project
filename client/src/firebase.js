@@ -5,7 +5,7 @@ import 'firebase/database';
 const config = {
     apiKey: process.env.firebasekey,
     authDomain: process.env.firebaseauthDomain, 
-    databaseURL: process.env.firebasedatabaseURL,  
+    databaseURL: "https://game-project-6e252.firebaseio.com",  
     projectId: process.env.firebaseprojectId,  
     storageBucket: process.env.firebasestorageBucket,  
     messagingSenderId: process.env.firebasemessagingSenderId  
