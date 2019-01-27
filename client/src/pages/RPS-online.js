@@ -171,7 +171,6 @@ class RPSonline extends Component {
             playerOneData = snapshot.child("1").val();
             playerTwoData = snapshot.child("2").val();
 
-            console.log(playerOneData)
             // If theres a player 1, fill in name and win loss data
             if (playerOneExists) {
                 this.setState({

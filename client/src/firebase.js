@@ -1,14 +1,14 @@
 import firebase from 'firebase/app';
 import 'firebase/database';
-// import firebaseKey from "./apiKey"
+import firebaseKey from "./apiKey"
 
 const config = {
-    apiKey: process.env.firebasekey,
-    authDomain: "game-project-6e252.firebaseapp.com",
-    databaseURL: "https://game-project-6e252.firebaseio.com",
-    projectId: "game-project-6e252",
-    storageBucket: "game-project-6e252.appspot.com",
-    messagingSenderId: "752115218164"
+    apiKey: process.env.firebasekey || firebaseKey.apiKey,
+    authDomain: process.env.firebaseauthDomain|| firebaseKey.authDomain,
+    databaseURL: process.env.firebasedatabaseURL || firebaseKey.databaseURL,
+    projectId: process.env.firebaseprojectId || firebaseKey.projectId,
+    storageBucket: process.env.firebasestorageBucket || firebaseKey.storageBucket,
+    messagingSenderId: process.env.firebasemessagingSenderId || firebaseKey.messagingSenderId
 };
 
 firebase.initializeApp(config);
