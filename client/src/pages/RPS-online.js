@@ -51,6 +51,7 @@ class RPSonline extends Component {
         currentTurn: null,
         winner: null,
         loggedIn: false,
+        id: "none",
 
         playerOne: {
             name: "Waiting for Player 1",
@@ -148,7 +149,8 @@ class RPSonline extends Component {
             .then(response => {
                 console.log(response);
                 if (response.data.loggedIn) {
-                    this.setState({ loggedIn: true, username: response.data.username });
+                    this.setState({ loggedIn: true, username: response.data.username, id: response.data.id});
+
                 } else {
                     console.log("No logged in user stored in session");
                 }
@@ -300,12 +302,12 @@ class RPSonline extends Component {
             playerRef = database.ref("/playersRPS/" + playerNum);
 
             // Creates player object. 'choice' is unnecessary here, but I left it in to be as complete as possible
-
             if (this.state.loggedIn === true) {
-                API.getUser(username)
+                API.getUser(this.state.id)
                     .then(res => {
                         playerRef.set({
-                            name: username,
+                            id: res.data._id,
+                            name: this.state.username,
                             wins: res.data.wins,
                             losses: res.data.losses,
                             choice: null
@@ -354,14 +356,14 @@ class RPSonline extends Component {
 
 
             API.updateUser(
-                playerOneData.name,
+                playerOneData.id,
                 {
                     win:"win"
                 })
                 .then(console.log("success"))
 
             API.updateUser(
-                playerTwoData.name,
+                playerTwoData.id,
                 {
                     win:"lose"
                 })
@@ -379,14 +381,14 @@ class RPSonline extends Component {
        
 
             API.updateUser(
-                this.state.playerOne.name,
+                playerOneData.id,
                 {
                     win:"lose"
                 })
                 .then(console.log("success"))
 
             API.updateUser(
-                this.state.playerTwo.name,
+                playerTwoData.id,
                 {
                     win:"win"
                 })

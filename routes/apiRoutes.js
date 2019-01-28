@@ -24,7 +24,7 @@ router
     // They won't get this or even be able to access this page if they aren't authed
     res.json({
       loggedIn: true,
-      username: req.user.username
+      username: req.user.username,
     });
   });
 
@@ -40,6 +40,7 @@ router
 router
   .route("/user_data")
   .get(function (req, res) {
+
     if (!req.user) {
       // The user is not logged in, send back an empty object
       res.json({ loggedIn: false });
@@ -48,7 +49,8 @@ router
       // Otherwise send back the user's username
       res.json({
         username: req.user.username,
-        loggedIn: true
+        loggedIn: true,
+        id: req.user._id
       });
     }
   });
@@ -58,17 +60,17 @@ router
   .route("/allUsers")
   .get(function (req, res) {
     db.User
-      .find(req.query, { username: 1, wins: 1, losses: 1, _id: 0 })
+      .find(req.query, { username: 1, wins: 1, losses: 1 })
       .sort({ net: -1 })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   })
 
 router
-  .route("/allUsers/:username")
+  .route("/allUsers/:_id")
   .get(function (req, res) {
     db.User
-      .findOne({ "username": req.params.username }, { username: 1, wins: 1, losses: 1, _id: 0 })
+      .findOne({ "_id": req.params._id }, { username: 1, wins: 1, losses: 1 })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   })
@@ -77,7 +79,7 @@ router
       db.User
         .findOneAndUpdate(
           {
-            "username": req.params.username
+            "_id": req.params._id
           },
           {
             $inc: {wins:1, net:1}
@@ -89,7 +91,7 @@ router
       db.User
         .findOneAndUpdate(
           {
-            "username": req.params.username
+            "_id": req.params._id
           },
           {
             $inc: {losses: 1, net:-1}
@@ -100,6 +102,15 @@ router
     }
   });
 
+  // router
+  // .route("/allUsers/:username")
+  // .get(function (req, res) {
+  //   db.User
+  //     .findOne({ "username": req.params.username }, { username: 1, wins: 1, losses: 1 })
+  //     .then(dbModel => res.json(dbModel))
+  //     .catch(err => res.status(422).json(err));
+  // })
+
 router
   .route("/allUsers/:username/:email")
   .get(function (req, res) {
@@ -108,7 +119,7 @@ router
         "username": req.params.username,
         "email": req.params.email
       },
-        { username: 1, wins: 1, losses: 1, _id: 0 })
+        { username: 1, wins: 1, losses: 1 })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   })

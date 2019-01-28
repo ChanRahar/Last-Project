@@ -25,11 +25,11 @@ export default {
     return axios.get("/api/allUsers");
   },
   // Gets the users with the given username
-  getUser: function (username) {
-    return axios.get("/api/allUsers/" + username);
+  getUser: function (id) {
+    return axios.get("/api/allUsers/" + id);
   },
-  updateUser: function (username, userData) {
-    return axios.put("/api/allUsers/" + username, userData);
+  updateUser: function (id, win) {
+    return axios.put("/api/allUsers/" + id, win);
   },
 
   passReset: function (username, email, userData) {

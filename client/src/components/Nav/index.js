@@ -5,7 +5,7 @@ import API from "../../utils/API"
 
 const styles = {
   dropdown: {
-    color:"white"
+    color: "white"
   },
 }
 
@@ -37,10 +37,6 @@ class NavbarPage extends React.Component {
 
   toggleCollapse = () => this.setState({ isOpen: !this.state.isOpen });
 
-  refresh = () => {
-    window.location.reload()
-  }
-
   render() {
     return (
       <Navbar color="default-color" dark expand="md">
@@ -57,8 +53,8 @@ class NavbarPage extends React.Component {
           </MDBDropdownMenu>
         </MDBDropdown>
 
-      
-        <NavbarBrand className="pointer" href="/" onClick={this.refresh}>
+
+        <NavbarBrand className="pointer" onClick={() => window.location.href = "/"}>
           <strong className="white-text">Reactor RPS</strong>
         </NavbarBrand>
         <NavbarToggler
@@ -69,7 +65,7 @@ class NavbarPage extends React.Component {
           </NavbarNav>
           <NavbarNav right>
             <NavItem>
-              <NavLink className="waves-effect waves-light pointer" to="/Leader_Board" onClick={this.refresh}>
+              <NavLink className="waves-effect waves-light pointer" to="/Leader_Board" onClick={() => window.location.href = "/Leader_Board"}>
                 Leader Board
                 </NavLink>
             </NavItem>
