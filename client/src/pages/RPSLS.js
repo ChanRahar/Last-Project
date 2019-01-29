@@ -89,7 +89,7 @@ class RPSLS extends Component {
             this.setState({ winner: "win", wins: this.state.wins + 1 });;
         }
         else if (playerChoice === "Spock" && this.state.computerGuess === "Rock") {
-            this.setState({ winner: "win", wins: this.state.wins + 1  });
+            this.setState({ winner: "win", wins: this.state.wins + 1 });
         }
         else if (playerChoice === "Spock" && this.state.computerGuess === "Paper") {
             this.setState({ winner: "lose", losses: this.state.losses + 1 });;
@@ -101,11 +101,11 @@ class RPSLS extends Component {
             this.setState({ winner: "lose", losses: this.state.losses + 1 });;
         }
 
-        const reset = () => {
-            this.setState({ winner: null, computerGuess: computerChoices[Math.floor(Math.random() * computerChoices.length)] });
-        }
+        setTimeout(this.gameReset, 1000 * 2);
+    }
 
-        setTimeout(reset, 1000 * 2);
+    gameReset = () => {
+        this.setState({ winner: null, computerGuess: computerChoices[Math.floor(Math.random() * computerChoices.length)] });
     }
 
     render() {
@@ -122,7 +122,7 @@ class RPSLS extends Component {
             } else if (choice === "Spock") {
                 return <Img width="5.7rem" height="5.7rem" src={spock} alt="spock" />
             }
-            
+
         }
 
         const didWin = () => {
@@ -140,7 +140,7 @@ class RPSLS extends Component {
         return (
             <MDBContainer fluid>
                 <Header>
-                Rock Paper Scissors Lizard Spock vs CPU
+                    Rock Paper Scissors Lizard Spock vs CPU
                 </Header>
                 <MDBContainer>
                     <MDBRow>
@@ -193,7 +193,6 @@ class RPSLS extends Component {
                                 </CardBody>
                             </Card>
                         </MDBCol>
-
                     </MDBRow>
                 </MDBContainer>
             </MDBContainer>

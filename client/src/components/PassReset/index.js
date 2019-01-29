@@ -52,7 +52,6 @@ const FormPage = ({ onSubmit, onChange, username, email, password }) => {
                 </label>
                 <input
                   type="password"
-                  id="defaultFormCardEmailEx"
                   className="form-control"
                   name="password"
                   value={password}

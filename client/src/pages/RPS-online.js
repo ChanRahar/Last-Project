@@ -1,11 +1,14 @@
 import React, { Component } from "react";
 import IdleTimer from 'react-idle-timer';
 import "./style.css";
-import { MDBContainer, MDBRow, MDBCol, Animation, MDBBtn, Card, CardBody, CardTitle } from 'mdbreact';
+import { MDBContainer, MDBRow, MDBCol, Animation, Card, CardBody, CardTitle } from 'mdbreact';
 import firebase from "../firebase";
 import API from "../utils/API";
 import Header from "../components/Header";
 import Img from "../components/Img";
+import NameInput from "../components/NameInput";
+import ChatMessages from "../components/ChatMessages";
+import ChatInput from "../components/ChatInput";
 
 const database = firebase.database();
 const chatData = database.ref("/chatRPS");
@@ -66,8 +69,6 @@ class RPSonline extends Component {
             losses: 0,
             choice: ""
         }
-
-
     }
 
     playersView = () => {
@@ -76,11 +77,9 @@ class RPSonline extends Component {
         } else if (playerNum === 2) {
             this.player2.scrollIntoView();
         }
-
-    }
+    };
 
     playerCheck = () => {
-
         const playersRPSLSRef = database.ref("playersRPSLS");
 
         let RPSLSname
@@ -99,7 +98,7 @@ class RPSonline extends Component {
 
             }
         })
-    }
+    };
 
     gameCheck = () => {
         let RPSname
@@ -118,47 +117,100 @@ class RPSonline extends Component {
                 }
             })
         }
-    }
+    };
 
-    chatDisplay = () => {
-        chatData.orderByChild("time").on("child_added", (snapshot) => {
+    nameSubmit = event => {
+        // Preventing the default behavior of the form submit (which is to refresh the page)
+        event.preventDefault();
 
-            // If idNum is 0, then its a disconnect message and displays accordingly
-            // If not - its a user chat message
-            this.setState({
-                chat: [...this.state.chat, {
-                    name: snapshot.val().name,
-                    message: snapshot.val().message,
-                    idNum: snapshot.val().idNum,
-                    keyId: this.state.chat.length
-                }]
-            });
-            this.chat.scrollTop = this.chat.scrollHeight;
-        });
+        if (this.username.value === "" && this.state.username === "") {
+            alert("Please Enter Name");
+        }
+        else if (this.state.username !== "" && this.username.value === "") {
+            username = this.state.username
 
-    }
+            this.gameCheck()
 
+            this.getInGame();
+        }
+        else if (this.username.value !== "") {
 
-    componentDidMount() {
+            let chosenName = capitalize(this.username.value)
 
-        if (this.state.loggedIn === true) {
-            this.playerCheck()
+            username = chosenName
+
+            this.setState({ username: chosenName });
+
+            this.getInGame();
         }
 
-        API.signedIn()
-            .then(response => {
-                console.log(response);
-                if (response.data.loggedIn) {
-                    this.setState({ loggedIn: true, username: response.data.username, id: response.data.id});
+        this.playersView();
+    };
 
-                } else {
-                    console.log("No logged in user stored in session");
-                }
+    getInGame = () => {
+
+        // For adding disconnects to the chat with a unique id (the date/time the user entered the game)
+        // Needed because Firebase's '.push()' creates its unique keys client side,
+        // so you can't ".push()" in a ".onDisconnect"
+        let chatDataDisc = database.ref("/chatRPS/" + Date.now());
+
+        // Checks for current players, if theres a player one connected, then the user becomes player 2.
+        // If there is no player one, then the user becomes player 1
+        if (currentPlayers < 2) {
+
+            if (playerOneExists) {
+                playerNum = 2;
+            }
+            else {
+                playerNum = 1;
+            }
+
+            // Creates key based on assigned player number
+            playerRef = database.ref("/playersRPS/" + playerNum);
+
+            // Creates player object. 'choice' is unnecessary here, but I left it in to be as complete as possible
+            if (this.state.loggedIn === true) {
+                API.getUser(this.state.id)
+                    .then(res => {
+                        playerRef.set({
+                            id: res.data._id,
+                            name: this.state.username,
+                            wins: res.data.wins,
+                            losses: res.data.losses,
+                            choice: null
+                        });
+                    })
+            } else {
+                playerRef.set({
+                    name: username,
+                    wins: 0,
+                    losses: 0,
+                    choice: null
+                });
+            }
+
+            // On disconnect remove this user's player object
+            playerRef.onDisconnect().remove();
+
+            // If a user disconnects, set the current turn to 'null' so the game does not continue
+            currentTurnRef.onDisconnect().remove();
+
+            // Send disconnect message to chat with Firebase server generated timestamp and id of '0' to denote system message
+            chatDataDisc.onDisconnect().set({
+                name: username,
+                time: firebase.database.ServerValue.TIMESTAMP,
+                message: "has disconnected.",
+                idNum: 0
             });
+        }
+        else {
+            playerNum = null
+            // If current players is "2", will not allow the player to join
+            alert("Sorry, Game Full! Try Again Later!");
+        }
+    };
 
-        this.chatDisplay();
-
-        win.set(null)
+    gameSetup = () => {
 
         playersRef.on("value", (snapshot) => {
 
@@ -219,7 +271,9 @@ class RPSonline extends Component {
                 });
             }
         });
-
+    };
+    
+    turnSetup = () => {
         playersRef.on("child_added", function (snapshot) {
 
             if (currentPlayers === 1) {
@@ -243,166 +297,15 @@ class RPSonline extends Component {
                     // Where the game win logic takes place then resets to turn 1
                     this.gameLogic(playerOneData.choice, playerTwoData.choice);
 
-                    //  reset after timeout
-                    const moveOn = () => {
-
-                        win.set(null)
-
-                        win.on("value", snapshot => {
-
-                            this.setState({ winner: snapshot.val() });
-                        });
-                        // check to make sure players didn't leave before timeout
-                        if (playerOneExists && playerTwoExists) {
-                            currentTurnRef.set(1);
-                        }
-
-                    };
 
                     //  show results for 3 seconds, then resets
-                    setTimeout(moveOn, 1000 * 3);
+                    setTimeout(this.gameReset, 1000 * 3);
                 }
-
             }
         });
-        this.winner();
-    }
-
-    winner = () => {
-        win.on("value", snapshot => {
-
-            this.setState({ winner: snapshot.val() });
-        });
-
-    }
-
-    componentDidUpdate() {
-        this.chat.scrollTop = this.chat.scrollHeight;
-    }
-
-    getInGame = () => {
-
-        // For adding disconnects to the chat with a unique id (the date/time the user entered the game)
-        // Needed because Firebase's '.push()' creates its unique keys client side,
-        // so you can't ".push()" in a ".onDisconnect"
-        let chatDataDisc = database.ref("/chatRPS/" + Date.now());
-
-        // Checks for current players, if theres a player one connected, then the user becomes player 2.
-        // If there is no player one, then the user becomes player 1
-        if (currentPlayers < 2) {
-
-            if (playerOneExists) {
-                playerNum = 2;
-            }
-            else {
-                playerNum = 1;
-            }
-
-            // Creates key based on assigned player number
-            playerRef = database.ref("/playersRPS/" + playerNum);
-
-            // Creates player object. 'choice' is unnecessary here, but I left it in to be as complete as possible
-            if (this.state.loggedIn === true) {
-                API.getUser(this.state.id)
-                    .then(res => {
-                        playerRef.set({
-                            id: res.data._id,
-                            name: this.state.username,
-                            wins: res.data.wins,
-                            losses: res.data.losses,
-                            choice: null
-                        });
-                    })
-            } else {
-                playerRef.set({
-                    name: username,
-                    wins: 0,
-                    losses: 0,
-                    choice: null
-                });
-            }
-
-            // On disconnect remove this user's player object
-            playerRef.onDisconnect().remove();
-
-
-            // If a user disconnects, set the current turn to 'null' so the game does not continue
-            currentTurnRef.onDisconnect().remove();
-
-            // Send disconnect message to chat with Firebase server generated timestamp and id of '0' to denote system message
-            chatDataDisc.onDisconnect().set({
-                name: username,
-                time: firebase.database.ServerValue.TIMESTAMP,
-                message: "has disconnected.",
-                idNum: 0
-            });
-
-
-        }
-        else {
-            playerNum = null
-            // If current players is "2", will not allow the player to join
-            alert("Sorry, Game Full! Try Again Later!");
-        }
-    }
-
-    playerOneWon = () => {
-
-
-        win.set(playerOneData.name)
-
-        playersRef.child("1").child("wins").set(playerOneData.wins + 1);
-        playersRef.child("2").child("losses").set(playerTwoData.losses + 1);
-
-
-            API.updateUser(
-                playerOneData.id,
-                {
-                    win:"win"
-                })
-                .then(console.log("success"))
-
-            API.updateUser(
-                playerTwoData.id,
-                {
-                    win:"lose"
-                })
-                .then(console.log("success"))
-        
-    };
-
-    playerTwoWon = () => {
-
-        win.set(playerTwoData.name)
-
-        playersRef.child("2").child("wins").set(playerTwoData.wins + 1);
-        playersRef.child("1").child("losses").set(playerOneData.losses + 1);
-
-       
-
-            API.updateUser(
-                playerOneData.id,
-                {
-                    win:"lose"
-                })
-                .then(console.log("success"))
-
-            API.updateUser(
-                playerTwoData.id,
-                {
-                    win:"win"
-                })
-                .then(console.log("success"))
-        
-
-    };
-
-    tie = () => {
-        win.set("Tie")
     };
 
     gameLogic = (player1choice, player2choice) => {
-
 
         if (player1choice === "Rock" && player2choice === "Rock") {
             this.tie();
@@ -433,43 +336,82 @@ class RPSonline extends Component {
         }
     }
 
+    playerChoice(choice) {
 
-    handleInputChange = event => {
-        // Getting the value and name of the input which triggered the change
-        const { name, value } = event.target;
+        playerRef.child("choice").set(choice);
 
-        // Updating the input's state
-        this.setState({
-            [name]: value
+        currentTurnRef.transaction((turn) => {
+            return turn + 1;
         });
     };
 
-    nameSubmit = event => {
-        // Preventing the default behavior of the form submit (which is to refresh the page)
-        event.preventDefault();
+    playerOneWon = () => {
 
-        if (this.username.value === "" && this.state.username === "") {
-            alert("Please Enter Name");
+        win.set(playerOneData.name)
+
+        playersRef.child("1").child("wins").set(playerOneData.wins + 1);
+        playersRef.child("2").child("losses").set(playerTwoData.losses + 1);
+
+        API.updateUser(
+            playerOneData.id,
+            {
+                win: "win"
+            })
+            .then(console.log("success"))
+
+        API.updateUser(
+            playerTwoData.id,
+            {
+                win: "lose"
+            })
+            .then(console.log("success"))
+    };
+
+    playerTwoWon = () => {
+
+        win.set(playerTwoData.name)
+
+        playersRef.child("2").child("wins").set(playerTwoData.wins + 1);
+        playersRef.child("1").child("losses").set(playerOneData.losses + 1);
+
+        API.updateUser(
+            playerOneData.id,
+            {
+                win: "lose"
+            })
+            .then(console.log("success"))
+
+        API.updateUser(
+            playerTwoData.id,
+            {
+                win: "win"
+            })
+            .then(console.log("success"))
+    };
+
+    tie = () => {
+        win.set("Tie")
+    };
+
+    winner = () => {
+        win.on("value", snapshot => {
+
+            this.setState({ winner: snapshot.val() });
+        });
+    };
+
+    gameReset = () => {
+        
+        win.set(null)
+
+        win.on("value", snapshot => {
+
+            this.setState({ winner: snapshot.val() });
+        });
+        // check to make sure players didn't leave before timeout
+        if (playerOneExists && playerTwoExists) {
+            currentTurnRef.set(1);
         }
-        else if (this.state.username !== "" && this.username.value === "") {
-            username = this.state.username
-
-            this.gameCheck()
-
-            this.getInGame();
-        }
-        else if (this.username.value !== "") {
-
-            let chosenName = capitalize(this.username.value)
-
-            username = chosenName
-
-            this.setState({ username: chosenName });
-
-            this.getInGame();
-        }
-
-        this.playersView();
     };
 
     messageSubmit = event => {
@@ -477,7 +419,6 @@ class RPSonline extends Component {
 
         if (this.message.value !== "") {
             let message = this.message.value
-
 
             if (this.state.username === "") {
                 chatData.push({
@@ -496,21 +437,58 @@ class RPSonline extends Component {
             }
         }
         this.message.value = ""
+    };
+
+    chatDisplay = () => {
+        chatData.orderByChild("time").on("child_added", (snapshot) => {
+
+            // If idNum is 0, then its a disconnect message and displays accordingly
+            // If not - its a user chat message
+            this.setState({
+                chat: [...this.state.chat, {
+                    name: snapshot.val().name,
+                    message: snapshot.val().message,
+                    idNum: snapshot.val().idNum,
+                    keyId: this.state.chat.length
+                }]
+            });
+            this.chat.scrollTop = this.chat.scrollHeight;
+        });
+    };
+
+    componentDidMount() {
+
+        win.set(null)
+
+        if (this.state.loggedIn === true) {
+            this.playerCheck()
+        }
+
+        API.signedIn()
+            .then(response => {
+                console.log(response);
+                if (response.data.loggedIn) {
+                    this.setState({ loggedIn: true, username: response.data.username, id: response.data.id });
+
+                } else {
+                    console.log("No logged in user stored in session");
+                }
+            });
+
+        this.chatDisplay();
+
+        this.gameSetup();
+
+        this.turnSetup();
+
+        this.winner();
     }
 
-    playerChoice(choice) {
-
-        playerRef.child("choice").set(choice);
-
-        currentTurnRef.transaction((turn) => {
-            return turn + 1;
-
-        });
-
+    componentDidUpdate() {
+        this.chat.scrollTop = this.chat.scrollHeight;
     }
 
     render() {
-
         const whoWon = (winner) => {
             if (winner === "Tie") {
                 return (
@@ -574,20 +552,11 @@ class RPSonline extends Component {
                     <MDBRow>
                         <MDBCol className="d-flex justify-content-center">
                             {playerNum === null ? (
-                                <form onSubmit={this.nameSubmit}>
-
-                                    <input className={this.state.loggedIn === true ? "invisible" : "visible text-center"}
-                                        id="username"
-                                        name="username"
-                                        ref={(input) => { this.username = input }}
-                                        type="input"
-                                        placeholder="Enter Name"
-                                    />
-                                    <div className="text-center">
-                                        <MDBBtn color="unique" type="submit">Start</MDBBtn>
-                                    </div>
-
-                                </form>
+                                <NameInput
+                                    onSubmit={this.nameSubmit}
+                                    loggedIn={this.state.loggedIn}
+                                    ref={(input) => { this.username = input }}
+                                />
                             ) : (<h2 className="text-center">Hi {this.state.username}! You are Player {playerNum}</h2>)
                             }
                         </MDBCol>
@@ -662,24 +631,15 @@ class RPSonline extends Component {
                             </Card>
                         </MDBCol>
                     </MDBRow>
-                    <div id="chat" className="justify-content-center my-1">
-                        <div>
-                            <div id="chat-messages" ref={chat => this.chat = chat}>
-                                {this.state.chat.map(line => (
-                                    <p className={'line-chat player' + line.idNum} key={line.keyId}><span>{line.name}</span>: {line.message}</p>
-                                ))}
-                            </div>
-                            <div id="chat-bar">
-                                <form onSubmit={this.messageSubmit}>
-                                    <input id="chat-input"
-                                        name="message"
-                                        ref={(input) => { this.message = input }}
-                                        type="input" />
-                                    <button id="chat-send" type="submit">Send</button>
-                                </form >
-                            </div>
-                        </div>
-                    </div>
+                    <ChatMessages
+                        chat={this.state.chat}
+                        ref={chat => this.chat = chat}
+                    >
+                        <ChatInput
+                            onSubmit={this.messageSubmit}
+                            ref={(input) => { this.message = input }}
+                        />
+                    </ChatMessages>
                 </MDBContainer>
             </MDBContainer>
         );

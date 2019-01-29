@@ -12,7 +12,7 @@ class RPS extends Component {
 
     state = {
         playerChoice: null,
-        computerGuess:computerChoices[Math.floor(Math.random() * computerChoices.length)],
+        computerGuess: computerChoices[Math.floor(Math.random() * computerChoices.length)],
 
         winner: null,
         wins: 0,
@@ -21,7 +21,7 @@ class RPS extends Component {
 
     gameLogic = (playerChoice) => {
 
-        this.setState({playerChoice: playerChoice});
+        this.setState({ playerChoice: playerChoice });
 
         if (playerChoice === "Rock" && this.state.computerGuess === "Rock") {
             this.setState({ winner: "tie" });
@@ -33,29 +33,29 @@ class RPS extends Component {
             this.setState({ winner: "tie" });
         }
         else if (playerChoice === "Rock" && this.state.computerGuess === "Paper") {
-            this.setState({ winner: "lose", losses:this.state.losses + 1 });
+            this.setState({ winner: "lose", losses: this.state.losses + 1 });
         }
         else if (playerChoice === "Rock" && this.state.computerGuess === "Scissors") {
-            this.setState({ winner: "win", wins:this.state.wins + 1 });;
+            this.setState({ winner: "win", wins: this.state.wins + 1 });;
         }
         else if (playerChoice === "Paper" && this.state.computerGuess === "Rock") {
-            this.setState({ winner: "win", wins:this.state.wins + 1 });;
+            this.setState({ winner: "win", wins: this.state.wins + 1 });;
         }
         else if (playerChoice === "Paper" && this.state.computerGuess === "Scissors") {
-            this.setState({ winner: "lose", losses:this.state.losses + 1 });
+            this.setState({ winner: "lose", losses: this.state.losses + 1 });
         }
         else if (playerChoice === "Scissors" && this.state.computerGuess === "Rock") {
-            this.setState({ winner: "lose", losses:this.state.losses + 1 });
+            this.setState({ winner: "lose", losses: this.state.losses + 1 });
         }
         else if (playerChoice === "Scissors" && this.state.computerGuess === "Paper") {
-            this.setState({ winner: "win", wins:this.state.wins + 1 });;
+            this.setState({ winner: "win", wins: this.state.wins + 1 });;
         }
 
-        const reset = () => {
-            this.setState({winner: null, computerGuess:computerChoices[Math.floor(Math.random() * computerChoices.length)]});
-        }
+        setTimeout(this.gameReset, 1000 * 2);
+    }
 
-        setTimeout(reset, 1000 * 2);
+    gameReset = () => {
+        this.setState({ winner: null, computerGuess: computerChoices[Math.floor(Math.random() * computerChoices.length)] });
     }
 
     render() {

@@ -6,6 +6,9 @@ import firebase from "../firebase";
 import API from "../utils/API";
 import Header from "../components/Header";
 import Img from "../components/Img";
+import NameInput from "../components/NameInput";
+import ChatMessages from "../components/ChatMessages";
+import ChatInput from "../components/ChatInput";
 
 const database = firebase.database();
 const chatData = database.ref("/chatRPSLS");
@@ -69,7 +72,7 @@ class RPSLSonline extends Component {
         }
 
 
-    }
+    };
 
     playersView = () => {
         if (playerNum === 1) {
@@ -77,7 +80,7 @@ class RPSLSonline extends Component {
         } else if (playerNum === 2) {
             this.player2.scrollIntoView();
         }
-    }
+    };
 
     playerCheck = () => {
         const playersRPSRef = database.ref("playersRPS");
@@ -98,7 +101,7 @@ class RPSLSonline extends Component {
 
             }
         })
-    }
+    };
 
     gameCheck = () => {
         let RPSLSname
@@ -117,166 +120,35 @@ class RPSLSonline extends Component {
                 }
             })
         }
-    }
+    };
 
-    chatDisplay = () => {
-        chatData.orderByChild("time").on("child_added", (snapshot) => {
+    nameSubmit = event => {
+        // Preventing the default behavior of the form submit (which is to refresh the page)
+        event.preventDefault();
 
-            // If idNum is 0, then its a disconnect message and displays accordingly
-            // If not - its a user chat message
-            this.setState({
-                chat: [...this.state.chat, {
-                    name: snapshot.val().name,
-                    message: snapshot.val().message,
-                    idNum: snapshot.val().idNum,
-                    keyId: this.state.chat.length
-                }]
-            });
-            this.chat.scrollTop = this.chat.scrollHeight;
-        });
+        if (this.username.value === "" && this.state.username === "") {
+            alert("Please Enter Name");
+        }
+        else if (this.state.username !== "" && this.username.value === "") {
+            username = this.state.username
 
-    }
+            this.gameCheck();
 
+            this.getInGame();
+        }
+        else if (this.username.value !== "") {
 
-    componentDidMount() {
+            let chosenName = capitalize(this.username.value)
 
-        if (this.state.loggedIn === true) {
-            this.playerCheck()
+            username = chosenName
+
+            this.setState({ username: chosenName });
+
+            this.getInGame();
         }
 
-        API.signedIn()
-            .then(response => {
-                console.log(response);
-                if (response.data.loggedIn) {
-                    this.setState({ loggedIn: true, username: response.data.username, id: response.data.id });
-                } else {
-                    console.log("No logged in user stored in session");
-                }
-            });
-
-        this.chatDisplay();
-
-        win.set(null)
-
-        playersRef.on("value", (snapshot) => {
-
-            // length of the 'players' array
-            currentPlayers = snapshot.numChildren();
-
-            // Check to see if players exist
-            playerOneExists = snapshot.child("1").exists();
-            playerTwoExists = snapshot.child("2").exists();
-
-            // Player data objects
-            playerOneData = snapshot.child("1").val();
-            playerTwoData = snapshot.child("2").val();
-
-            // If theres a player 1, fill in name and win loss data
-            if (playerOneExists) {
-                this.setState({
-                    playerOne: {
-                        name: playerOneData.name,
-                        wins: playerOneData.wins,
-                        losses: playerOneData.losses,
-                        choice: playerOneData.choice
-                    }
-                });
-            }
-            else {
-
-                // If there is no player 1, clear win/loss data and show waiting
-                this.setState({
-                    playerOne: {
-                        name: "Waiting for Player 1",
-                        wins: 0,
-                        losses: 0
-                    }
-                });
-            }
-
-            // If theres a player 2, fill in name and win/loss data
-            if (playerTwoExists) {
-                this.setState({
-                    playerTwo: {
-                        name: playerTwoData.name,
-                        wins: playerTwoData.wins,
-                        losses: playerTwoData.losses,
-                        choice: playerTwoData.choice
-                    }
-                });
-            }
-            else {
-
-                // If no player 2, clear win/loss and show waiting
-                this.setState({
-                    playerTwo: {
-                        name: "Waiting for Player 2",
-                        wins: 0,
-                        losses: 0
-                    }
-                });
-            }
-        });
-
-
-        playersRef.on("child_added", function (snapshot) {
-
-            if (currentPlayers === 1) {
-
-                // set turn to 1, which starts the game
-                currentTurnRef.set(1);
-            }
-        });
-
-        currentTurnRef.on("value", (snapshot) => {
-
-            // Gets current turn from snapshot
-            this.setState({ currentTurn: snapshot.val() });
-
-
-            // Don't do the following unless you're logged in
-            if (playerNum) {
-
-                if (this.state.currentTurn === 3) {
-
-                    // Where the game win logic takes place then resets to turn 1
-                    this.gameLogic(playerOneData.choice, playerTwoData.choice);
-
-                    //  reset after timeout
-                    const moveOn = () => {
-
-                        win.set(null)
-
-                        win.on("value", snapshot => {
-
-                            this.setState({ winner: snapshot.val() });
-                        });
-                        // check to make sure players didn't leave before timeout
-                        if (playerOneExists && playerTwoExists) {
-                            currentTurnRef.set(1);
-                        }
-                    };
-
-                    //  show results for 3 seconds, then resets
-                    setTimeout(moveOn, 1000 * 3);
-                }
-
-            }
-        });
-        this.winner();
-    }
-
-    winner = () => {
-        win.on("value", snapshot => {
-
-            this.setState({ winner: snapshot.val() });
-        });
-
-    }
-
-    componentDidUpdate() {
-        this.chat.scrollTop = this.chat.scrollHeight;
-    }
+        this.playersView();
+    };
 
     getInGame = () => {
 
@@ -343,63 +215,103 @@ class RPSLSonline extends Component {
             // If current players is "2", will not allow the player to join
             alert("Sorry, Game Full! Try Again Later!");
         }
-    }
-
-    playerOneWon = () => {
-
-
-        win.set(playerOneData.name)
-
-        playersRef.child("1").child("wins").set(playerOneData.wins + 1);
-        playersRef.child("2").child("losses").set(playerTwoData.losses + 1);
-
-        API.updateUser(
-            playerOneData.id,
-            {
-                win:"win"
-            })
-            .then(console.log("success"))
-
-        API.updateUser(
-            playerTwoData.id,
-            {
-                win:"lose"
-            })
-            .then(console.log("success"))
-
     };
 
-    playerTwoWon = () => {
+    gameSetup = () => {
 
-        win.set(playerTwoData.name)
+        playersRef.on("value", (snapshot) => {
 
-        playersRef.child("2").child("wins").set(playerTwoData.wins + 1);
-        playersRef.child("1").child("losses").set(playerOneData.losses + 1);
+            // length of the 'players' array
+            currentPlayers = snapshot.numChildren();
 
+            // Check to see if players exist
+            playerOneExists = snapshot.child("1").exists();
+            playerTwoExists = snapshot.child("2").exists();
 
-        API.updateUser(
-            playerOneData.id,
-            {
-                win:"lose"
-            })
-            .then(console.log("success"))
+            // Player data objects
+            playerOneData = snapshot.child("1").val();
+            playerTwoData = snapshot.child("2").val();
 
-        API.updateUser(
-            playerTwoData.id,
-            {
-                win:"win"
-            })
-            .then(console.log("success"))
+            // If theres a player 1, fill in name and win loss data
+            if (playerOneExists) {
+                this.setState({
+                    playerOne: {
+                        name: playerOneData.name,
+                        wins: playerOneData.wins,
+                        losses: playerOneData.losses,
+                        choice: playerOneData.choice
+                    }
+                });
+            }
+            else {
 
+                // If there is no player 1, clear win/loss data and show waiting
+                this.setState({
+                    playerOne: {
+                        name: "Waiting for Player 1",
+                        wins: 0,
+                        losses: 0
+                    }
+                });
+            }
 
+            // If theres a player 2, fill in name and win/loss data
+            if (playerTwoExists) {
+                this.setState({
+                    playerTwo: {
+                        name: playerTwoData.name,
+                        wins: playerTwoData.wins,
+                        losses: playerTwoData.losses,
+                        choice: playerTwoData.choice
+                    }
+                });
+            }
+            else {
+
+                // If no player 2, clear win/loss and show waiting
+                this.setState({
+                    playerTwo: {
+                        name: "Waiting for Player 2",
+                        wins: 0,
+                        losses: 0
+                    }
+                });
+            }
+        });
     };
 
-    tie = () => {
-        win.set("Tie")
+    turnSetup = () => {
+        playersRef.on("child_added", function (snapshot) {
+
+            if (currentPlayers === 1) {
+
+                // set turn to 1, which starts the game
+                currentTurnRef.set(1);
+            }
+        });
+
+        currentTurnRef.on("value", (snapshot) => {
+
+            // Gets current turn from snapshot
+            this.setState({ currentTurn: snapshot.val() });
+
+
+            // Don't do the following unless you're logged in
+            if (playerNum) {
+
+                if (this.state.currentTurn === 3) {
+
+                    // Where the game win logic takes place then resets to turn 1
+                    this.gameLogic(playerOneData.choice, playerTwoData.choice);
+
+                    //  show results for 3 seconds, then resets
+                    setTimeout(this.gameReset, 1000 * 3);
+                }
+            }
+        });
     };
 
     gameLogic = (player1choice, player2choice) => {
-
 
         if (player1choice === "Rock" && player2choice === "Rock") {
             this.tie();
@@ -452,7 +364,6 @@ class RPSLSonline extends Component {
         else if (player1choice === "Scissors" && player2choice === "Spock") {
             this.playerTwoWon();
         }
-
         else if (player1choice === "Lizard" && player2choice === "Rock") {
             this.playerTwoWon();
         }
@@ -477,45 +388,86 @@ class RPSLSonline extends Component {
         else if (player1choice === "Spock" && player2choice === "Lizard") {
             this.playerTwoWon();
         }
-    }
+    };
 
+    playerChoice(choice) {
 
-    handleInputChange = event => {
-        // Getting the value and name of the input which triggered the change
-        const { name, value } = event.target;
+        playerRef.child("choice").set(choice);
 
-        // Updating the input's state
-        this.setState({
-            [name]: value
+        currentTurnRef.transaction((turn) => {
+            return turn + 1;
+
         });
     };
 
-    nameSubmit = event => {
-        // Preventing the default behavior of the form submit (which is to refresh the page)
-        event.preventDefault();
+    playerOneWon = () => {
 
-        if (this.username.value === "" && this.state.username === "") {
-            alert("Please Enter Name");
+        win.set(playerOneData.name)
+
+        playersRef.child("1").child("wins").set(playerOneData.wins + 1);
+        playersRef.child("2").child("losses").set(playerTwoData.losses + 1);
+
+        API.updateUser(
+            playerOneData.id,
+            {
+                win: "win"
+            })
+            .then(console.log("success"))
+
+        API.updateUser(
+            playerTwoData.id,
+            {
+                win: "lose"
+            })
+            .then(console.log("success"))
+    };
+
+    playerTwoWon = () => {
+
+        win.set(playerTwoData.name)
+
+        playersRef.child("2").child("wins").set(playerTwoData.wins + 1);
+        playersRef.child("1").child("losses").set(playerOneData.losses + 1);
+
+
+        API.updateUser(
+            playerOneData.id,
+            {
+                win: "lose"
+            })
+            .then(console.log("success"))
+
+        API.updateUser(
+            playerTwoData.id,
+            {
+                win: "win"
+            })
+            .then(console.log("success"))
+    };
+
+    tie = () => {
+        win.set("Tie")
+    };
+
+    winner = () => {
+        win.on("value", snapshot => {
+
+            this.setState({ winner: snapshot.val() });
+        });
+    };
+
+    gameReset = () => {
+
+        win.set(null)
+
+        win.on("value", snapshot => {
+
+            this.setState({ winner: snapshot.val() });
+        });
+        // check to make sure players didn't leave before timeout
+        if (playerOneExists && playerTwoExists) {
+            currentTurnRef.set(1);
         }
-        else if (this.state.username !== "" && this.username.value === "") {
-            username = this.state.username
-
-            this.gameCheck();
-
-            this.getInGame();
-        }
-        else if (this.username.value !== "") {
-
-            let chosenName = capitalize(this.username.value)
-
-            username = chosenName
-
-            this.setState({ username: chosenName });
-
-            this.getInGame();
-        }
-
-        this.playersView();
     };
 
     messageSubmit = event => {
@@ -542,18 +494,56 @@ class RPSLSonline extends Component {
             }
         }
         this.message.value = ""
-    }
+    };
 
-    playerChoice(choice) {
+    chatDisplay = () => {
+        chatData.orderByChild("time").on("child_added", (snapshot) => {
 
-        playerRef.child("choice").set(choice);
-
-        currentTurnRef.transaction((turn) => {
-            return turn + 1;
-
+            // If idNum is 0, then its a disconnect message and displays accordingly
+            // If not - its a user chat message
+            this.setState({
+                chat: [...this.state.chat, {
+                    name: snapshot.val().name,
+                    message: snapshot.val().message,
+                    idNum: snapshot.val().idNum,
+                    keyId: this.state.chat.length
+                }]
+            });
+            this.chat.scrollTop = this.chat.scrollHeight;
         });
 
-    }
+    };
+
+    componentDidMount() {
+
+        win.set(null)
+
+        if (this.state.loggedIn === true) {
+            this.playerCheck()
+        }
+
+        API.signedIn()
+            .then(response => {
+                console.log(response);
+                if (response.data.loggedIn) {
+                    this.setState({ loggedIn: true, username: response.data.username, id: response.data.id });
+                } else {
+                    console.log("No logged in user stored in session");
+                }
+            });
+
+        this.chatDisplay();
+
+        this.gameSetup();
+
+        this.turnSetup();
+
+        this.winner();
+    };
+
+    componentDidUpdate() {
+        this.chat.scrollTop = this.chat.scrollHeight;
+    };
 
     render() {
 
@@ -626,20 +616,11 @@ class RPSLSonline extends Component {
                     <MDBRow>
                         <MDBCol className="d-flex justify-content-center">
                             {playerNum === null ? (
-                                <form onSubmit={this.nameSubmit}>
-
-                                    <input className={this.state.loggedIn === true ? "invisible" : "visible text-center"}
-                                        id="username"
-                                        name="username"
-                                        ref={(input) => { this.username = input }}
-                                        type="input"
-                                        placeholder="Enter Name"
-                                    />
-                                    <div className="text-center">
-                                        <MDBBtn color="unique" type="submit">Start</MDBBtn>
-                                    </div>
-
-                                </form>
+                                <NameInput
+                                    onSubmit={this.nameSubmit}
+                                    loggedIn={this.state.loggedIn}
+                                    ref={(input) => { this.username = input }}
+                                />
                             ) : (<h2 className="text-center">Hi {this.state.username}! You are Player {playerNum}</h2>)
                             }
                         </MDBCol>
@@ -740,24 +721,15 @@ class RPSLSonline extends Component {
                             </Card>
                         </MDBCol>
                     </MDBRow>
-                    <div id="chat" className="justify-content-center my-1">
-                        <div>
-                            <div id="chat-messages" ref={chat => this.chat = chat}>
-                                {this.state.chat.map(line => (
-                                    <p className={'line-chat player' + line.idNum} key={line.keyId}><span>{line.name}</span>: {line.message}</p>
-                                ))}
-                            </div>
-                            <div id="chat-bar">
-                                <form onSubmit={this.messageSubmit}>
-                                    <input id="chat-input"
-                                        name="message"
-                                        ref={(input) => { this.message = input }}
-                                        type="input" />
-                                    <button id="chat-send" type="submit">Send</button>
-                                </form >
-                            </div>
-                        </div>
-                    </div>
+                    <ChatMessages
+                        chat={this.state.chat}
+                        ref={chat => this.chat = chat}
+                    >
+                        <ChatInput
+                            onSubmit={this.messageSubmit}
+                            ref={(input) => { this.message = input }}
+                        />
+                    </ChatMessages>
                 </MDBContainer>
             </MDBContainer>
         );
