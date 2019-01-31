@@ -1,11 +1,11 @@
 # Reactor RPS
 
-Play the classic Rock-Paper-Scissors (RPS) game, or the more complex version Rock-Paper-Scissors-Lizard-Spock (RPSLS), against CPU, or online two player with a friend. Create an account to keep track of your online win/loss record, and climb the leaderboard to be the best RPS and RPSLS player!! 
+A mobile responsive web application that let users to play the classic Rock-Paper-Scissors (RPS) game, or Rock-Paper-Scissors-Lizard-Spock (RPSLS), the more complex version of RPS, against CPU or online two players. Users can create an account to keep track of their online wins and losses, and compete with each other to be number one on the leaderboard.
 
 ![Reactor-RPS Homa Page](https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/Reactor-RPS.png) 
 
 
-## Single Player
+## RPS Single Player
 ![Reactor-RPS Single Player](https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/RPS-Single.gif)
 
 Try the game here: http://reactor-rps.herokuapp.com/
@@ -29,3 +29,4 @@ npm i
 This game uses firebase for the game database. You need to create an apiKey file in the src folder with your firebase information to start the application locally.
 
 Your app should now be running on <http://localhost:8800>. The Express server should intercept any AJAX requests from the client.
+
