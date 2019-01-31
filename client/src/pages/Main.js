@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Jumbotron from "../components/Jumbotron";
 import { MDBContainer, MDBRow, MDBCol, Card, CardBody, CardTitle, Button } from 'mdbreact';
 import Img from "../components/Img";
-import "./style.css";
 
 const styles = {
     background: {
