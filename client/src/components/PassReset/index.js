@@ -59,7 +59,7 @@ const FormPage = ({ onSubmit, onChange, username, email, password }) => {
                 />
                 <p className="font-small grey-text d-flex justify-content-end">
                   Remember Password?
-                        <a href="/SignUp" className="blue-text ml-1">
+                        <a href="/Login" className="blue-text ml-1">
 
                     Sign In
                         </a>
