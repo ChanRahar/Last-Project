@@ -3,3 +3,47 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+html, body {
+  /* Visual */
+  /* background-color: #e4f0d0; */
+  background-image: url("./images/retro-game-background.jpg");
+  /* Full height */
+  height: 100%;
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/***********************************
+  
+                GameDiv
+  
+  ***********************************/
+
+.outcomes {
+  /* Positioning */
+  position: absolute;
+  bottom: 10px;
+  /* Box-model */
+  width: 90%;
+  /* Typography */
+  text-align: center;
+}
+
+.outcome-trackers {
+  /* Box-model */
+  display: inline-block;
+  font-size: 20px;
+}
+
+#player1-losses {
+  padding-left: 20px;
+}
+
+#player2-losses {
+  padding-left: 20px;
+}
+
+

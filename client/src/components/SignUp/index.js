@@ -48,24 +48,6 @@ function SignUp({ onSubmit, onChange, username, email, password }) {
                       </MDBRow>
                     </MDBCardBody>
                   </form>
-                  {/* <div className="footer pt-3 mdb-color lighten-3">
-                    <MDBRow className="d-flex justify-content-center">
-                      <p className="font-small white-text mb-2 pt-3">
-                        or Sign up with:
-                  </p>
-                    </MDBRow>
-                    <MDBRow className="mt-2 mb-3 d-flex justify-content-center">
-                      <a href="#!" className="fa-lg p-2 m-2 fb-ic">
-                        <MDBIcon className="fa fa-facebook white-text fa-lg"> </MDBIcon>
-                      </a>
-                      <a href="#!" className="fa-lg p-2 m-2 tw-ic">
-                        <MDBIcon className="fa fa-twitter white-text fa-lg"> </MDBIcon>
-                      </a>
-                      <a href="#!" className="fa-lg p-2 m-2 gplus-ic">
-                        <MDBIcon className="fa fa-google-plus white-text fa-lg"> </MDBIcon>
-                      </a>
-                    </MDBRow>
-                  </div> */}
                 </MDBCard>
               </MDBCol>
             </MDBRow>

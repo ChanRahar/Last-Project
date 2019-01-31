@@ -55,36 +55,6 @@ function SignIn({ onSubmit, onChange, email, password }) {
                           Sign in
                         </MDBBtn>
                       </div>
-                      {/* <p className="font-small dark-grey-text text-right d-flex justify-content-center mb-3 pt-2">
-
-                        or Sign in with:
-                      </p>
-                      <div className="row my-3 d-flex justify-content-center">
-                        <MDBBtn
-                          type="button"
-                          color="white"
-                          rounded
-                          className="mr-md-3 z-depth-1a"
-                        >
-                          <MDBIcon icon="facebook" className="blue-text text-center" />
-                        </MDBBtn>
-                        <MDBBtn
-                          type="button"
-                          color="white"
-                          rounded
-                          className="mr-md-3 z-depth-1a"
-                        >
-                          <MDBIcon icon="twitter" className="blue-text" />
-                        </MDBBtn>
-                        <MDBBtn
-                          type="button"
-                          color="white"
-                          rounded
-                          className="z-depth-1a"
-                        >
-                          <MDBIcon icon="google-plus" className="blue-text" />
-                        </MDBBtn>
-                      </div> */}
                     </MDBCardBody>
                   </form>
                   <MDBModalFooter className="mx-5 pt-3 mb-1">

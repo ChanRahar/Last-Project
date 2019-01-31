@@ -57,7 +57,14 @@ const FormPage = ({ onSubmit, onChange, username, email, password }) => {
                   value={password}
                   onChange={onChange}
                 />
-                <div className="text-center py-4 mt-3">
+                <p className="font-small grey-text d-flex justify-content-end">
+                  Remember Password?
+                        <a href="/SignUp" className="blue-text ml-1">
+
+                    Sign In
+                        </a>
+                </p>
+                <div className="text-center py-1">
                   <MDBBtn className="btn btn-outline-purple" type="submit">
                     Reset
                     <MDBIcon far icon="paper-plane" className="ml-2" />
