@@ -3,7 +3,8 @@ import { MDBContainer } from 'mdbreact';
 import SignIn from "../components/SignIn";
 import SignUp from "../components/SignUp";
 import PassReset from "../components/PassReset";
-import API from "../utils/API"
+import API from "../utils/API";
+import HttpsRedirect from 'react-https-redirect';
 
 
 class UserAuth extends Component {
@@ -145,9 +146,11 @@ class UserAuth extends Component {
     }
 
     return (
-      <MDBContainer>
-        {renderForm()}
-      </MDBContainer>
+      <HttpsRedirect>
+        <MDBContainer>
+          {renderForm()}
+        </MDBContainer>
+      </HttpsRedirect>
     );
   };
 }
