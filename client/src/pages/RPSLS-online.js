@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import IdleTimer from 'react-idle-timer';
 import "./style.css";
-import { MDBContainer, MDBRow, MDBCol, Animation, MDBBtn, Card, CardBody, CardTitle } from 'mdbreact';
+import { MDBContainer, MDBRow, MDBCol, Animation, Card, CardBody, CardTitle } from 'mdbreact';
 import firebase from "../firebase";
 import API from "../utils/API";
 import Header from "../components/Header";
