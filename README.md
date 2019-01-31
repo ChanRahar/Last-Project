@@ -1,12 +1,12 @@
 # Reactor RPS
 
-![Reactor-RPS Homa Page](https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/Reactor-RPS.png)
+Play the classic Rock-Paper-Scissors (RPS) game, or the more complex version Rock-Paper-Scissors-Lizard-Spock (RPSLS), against CPU, or online two player with a friend. Create an account to keep track of your online win/loss record, and climb the leaderboard to be the best RPS and RPSLS player!! 
 
-This web game is a take on the classic Rock Paper Scissors (RPS) game. If you have no one to play with, you can play single player against CPU. If you have a friend to play with, you can play online with your friend. The game equip with build in chat, so you can communicate with your opponent, or with anyone else on the page. 
+![Reactor-RPS Homa Page](https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/Reactor-RPS.png) 
 
-You can also create an account, which will keep track of your winning and losing, and your account will be automatically listed on the leaderboard. 
 
-If classic RPS is too mundane for you and your friend, you can try the more advance version of Rock Paper Scissors Lizard Spock (RPSLS), which adds complexity to the classic RPS game.
+## Single Player
+![Reactor-RPS Single Player](https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/RPS-Single.gif)
 
 Try the game here: http://reactor-rps.herokuapp.com/
 
