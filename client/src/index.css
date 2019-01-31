@@ -9,7 +9,7 @@ html, body {
   /* background-color: #e4f0d0; */
   background-image: url("./images/retro-game-background.jpg");
   /* Full height */
-  height: 100vh;
+  height: 100%;
   /* Center and scale the image nicely */
   background-position: center;
   background-repeat: no-repeat;
