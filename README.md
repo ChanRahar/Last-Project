@@ -6,6 +6,7 @@ A mobile responsive web application that let users play the classic Rock-Paper-S
 
 
 ## RPS Single Player
+![Reactor-RPS Single Player](https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/RPS-Single.gif)
 <p align="center">
 <img  src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/RPS-Single.gif">
 </p>
