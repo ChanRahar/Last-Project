@@ -9,6 +9,7 @@ A mobile responsive web application that let users play the classic Rock-Paper-S
 <p align="center">
 <img  src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/RPS-Single.gif">
 </p>
+
 ## RPS Online Two Player
 <p align="center">
 <img width="800" height="450" src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/RPS-Online.gif">
