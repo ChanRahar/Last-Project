@@ -4,7 +4,7 @@ A mobile responsive web application that let users play the classic Rock-Paper-S
 
 ![Reactor-RPS Homa Page](https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/Reactor-RPS.png) 
 
-
+Demo:
 ## RPS Single Player
 <p align="center">
 <img  src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/RPS-Single.gif">
@@ -15,9 +15,19 @@ A mobile responsive web application that let users play the classic Rock-Paper-S
 <img width="800" height="450" src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/RPS-Online.gif">
 </p>
 
+## RPSLS Single Player
+<p align="center">
+<img  src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/RPS-Single.gif">
+</p>
+
 ## RPSLS Online Two Player
 <p align="center">
 <img width="800" height="450" src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/RPSLS-Online.gif">
+</p>
+
+## Leader Board
+<p align="center">
+<img src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/Leader-Board.gif">
 </p>
 
 
