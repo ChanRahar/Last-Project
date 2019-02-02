@@ -12,7 +12,7 @@ Demo:
 
 ## RPS Online Two Player
 <p align="center">
-<img width="800" height="450" src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/RPS-Online.gif">
+<img src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/RPS-Online.gif">
 </p>
 
 ## RPSLS Single Player
@@ -22,7 +22,7 @@ Demo:
 
 ## RPSLS Online Two Player
 <p align="center">
-<img width="800" height="450" src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/RPSLS-Online.gif">
+<img src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/RPSLS-Online.gif">
 </p>
 
 ## User Authentication
@@ -30,17 +30,17 @@ Account creation and authentication are handled by Passport.js. Password saved a
 
 * Create an Account
 <p align="center">
-<img width="800" height="450" src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/Sign-Up.gif">
+<img  src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/Sign-Up.gif">
 </p>
 
 * Sign In and Sign Out
 <p align="center">
-<img width="800" height="450" src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/Sign-In-Out.gif">
+<img src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/Sign-In-Out.gif">
 </p>
 
 * Password Reset and Sign In with New Password
 <p align="center">
-<img width="800" height="450" src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/Pass-Reset.gif">
+<img src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/Pass-Reset.gif">
 </p>
 
 ## Leader Board
