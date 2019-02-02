@@ -1,10 +1,11 @@
 # Reactor RPS
 
-A mobile responsive web application that let users play the classic Rock-Paper-Scissors (RPS) game, or Rock-Paper-Scissors-Lizard-Spock (RPSLS), against CPU or online two players. Users can create an account to keep track of their online wins and losses, and compete with each other to be number one on the leaderboard.
+A mobile responsive web application that let users play the classic Rock-Paper-Scissors (RPS) game, or Rock-Paper-Scissors-Lizard-Spock (RPSLS), against CPU or online two players. While in online two players game, players can chat and communicate with one another, and anyone else spectating their match. Users can also create an account to keep track of their online wins and losses, and compete with each other to be number one on the leaderboard.
+
+Try the game here: http://reactor-rps.herokuapp.com/
 
 ![Reactor-RPS Homa Page](https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/Reactor-RPS.png) 
 
-Demo:
 ## RPS Single Player
 <p align="center">
 <img  src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/RPS-Single.gif">
@@ -48,8 +49,6 @@ The Leader Board ranked accounts based on the net wins and losses, which shows w
 <p align="center">
 <img src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/Leader-Board.gif">
 </p>
-
-Try the game here: http://reactor-rps.herokuapp.com/
 
 ## Tech/framework used
 
