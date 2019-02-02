@@ -25,13 +25,49 @@ Demo:
 <img width="800" height="450" src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/RPSLS-Online.gif">
 </p>
 
-## Leader Board
+## Account Sign Up
+The Leader Board ranked accounts based on the net wins and losses, which shows when the page load. The Leader Board table can be sorted based on the header, and a user can search a username on the search box.
 <p align="center">
 <img src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/Leader-Board.gif">
 </p>
 
+## User Authentication
+Account creation and authentication are handled by Passport.js. Password saved are encrypted before stored in MongoDB database. 
+
+* Create an Account
+<p align="center">
+<img src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/Sign-Up.gif">
+</p>
+
+* Sign In and Sign Out
+<p align="center">
+<img src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/Sign-In-Out.gif">
+</p>
+
+* Password Reset and Sign In with New Password
+<p align="center">
+<img src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/Pass-Reset.gif">
+</p>
+
+## Leader Board
+The Leader Board ranked accounts based on the net wins and losses, which shows when the page load. The Leader Board table can be sorted based on the header, and a user can search a username on the search box.
+<p align="center">
+<img src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/Leader-Board.gif">
+</p>
 
 Try the game here: http://reactor-rps.herokuapp.com/
+
+## Tech/framework used
+
+<b>Built with</b>
+- [MongoDB](https://www.mongodb.com/)
+- [Mongoose](https://mongoosejs.com/)
+- [Express](https://expressjs.com/)
+- [React](https://reactjs.org/)
+- [Node](https://nodejs.org/en/)
+- [Passport](http://www.passportjs.org/)
+- [Firebase](https://firebase.google.com/)
+- [MDB React](https://mdbootstrap.com/docs/react/)
 
 ## Starting the app locally
 
@@ -49,7 +85,7 @@ After both installations complete, run the following command in your terminal:
 npm i
 ```
 
-This game uses firebase for the game database. You need to create an apiKey file in the src folder with your firebase information to start the application locally.
+This game uses firebase for the game database. You need to create an apiKey file in the src folder with your firebase information, or saved them in the environmental variables, to start the application locally.
 
 Your app should now be running on <http://localhost:8800>. The Express server should intercept any AJAX requests from the client.
 
