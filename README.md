@@ -6,7 +6,6 @@ Try the game here: http://reactor-rps.herokuapp.com/
 
 ![Reactor-RPS Homa Page](https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/Reactor-RPS.png) 
 
-**Demo:**
 ## RPS Single Player
 <p align="center">
 <img  src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/RPS-Single.gif">
