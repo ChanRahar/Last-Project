@@ -511,6 +511,11 @@ class RPSLSonline extends Component {
             this.chat.scrollTop = this.chat.scrollHeight;
         });
 
+        let cutoff = Date.now() - 24 * 60 * 60 * 1000;
+        var old = chatData.orderByChild('time').endAt(cutoff).limitToLast(1);
+        old.on('child_added', function (snapshot) {
+            snapshot.ref.remove();
+        })
     };
 
     componentDidMount() {
