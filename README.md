@@ -25,28 +25,22 @@ Demo:
 <img width="800" height="450" src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/RPSLS-Online.gif">
 </p>
 
-## Account Sign Up
-The Leader Board ranked accounts based on the net wins and losses, which shows when the page load. The Leader Board table can be sorted based on the header, and a user can search a username on the search box.
-<p align="center">
-<img src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/Leader-Board.gif">
-</p>
-
 ## User Authentication
 Account creation and authentication are handled by Passport.js. Password saved are encrypted before stored in MongoDB database. 
 
 * Create an Account
 <p align="center">
-<img src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/Sign-Up.gif">
+<img width="800" height="450" src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/Sign-Up.gif">
 </p>
 
 * Sign In and Sign Out
 <p align="center">
-<img src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/Sign-In-Out.gif">
+<img width="800" height="450" src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/Sign-In-Out.gif">
 </p>
 
 * Password Reset and Sign In with New Password
 <p align="center">
-<img src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/Pass-Reset.gif">
+<img width="800" height="450" src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/Pass-Reset.gif">
 </p>
 
 ## Leader Board
