@@ -75,7 +75,7 @@ This should install node modules within the server and the client folder.
 After both installations complete, run the following command in your terminal:
 
 ```
-npm i
+npm start
 ```
 
 This game uses firebase for the game database. You need to create an apiKey file in the src folder with your firebase information, or saved them in the environmental variables, to start the application locally.
