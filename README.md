@@ -18,7 +18,7 @@ Try the game here: https://reactor-rps.herokuapp.com/
 
 ## RPSLS Single Player
 <p align="center">
-<img  src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/RPS-Single.gif">
+<img  src="https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/RPSLS-Single.gif">
 </p>
 
 ## RPSLS Online Two Player
