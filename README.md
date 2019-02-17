@@ -2,7 +2,7 @@
 
 A mobile responsive web application that let users play the classic Rock-Paper-Scissors (RPS) game, or Rock-Paper-Scissors-Lizard-Spock (RPSLS), against CPU or online two players. While in online two players game, players can chat and communicate with one another, and anyone else spectating their match. Users can also create an account to keep track of their online wins and losses, and compete with other accounts to climb the leaderboard.
 
-Try the game here: http://reactor-rps.herokuapp.com/
+Try the game here: https://reactor-rps.herokuapp.com/
 
 ![Reactor-RPS Homa Page](https://github.com/ChanRahar/Game-Project/blob/master/Git%20Demo/Reactor-RPS.png) 
 
