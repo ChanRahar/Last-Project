@@ -27,7 +27,7 @@
     "firebase": "^5.7.1",
     "if-env": "^1.0.4",
     "mdbreact": "^4.8.7",
-    "mongoose": "^5.4.3",
+    "mongoose": "^5.7.5",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0"
   }
